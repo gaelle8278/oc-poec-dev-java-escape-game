@@ -1,9 +1,14 @@
 package dev.gaelle_rauffet.escape_game;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 public class Game {
 	int modeDev = 1;
 	int nbTests = 4;
 	int nbX = 4;
+	private static final Logger logger = LogManager.getLogger(Game.class);
 	
 	
 	/**
