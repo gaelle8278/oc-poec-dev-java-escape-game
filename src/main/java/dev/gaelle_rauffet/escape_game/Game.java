@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Game {
-	int modeDev = 0;
+	int modeDev = 1;
 	int nbTests = 4;
 	int nbX = 4;
 	private static final Logger logger = LogManager.getLogger(Game.class);
