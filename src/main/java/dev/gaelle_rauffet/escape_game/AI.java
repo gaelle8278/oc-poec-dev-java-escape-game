@@ -7,7 +7,7 @@ import java.util.Random;
  * @author gaelle
  *
  */
-public class AI {
+public class AI implements Player {
 	/**
 	 * Define a combination of a given size
 	 * 
@@ -41,6 +41,7 @@ public class AI {
 	 * @param combinationToFind			combination reference, the combination to find
 	 * @return 
 	 */
+	@Override
 	public String[] checkCombination(int[] combinationTest, int[] combinationToFind) {
 		//check both arrays have the same size ?
 		String[] response = new String[combinationToFind.length];
@@ -59,21 +60,11 @@ public class AI {
 		
 	}
 
-	/**
-	 * Check response given by AI corresponds to a valid response
-	 * 
-	 * @param responseTest
-	 * @return
-	 */
-	public boolean checkResponse(String[] responseTest) {
-		boolean check = true;
-		for(int i = 0; i < responseTest.length; i++) {
-			if(responseTest[i] != "=") {
-				check = false;
-				break;
-			}
-		}
-		return check;
+
+	@Override
+	public String guessCombination(int size) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

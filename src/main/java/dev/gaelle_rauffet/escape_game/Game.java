@@ -92,9 +92,9 @@ public class Game {
 		boolean responseIsGood = false;
 		int currentTest = 1;
 		while(currentTest <= nbTests && !responseIsGood) {
-			int[] combinationTest = this.validCombination(human.guessCombination(), nbX);
+			int[] combinationTest = this.validCombination(human.guessCombination(nbX), nbX);
 			String[] responseCombination = ai.checkCombination(combinationTest, combinationToFind);
-			responseIsGood = ai.checkResponse(responseCombination);
+			responseIsGood = this.checkResponse(responseCombination);
 			
 			//messages
 			String strCombinationTest = this.getStringCombinationFromArray(combinationTest);
@@ -168,6 +168,23 @@ public class Game {
 		}
 		
 		return tabCombination;
+	}
+	
+	/**
+	 * Check response given by AI corresponds to a valid response
+	 * 
+	 * @param responseTest
+	 * @return
+	 */
+	private boolean checkResponse(String[] responseTest) {
+		boolean check = true;
+		for(int i = 0; i < responseTest.length; i++) {
+			if(responseTest[i] != "=") {
+				check = false;
+				break;
+			}
+		}
+		return check;
 	}
 
 }
