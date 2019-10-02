@@ -1,9 +1,11 @@
 package dev.gaelle_rauffet.escape_game;
 
+
+
 public class Game {
-	int modeDev = 1;
-	int nbTests = 4;
-	int nbX = 4;
+	int modeDev;
+	int nbTests;
+	int combinationLength;
 	Message gameMsg;
 	
 	
@@ -30,7 +32,12 @@ public class Game {
 	 */
 	private void loadConfig() {
 		// load a properties files
+		GameProperties gameProps = new GameProperties();
+		gameProps.loadProperties();
 		// set attributes with properties values
+		modeDev=Integer.parseInt(gameProps.getPropValue("modeDeveloper"));
+		nbTests=Integer.parseInt(gameProps.getPropValue("numberTests"));
+		combinationLength=Integer.parseInt(gameProps.getPropValue("combinationLength"));
 		
 	}
 
@@ -82,7 +89,7 @@ public class Game {
 		Human human = new Human();
 		
 		//set the combination to guess
-		int[] combinationToFind = ai.setCombination(nbX);
+		int[] combinationToFind = ai.setCombination(combinationLength);
 		String strCombination = this.getStringCombinationFromArray(combinationToFind);
 		if(modeDev == 1) {
 			gameMsg.printInfo("(combinaison secrète : " + strCombination + ")");
@@ -92,9 +99,9 @@ public class Game {
 		//until the answer is good or there is no more test
 		boolean responseIsGood = false;
 		int currentTest = 1;
-		String[] responseCombination = new String[nbX];
+		String[] responseCombination = new String[combinationLength];
 		while(currentTest <= nbTests && !responseIsGood) {
-			int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, nbX), nbX);
+			int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, combinationLength), combinationLength);
 			responseCombination = ai.checkCombination(combinationTest, combinationToFind);
 			responseIsGood = this.checkResponse(responseCombination);
 			

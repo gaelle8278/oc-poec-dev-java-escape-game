@@ -23,6 +23,10 @@ public class Message {
 		System.out.println(msg);
 		
 	}
+
+	public void logError(String msg, Exception e) {
+		logger.error(msg, e);
+	}
 	
 	
 
