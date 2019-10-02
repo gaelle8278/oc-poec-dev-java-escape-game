@@ -7,11 +7,13 @@ public class Game {
 	int nbTests;
 	int combinationLength;
 	Message gameMsg;
+	Menu gameMenu;
 	
 	
 	
 	public Game() {
 		this.gameMsg = new Message();
+		this.gameMenu = new Menu();
 	}
 	
 	/**
@@ -20,10 +22,10 @@ public class Game {
 	public void run() {
 		gameMsg.logInfo("Démarrage du jeu");
 		loadConfig();
-		displayStartdMsg();
+		gameMenu.displayStartMenu();
 		int gameMode = 1;
 		runMode(gameMode);
-		displayEndMsg();
+		gameMenu.displayEndMenu();
 		gameMsg.logInfo("Fin du jeu");
 	}
 	
@@ -32,36 +34,12 @@ public class Game {
 	 */
 	private void loadConfig() {
 		// load a properties files
-		GameProperties gameProps = new GameProperties();
-		gameProps.loadProperties();
+		PropertiesLoader gameProps = new PropertiesLoader();
+		gameProps.loadProperties("game.properties");
 		// set attributes with properties values
 		modeDev=Integer.parseInt(gameProps.getPropValue("modeDeveloper"));
 		nbTests=Integer.parseInt(gameProps.getPropValue("numberTests"));
 		combinationLength=Integer.parseInt(gameProps.getPropValue("combinationLength"));
-		
-	}
-
-	/**
-	 * Display message at starting game
-	 */
-	private void displayStartdMsg() {
-		String[] gameModes = {"challenger","défenseur","duel"};
-		gameMsg.printInfo("Choississez le mode de jeu : ");
-		for(int i = 0; i < gameModes.length; i++) {
-			gameMsg.printInfo((i+1) + " - " + gameModes[i]);
-		}
-		
-	}
-
-	/**
-	 * Display message at ending game
-	 */
-	private void displayEndMsg() {
-		String[] endOptions = {"Rejouer au même mode","Rejouer avec un mode différent","Quitter l'application"};
-		gameMsg.printInfo("Fin de partie : ");
-		for(int i = 0; i < endOptions.length; i++) {
-			gameMsg.printInfo((i+1) + " - " + endOptions[i]);
-		}
 		
 	}
 
