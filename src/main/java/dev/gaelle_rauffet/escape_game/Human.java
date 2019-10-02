@@ -6,11 +6,13 @@ public class Human implements Player{
 	public Scanner sc = new Scanner(System.in);
 	
 	@Override
-	public String guessCombination(int size) {
+	public int[] guessCombination(String[] indications, int size) {
 		System.out.println("Votre propositon (combinaison à " + size + " chiffres) :");
-	    String response = sc.nextLine();
+	    String userResponse = sc.nextLine();
 		
-		return response;
+	    int[] combination = this.convertStrCombinationToIntArray(userResponse);
+		
+	    return combination;
 		
 	}
 
@@ -21,4 +23,18 @@ public class Human implements Player{
 		return null;
 	}
 
+	private int[] convertStrCombinationToIntArray(String strCombination) {
+		int combinationSize = strCombination.length();
+		int[] tabCombination = new int[combinationSize];
+		
+		for(int i=0; i < combinationSize; i++) {
+			if(Character.isDigit(strCombination.charAt(i))) {
+				tabCombination[i] = Character.getNumericValue(strCombination.charAt(i));
+			} else {
+				tabCombination[i] = -1;
+			}
+		}
+		
+		return tabCombination;
+	}
 }

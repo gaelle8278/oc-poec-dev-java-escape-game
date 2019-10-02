@@ -65,7 +65,7 @@ public class Game {
 	private void runMode(int mode) {
 		if(mode == 1) {
 			runChallengerMode();
-		}
+		} 
 		
 	}
 
@@ -91,9 +91,10 @@ public class Game {
 		//until the answer is good or there is no more test
 		boolean responseIsGood = false;
 		int currentTest = 1;
+		String[] responseCombination = new String[nbX];
 		while(currentTest <= nbTests && !responseIsGood) {
-			int[] combinationTest = this.validCombination(human.guessCombination(nbX), nbX);
-			String[] responseCombination = ai.checkCombination(combinationTest, combinationToFind);
+			int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, nbX), nbX);
+			responseCombination = ai.checkCombination(combinationTest, combinationToFind);
 			responseIsGood = this.checkResponse(responseCombination);
 			
 			//messages
@@ -151,18 +152,18 @@ public class Game {
 	 * @param combination
 	 * @return
 	 */
-	private int[] validCombination(String combination, int size) {
+	private int[] validCombination(int[] combination, int size) {
 		int[] tabCombination = new int[size];
 		//check length of combination
-		if(combination.length() == size ) {
+		if(combination.length == size ) {
 			for(int i=0; i < size; i++) {
-				if(Character.isDigit(combination.charAt(i))) {
-					tabCombination[i] = Character.getNumericValue(combination.charAt(i));
+				// check value between 0 to 9
+				if(combination[i] >= 0 && combination[i] < 10) {
+					tabCombination[i] = combination[i];
 				} else {
-					//throw Exception "combination must only contains integer"
+					// throw Exception "wrong value"
 				}
 			}
-			
 		} else {
 			//throw Exception "wrong length"
 		}

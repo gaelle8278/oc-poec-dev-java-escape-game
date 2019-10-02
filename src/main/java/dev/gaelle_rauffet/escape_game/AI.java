@@ -62,7 +62,7 @@ public class AI implements Player {
 
 
 	@Override
-	public String guessCombination(int size) {
+	public int[] guessCombination(String[] indications,  int size) {
 		// TODO Auto-generated method stub
 		return null;
 	}
