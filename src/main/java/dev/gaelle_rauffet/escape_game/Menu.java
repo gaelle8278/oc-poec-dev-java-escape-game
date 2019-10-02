@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Menu {
 	private Message msgManager = new Message();
-	public Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 	
 	String startMenuTitle;
 	List<String> startMenuOptions = new ArrayList<String>();;

@@ -3,7 +3,7 @@ package dev.gaelle_rauffet.escape_game;
 import java.util.Scanner;
 
 public class Human implements Player{
-	public Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 	
 	@Override
 	public int[] guessCombination(String[] indications, int size) {
