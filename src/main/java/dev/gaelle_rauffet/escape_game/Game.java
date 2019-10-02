@@ -1,27 +1,28 @@
 package dev.gaelle_rauffet.escape_game;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-
 public class Game {
 	int modeDev = 1;
 	int nbTests = 4;
 	int nbX = 4;
-	private static final Logger logger = LogManager.getLogger(Game.class);
+	Message gameMsg;
 	
+	
+	
+	public Game() {
+		this.gameMsg = new Message();
+	}
 	
 	/**
 	 * Run a game
 	 */
 	public void run() {
-		logger.info("Démarrage du jeu");
+		gameMsg.logInfo("Démarrage du jeu");
 		loadConfig();
 		displayStartdMsg();
 		int gameMode = 1;
 		runMode(gameMode);
 		displayEndMsg();
-		logger.info("Fin du jeu");
+		gameMsg.logInfo("Fin du jeu");
 	}
 	
 	/**
@@ -38,9 +39,9 @@ public class Game {
 	 */
 	private void displayStartdMsg() {
 		String[] gameModes = {"challenger","défenseur","duel"};
-		System.out.println("Choississez le mode de jeu : ");
+		gameMsg.printInfo("Choississez le mode de jeu : ");
 		for(int i = 0; i < gameModes.length; i++) {
-			System.out.println((i+1) + " - " + gameModes[i]);
+			gameMsg.printInfo((i+1) + " - " + gameModes[i]);
 		}
 		
 	}
@@ -50,9 +51,9 @@ public class Game {
 	 */
 	private void displayEndMsg() {
 		String[] endOptions = {"Rejouer au même mode","Rejouer avec un mode différent","Quitter l'application"};
-		System.out.println("Fin de partie : ");
+		gameMsg.printInfo("Fin de partie : ");
 		for(int i = 0; i < endOptions.length; i++) {
-			System.out.println((i+1) + " - " + endOptions[i]);
+			gameMsg.printInfo((i+1) + " - " + endOptions[i]);
 		}
 		
 	}
@@ -73,8 +74,8 @@ public class Game {
 	 * Manage the "challenger" mode of the game
 	 */
 	private void runChallengerMode() {
-		System.out.println("Mode challenger");
-		logger.info("Mode de jeu : challenger");
+		gameMsg.printInfo("Mode challenger");
+		gameMsg.logInfo("Mode de jeu : challenger");
 		
 		//set players
 		AI ai = new AI();
@@ -84,9 +85,9 @@ public class Game {
 		int[] combinationToFind = ai.setCombination(nbX);
 		String strCombination = this.getStringCombinationFromArray(combinationToFind);
 		if(modeDev == 1) {
-			System.out.println("(combinaison secrète : " + strCombination + ")");
+			gameMsg.printInfo("(combinaison secrète : " + strCombination + ")");
 		}
-		logger.info("combinaison définit par l'ia : " + strCombination);
+		gameMsg.logInfo("combinaison définit par l'ia : " + strCombination);
 		
 		//until the answer is good or there is no more test
 		boolean responseIsGood = false;
@@ -100,18 +101,18 @@ public class Game {
 			//messages
 			String strCombinationTest = this.getStringCombinationFromArray(combinationTest);
 			String strResponseCombination = this.getStringCombinationFromArray(responseCombination);
-			System.out.println("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
-			logger.info("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
+			gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
+			gameMsg.logInfo("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
 			
 			currentTest++;
 		}
 		
 		if(responseIsGood) {
-			System.out.println("Le joueur a gagné");
-			logger.info("Fin de partie : le joueur a gagné");
+			gameMsg.printInfo("Le joueur a gagné");
+			gameMsg.logInfo("Fin de partie : le joueur a gagné");
 		} else {
-			System.out.println("Le joueur a perdu. La combinaison était : " +  strCombination);
-			logger.info("Fin de partie : le joueur a perdu");
+			gameMsg.printInfo("Le joueur a perdu. La combinaison était : " +  strCombination);
+			gameMsg.logInfo("Fin de partie : le joueur a perdu");
 		}
 	}
 
