@@ -23,12 +23,16 @@ public class Game {
 		gameMsg.logInfo("Démarrage du jeu");
 		loadConfig();
 		gameMenu.displayStartMenu();
-		int gameMode = 1;
+		int gameMode = gameMenu.getSelectedStartMenuItem();
 		runMode(gameMode);
 		gameMenu.displayEndMenu();
+		int endOption = gameMenu.getSelectedEndMenuItem();
+		runEndOption(endOption);
 		gameMsg.logInfo("Fin du jeu");
 	}
 	
+	
+
 	/**
 	 * Load a configuration file
 	 */
@@ -51,7 +55,22 @@ public class Game {
 	private void runMode(int mode) {
 		if(mode == 1) {
 			runChallengerMode();
-		} 
+		} else {
+			gameMsg.printInfo("Mode pas encore implémenté");
+			gameMsg.logInfo("Mode pas encore implémenté");
+		}
+		
+	}
+	
+	/**
+	 * Run an end option game
+	 * 
+	 * @param endOption
+	 */
+	private void runEndOption(int endOption) {
+		gameMsg.printInfo("Pas encore implémenté");
+		gameMsg.logInfo("Pas encore implémenté");
+		System.exit(0);
 		
 	}
 
@@ -59,7 +78,7 @@ public class Game {
 	 * Manage the "challenger" mode of the game
 	 */
 	private void runChallengerMode() {
-		gameMsg.printInfo("Mode challenger");
+		gameMsg.printInfo("Démarrage mode challenger");
 		gameMsg.logInfo("Mode de jeu : challenger");
 		
 		//set players
