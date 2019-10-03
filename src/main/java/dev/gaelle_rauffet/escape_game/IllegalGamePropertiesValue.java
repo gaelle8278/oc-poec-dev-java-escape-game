@@ -1,6 +1,6 @@
 package dev.gaelle_rauffet.escape_game;
 
-public class IllegalGamePropertiesValue extends RuntimeException {
+public class IllegalGamePropertiesValue extends Exception {
 	
 	/**
 	 * 

@@ -40,8 +40,9 @@ public class PropertiesLoader {
 	/**
 	 * Get "modeDevelopper" prrperty value
 	 * @return
+	 * @throws IllegalGamePropertiesValue 
 	 */
-	public int getModeDev() {
+	public int getModeDev() throws IllegalGamePropertiesValue {
 		int modeDev= Integer.parseInt(this.getPropValue("modeDeveloper"));
 		if(modeDev !=0 && modeDev!=1) {
 			throw new IllegalGamePropertiesValue("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
@@ -53,8 +54,9 @@ public class PropertiesLoader {
 	/**
 	 * Get "numberTests" property value
 	 * @return
+	 * @throws IllegalGamePropertiesValue 
 	 */
-	public int getNumberTests() {
+	public int getNumberTests() throws IllegalGamePropertiesValue {
 		int nbTests= Integer.parseInt(this.getPropValue("numberTests"));
 		if(nbTests < 0 || nbTests > 20) {
 			throw new IllegalGamePropertiesValue("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
@@ -66,8 +68,9 @@ public class PropertiesLoader {
 	/**
 	 * Get "combinationLength" property value
 	 * @return
+	 * @throws IllegalGamePropertiesValue 
 	 */
-	public int getCombinationLength() {
+	public int getCombinationLength() throws IllegalGamePropertiesValue {
 		int combinationLength =  Integer.parseInt(getPropValue("combinationLength"));
 		if(combinationLength < 0 || combinationLength > 10) {
 			throw new IllegalGamePropertiesValue("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
