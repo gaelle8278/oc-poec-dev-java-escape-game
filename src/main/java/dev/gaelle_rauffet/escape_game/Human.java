@@ -21,7 +21,6 @@ public class Human implements Player{
 	    String userResponse = sc.nextLine();
 	    
 	    combinationToFind.setGuessTestValueFromString(userResponse);
-	    combinationToFind.checkGuessTestValue();
 		
 	}
 

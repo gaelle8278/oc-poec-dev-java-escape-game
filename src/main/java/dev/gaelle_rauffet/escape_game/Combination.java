@@ -18,6 +18,7 @@ public class Combination {
 	 * @param strCombination
 	 */
 	public void setGuessTestValueFromString(String strCombination) {	
+		this.checkLengthGuessValue(strCombination);
 		for(int i=0; i < strCombination.length(); i++) {
 			if(Character.isDigit(strCombination.charAt(i))) {
 				this.guessValue[i] = Character.getNumericValue(strCombination.charAt(i));
@@ -25,15 +26,27 @@ public class Combination {
 				this.guessValue[i] = -1;
 			}
 		}	
+		
+		this.checkContentGuessValue();
 	}
 	
-	
+	/**
+	 * Check if the length of given guess combination is equals to the length of combination
+	 * @param strCombination
+	 */
+	private void checkLengthGuessValue(String strCombination) {
+		if(strCombination.length() != length) {
+			throw new IllegalCombinationItem("La combinaison proposée doit contenir " + length + " chiffres.");
+		}
+		 
+	}
+
 	/**
 	 * Check if guess combination value contains only integer between 0 to 9
 	 * @param combination
 	 * @return
 	 */
-	public void checkGuessTestValue() {
+	private void checkContentGuessValue() {
 		//check length of combination
 		for(int i=0; i < length; i++) {
 			// check value between 0 to 9

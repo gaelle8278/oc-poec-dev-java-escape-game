@@ -61,7 +61,7 @@ public class Game {
 		// load a properties files
 		try{
 			PropertiesLoader gameProps = new PropertiesLoader();
-			gameProps.loadProperties("games.properties");
+			gameProps.loadProperties("game.properties");
 			modeDev=gameProps.getModeDev();
 			nbTests=gameProps.getNumberTests();
 			combinationLength=gameProps.getCombinationLength();
@@ -75,11 +75,11 @@ public class Game {
 			System.exit(0);
 		} catch (NullPointerException e) {
 			gameMsg.printInfo("Le fichier de propriétés ne peut pas être lu. Sortie du programme.");
-			gameMsg.logError("Erreur récupération fichier de propriétés");
+			gameMsg.logError("Erreur récupération fichier de propriétés. Sortie du programme.");
 			System.exit(0);
         } catch (IOException e) {
         	gameMsg.printInfo("Le fichier de propriétés ne peut pas être lu. Sortie du programme.");
-			gameMsg.logError("Fichier de propriétés illisible");
+			gameMsg.logError("Fichier de propriétés illisible. Sortie du programme.");
 			System.exit(0);
         } 
 		
@@ -188,16 +188,16 @@ public class Game {
 				//String strResponseCombination = this.getStringCombinationFromArray(combinationIndications);
 				//String strResponseCombination = combinationToFind.responseTestValueToString();
 				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
-				gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
+				gameMsg.printInfo("Proposition (" + currentTest + ") : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
 				gameMsg.logInfo("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
 				
 			} catch (IndexOutOfBoundsException e) {
-				gameMsg.printInfo("Proposition : la combinaison est trog longue");
+				gameMsg.printInfo("La combinaison est trog longue");
 				gameMsg.logError("essai " + currentTest + " la combination  trog longue");
 			} catch (IllegalCombinationItem e) {
 				//catch custom array if try to get char into int array
-				gameMsg.printInfo("Proposition : la combinaison contient des caractères non valides");
-				gameMsg.logError("essai " + currentTest + " la combinaison contient des caractères non valides");
+				gameMsg.printInfo( e.getMessage());
+				gameMsg.logError("essai " + currentTest + " " + e.getMessage());
 			}
 			//new test if good or bad combination format
 			currentTest++;
