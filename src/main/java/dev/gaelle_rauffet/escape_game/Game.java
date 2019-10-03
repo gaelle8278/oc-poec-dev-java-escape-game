@@ -9,6 +9,7 @@ public class Game {
 	int nbTests;
 	int combinationLength;
 	Message gameMsg;
+	int gameMode;
 	
 	
 	
@@ -17,16 +18,22 @@ public class Game {
 	}
 	
 	/**
-	 * Run a game
+	 * Init game parameters and run the game
 	 */
-	public void run() {
-		gameMsg.logInfo("Démarrage du jeu");
+	public void initAndRun() {
 		loadConfig();
-		int gameMode = getMode();
+		this.run();
+		
+	}
+	
+	/**
+	 * Run the game
+	 */
+	private void run() {
+		this.gameMode = getMode();
 		runMode(gameMode);
 		int endOption = getEndOption();
 		runEndOption(endOption);
-		gameMsg.logInfo("Fin du jeu");
 	}
 	
 	
@@ -66,8 +73,8 @@ public class Game {
 			nbTests=gameProps.getNumberTests();
 			combinationLength=gameProps.getCombinationLength();
 		} catch(NumberFormatException e){
-			gameMsg.printInfo("Paramètres du jeu non valides. Sortie du programme.");
-			gameMsg.logError("Paramètres du jeu non valides. Sortie du programme.");
+			gameMsg.printInfo("Paramètres du jeu non valide. Sortie du programme.");
+			gameMsg.logError("Paramètres du jeu non valide. Sortie du programme.");
 			System.exit(0);
 		} catch (IllegalGamePropertiesValue e) {
 			gameMsg.printInfo("Paramètres du jeu non valide : " + e.getMessage() + ". Sortie du programme.");
@@ -142,9 +149,11 @@ public class Game {
 	 * @param endOption
 	 */
 	private void runEndOption(int endOption) {
-		gameMsg.printInfo("Pas encore implémenté");
-		gameMsg.logInfo("Pas encore implémenté");
-		System.exit(0);
+		if(endOption == 1) {
+			runMode(endOption);
+		} else if (endOption == 2 ) {
+			run();
+		}
 		
 	}
 
