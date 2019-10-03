@@ -19,5 +19,7 @@ public interface Player {
 	 * @param size		size of the combination
 	 * @return
 	 */
-	public Combination guessCombination(String[] indications, int size);
+	/*public Combination guessCombination(String[] indications, int size);*/
+
+	void guessCombination(Combination combinationToFind);
 }

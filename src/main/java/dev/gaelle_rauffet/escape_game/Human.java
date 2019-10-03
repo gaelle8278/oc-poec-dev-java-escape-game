@@ -6,10 +6,9 @@ public class Human implements Player{
 	private Scanner sc = new Scanner(System.in); 
 	private Message msgManager = new Message();
 	
-	@Override
-	public Combination guessCombination(String[] indications, int size) {
-		msgManager.printInfo("Votre propositon (combinaison à " + size + " chiffres) :");
-	    String userResponse = sc.nextLine();
+	
+	/*public Combination guessCombination(String[] indications, int size) {
+		
 	    
 	    Combination proposedCombination  = new Combination(size);
 	  
@@ -21,13 +20,23 @@ public class Human implements Player{
 	    
 	    return proposedCombination;
 		
-	}
+	}*/
 
 
 	@Override
 	public String[] checkCombination(Combination combinationTest, int[] combinationReference) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void guessCombination(Combination combinationToFind) {
+		msgManager.printInfo("Votre propositon (combinaison à " + combinationToFind.getLength() + " chiffres) :");
+	    String userResponse = sc.nextLine();
+	    
+	    combinationToFind.setGuessTestValueFromString(userResponse);
+	    combinationToFind.checkGuessTestValue();
+		
 	}
 
 	

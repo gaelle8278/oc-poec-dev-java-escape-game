@@ -8,31 +8,8 @@ import java.util.Random;
  *
  */
 public class AI implements Player {
-	/**
-	 * Define a combination of a given size
-	 * 
-	 * @param size
-	 * @return
-	 */
-	public int[] setCombination(int size) {
-		int[] combination = new int[size];
-		for(int i = 0; i < size; i++) {
-			combination[i] = setRandomNumber();
-		}
-		return combination;
-	}
-
-	/**
-	 * Defines a random number between o and 9
-	 * 
-	 * @return
-	 */
-	private int setRandomNumber() {
-	    Random random = new Random();
-
-	    return random.ints(0,10).findFirst().getAsInt();
 	
-	}
+	
 
 	/**
 	 * Compare to combination
@@ -62,9 +39,71 @@ public class AI implements Player {
 
 
 	@Override
-	public Combination guessCombination(String[] indications,  int size) {
+	public void guessCombination(Combination combination) {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	
+	/**
+	 * Define a combination of a given size
+	 * 
+	 * @param size
+	 * @return
+	 */
+	/*public int[] setCombination(int size) {
+		int[] combination = new int[size];
+		for(int i = 0; i < size; i++) {
+			combination[i] = setRandomNumber();
+		}
+		return combination;
+	}*/
+	
+	/** 
+	 * Define a value for combination
+	 * @param combinationToFind
+	 */
+	public void setValueCombination(Combination combinationToFind) {
+		int[] combination = new int[combinationToFind.getLength()];
+		for(int i = 0; i < combinationToFind.getLength(); i++) {
+			combination[i] = setRandomNumber();
+		}
+		combinationToFind.setValue(combination);
+		
+	}
+	
+	
+	/**
+	 * Defines a random number between o and 9
+	 * 
+	 * @return
+	 */
+	private int setRandomNumber() {
+	    Random random = new Random();
+
+	    return random.ints(0,10).findFirst().getAsInt();
+	
+	}
+
+
+	public void checkCombination(Combination combinationToFind) {
+		String[] responseGuessTest = new String[combinationToFind.getLength()];
+		int[] valueGuessTest = combinationToFind.getGuessValue();
+		int[] valueCombination = combinationToFind.getValue();
+		for (int i=0; i < combinationToFind.getLength(); i++) {
+			if(valueGuessTest[i] == valueCombination[i]) {
+				responseGuessTest[i] = "=";
+			} else if (valueGuessTest[i] > valueCombination[i]) {
+				responseGuessTest[i] = "-";
+			} else {
+				responseGuessTest[i] = "+";
+			}
+		}
+		
+		combinationToFind.setResponseValue(responseGuessTest);
+				
+			
+		
 	}
 	
 	

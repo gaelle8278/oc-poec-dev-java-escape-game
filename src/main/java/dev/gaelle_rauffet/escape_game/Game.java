@@ -81,38 +81,45 @@ public class Game {
 		gameMsg.printInfo("Démarrage mode challenger");
 		gameMsg.logInfo("Mode de jeu : challenger");
 		
-		//set players
+		//1- set required elements to play challenger mode
 		AI ai = new AI();
 		Human human = new Human();
+		Combination combinationToFind = new Combination(combinationLength);
 		
-		//set the combination to guess
-		int[] combinationToFind = ai.setCombination(combinationLength);
-		String strCombination = this.getStringCombinationFromArray(combinationToFind);
+		//2- the ai set the value for combination
+		ai.setValueCombination(combinationToFind);
+		//int[] combinationToFind = ai.setCombination(combinationLength);
+		//String strCombination = this.getStringCombinationFromArray(combinationToFind);
+		String strCombination = combinationToFind.valueToString(combinationToFind.getValue());
 		if(modeDev == 1) {
 			gameMsg.printInfo("(combinaison secrète : " + strCombination + ")");
 		}
 		gameMsg.logInfo("combinaison définit par l'ia : " + strCombination);
 		
-		//until the answer is good or there is no more test
+		//3- human try to guess the combination = until the answer is good or there is no more test
 		boolean responseIsGood = false;
 		int currentTest = 1;
-		String[] combinationIndications = new String[combinationLength];
 		while(currentTest <= nbTests && !responseIsGood) {
-			
 			try {
-				Combination userResponseCombination = human.guessCombination(combinationIndications, combinationLength);
+				//Combination userResponseCombination = human.guessCombination(combinationIndications, combinationLength);
+				human.guessCombination(combinationToFind);
 				//int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, combinationLength), combinationLength);
-				combinationIndications = ai.checkCombination(userResponseCombination, combinationToFind);
+				
+				ai.checkCombination(combinationToFind);
+				responseIsGood = combinationToFind.checkTest();
+				
 				//messages
 				//String strCombinationTest = this.getStringCombinationFromArray(userResponseCombination.getValue());
-				String strCombinationTest = userResponseCombination.valueToString();
-				String strResponseCombination = this.getStringCombinationFromArray(combinationIndications);
+				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
+				//String strResponseCombination = this.getStringCombinationFromArray(combinationIndications);
+				//String strResponseCombination = combinationToFind.responseTestValueToString();
+				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
 				gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
 				gameMsg.logInfo("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
-				responseIsGood = this.checkResponse(combinationIndications);
+				
 			} catch (IndexOutOfBoundsException e) {
-				gameMsg.printInfo("La combination est trog longue");
-				gameMsg.logError("combination  trog longue");
+				gameMsg.printInfo("Proposition : la combinaison est trog longue");
+				gameMsg.logError("essai " + currentTest + " la combination  trog longue");
 			} catch (IllegalCombinationItem e) {
 				//catch custom array if try to get char into int array
 				gameMsg.printInfo("Proposition : la combinaison contient des caractères non valides");
@@ -131,77 +138,6 @@ public class Game {
 		}
 	}
 
-	/**
-	 * Concatenate elements from an array that contains integers
-	 * 
-	 * @param combination
-	 */
-	private String getStringCombinationFromArray(int[] combination) {
-		String strCombination = "";
-		for(int i=0; i < combination.length; i++ ) {
-			strCombination += String.valueOf(combination[i]);
-		}
-		
-		return strCombination;
-		
-	}
 	
-	/**
-	 * Concatenate elements from an array that contains strings
-	 * 
-	 * @param combination
-	 * @return
-	 */
-	private String getStringCombinationFromArray(String[] combination) {
-		String strCombination = "";
-		for(int i=0; i < combination.length; i++ ) {
-			strCombination += combination[i];
-		}
-		
-		return strCombination;
-		
-	}
-
-	/**
-	 * Check a given combination
-	 * 
-	 * @param combination
-	 * @return
-	 */
-	private int[] validCombination(int[] combination, int size) {
-		int[] tabCombination = new int[size];
-		//check length of combination
-		if(combination.length == size ) {
-			for(int i=0; i < size; i++) {
-				// check value between 0 to 9
-				if(combination[i] >= 0 && combination[i] < 10) {
-					tabCombination[i] = combination[i];
-				} else {
-					// throw Exception "wrong value"
-				}
-			}
-		} else {
-			//throw Exception "wrong length"
-		}
-		
-		return tabCombination;
-	}
-	
-	/**
-	 * Check response given by AI corresponds to a valid response
-	 * 
-	 * @param responseTest
-	 * @return
-	 */
-	private boolean checkResponse(String[] responseTest) {
-		boolean check = true;
-		for(int i = 0; i < responseTest.length; i++) {
-			if(responseTest[i] != "=") {
-				check = false;
-				break;
-			}
-		}
-		return check;
-	}
 
 }
