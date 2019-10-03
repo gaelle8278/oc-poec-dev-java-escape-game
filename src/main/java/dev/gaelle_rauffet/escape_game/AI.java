@@ -42,14 +42,14 @@ public class AI implements Player {
 	 * @return 
 	 */
 	@Override
-	public String[] checkCombination(int[] combinationTest, int[] combinationToFind) {
+	public String[] checkCombination(Combination combinationTest, int[] combinationToFind) {
 		//check both arrays have the same size ?
 		String[] response = new String[combinationToFind.length];
-		
+		int[] combinationTestValue = combinationTest.getValue();
 		for (int i=0; i < combinationToFind.length; i++) {
-			if(combinationTest[i] == combinationToFind[i]) {
+			if(combinationTestValue[i] == combinationToFind[i]) {
 				response[i] = "=";
-			} else if (combinationTest[i] > combinationToFind[i]) {
+			} else if (combinationTestValue[i] > combinationToFind[i]) {
 				response[i] = "-";
 			} else {
 				response[i] = "+";
@@ -62,7 +62,7 @@ public class AI implements Player {
 
 
 	@Override
-	public int[] guessCombination(String[] indications,  int size) {
+	public Combination guessCombination(String[] indications,  int size) {
 		// TODO Auto-generated method stub
 		return null;
 	}

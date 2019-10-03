@@ -11,7 +11,7 @@ public interface Player {
 	 * @param combinationReference		combination to compare to
 	 * @return
 	 */
-	public String[] checkCombination(int[] combinationTest, int[] combinationReference);
+	public String[] checkCombination(Combination combinationTest, int[] combinationReference);
 	
 	/**
 	 * Defines a combination of the given size
@@ -19,5 +19,5 @@ public interface Player {
 	 * @param size		size of the combination
 	 * @return
 	 */
-	public int[] guessCombination(String[] indications, int size);
+	public Combination guessCombination(String[] indications, int size);
 }

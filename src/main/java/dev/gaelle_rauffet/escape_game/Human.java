@@ -3,38 +3,32 @@ package dev.gaelle_rauffet.escape_game;
 import java.util.Scanner;
 
 public class Human implements Player{
-	private Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in); 
+	private Message msgManager = new Message();
 	
 	@Override
-	public int[] guessCombination(String[] indications, int size) {
-		System.out.println("Votre propositon (combinaison à " + size + " chiffres) :");
+	public Combination guessCombination(String[] indications, int size) {
+		msgManager.printInfo("Votre propositon (combinaison à " + size + " chiffres) :");
 	    String userResponse = sc.nextLine();
-		
-	    int[] combination = this.convertStrCombinationToIntArray(userResponse);
-		
-	    return combination;
+	    
+	    Combination proposedCombination  = new Combination(size);
+	  
+	    proposedCombination.setCombinationFromString(userResponse);
+	    proposedCombination.checkCombinationContainsValidInt();
+	   
+	    
+	    //int[] combination = this.convertStrCombinationToIntArray(userResponse);
+	    
+	    return proposedCombination;
 		
 	}
 
 
 	@Override
-	public String[] checkCombination(int[] combinationTest, int[] combinationReference) {
+	public String[] checkCombination(Combination combinationTest, int[] combinationReference) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private int[] convertStrCombinationToIntArray(String strCombination) {
-		int combinationSize = strCombination.length();
-		int[] tabCombination = new int[combinationSize];
-		
-		for(int i=0; i < combinationSize; i++) {
-			if(Character.isDigit(strCombination.charAt(i))) {
-				tabCombination[i] = Character.getNumericValue(strCombination.charAt(i));
-			} else {
-				tabCombination[i] = -1;
-			}
-		}
-		
-		return tabCombination;
-	}
+	
 }

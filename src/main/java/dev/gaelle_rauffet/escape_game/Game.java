@@ -96,18 +96,29 @@ public class Game {
 		//until the answer is good or there is no more test
 		boolean responseIsGood = false;
 		int currentTest = 1;
-		String[] responseCombination = new String[combinationLength];
+		String[] combinationIndications = new String[combinationLength];
 		while(currentTest <= nbTests && !responseIsGood) {
-			int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, combinationLength), combinationLength);
-			responseCombination = ai.checkCombination(combinationTest, combinationToFind);
-			responseIsGood = this.checkResponse(responseCombination);
 			
-			//messages
-			String strCombinationTest = this.getStringCombinationFromArray(combinationTest);
-			String strResponseCombination = this.getStringCombinationFromArray(responseCombination);
-			gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
-			gameMsg.logInfo("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
-			
+			try {
+				Combination userResponseCombination = human.guessCombination(combinationIndications, combinationLength);
+				//int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, combinationLength), combinationLength);
+				combinationIndications = ai.checkCombination(userResponseCombination, combinationToFind);
+				//messages
+				//String strCombinationTest = this.getStringCombinationFromArray(userResponseCombination.getValue());
+				String strCombinationTest = userResponseCombination.valueToString();
+				String strResponseCombination = this.getStringCombinationFromArray(combinationIndications);
+				gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
+				gameMsg.logInfo("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
+				responseIsGood = this.checkResponse(combinationIndications);
+			} catch (IndexOutOfBoundsException e) {
+				gameMsg.printInfo("La combination est trog longue");
+				gameMsg.logError("combination  trog longue");
+			} catch (IllegalCombinationItem e) {
+				//catch custom array if try to get char into int array
+				gameMsg.printInfo("Proposition : la combinaison contient des caractères non valides");
+				gameMsg.logError("essai " + currentTest + " la combinaison contient des caractères non valides");
+			}
+			//new test if good or bad combination format
 			currentTest++;
 		}
 		

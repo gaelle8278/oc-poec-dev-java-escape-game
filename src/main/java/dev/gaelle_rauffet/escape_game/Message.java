@@ -28,6 +28,10 @@ public class Message {
 		logger.error(msg, e);
 	}
 	
+	public void logError(String msg) {
+		logger.error(msg);
+	}
+	
 	
 
 }
