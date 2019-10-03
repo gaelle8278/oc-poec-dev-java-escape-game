@@ -1,5 +1,6 @@
 package dev.gaelle_rauffet.escape_game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -58,11 +59,9 @@ public class Game {
 	 */
 	private void loadConfig() {
 		// load a properties files
-		PropertiesLoader gameProps = new PropertiesLoader();
-		gameProps.loadProperties("game.properties");
-		// set attributes with properties values
-		//modeDev=Integer.parseInt(gameProps.getPropValue("modeDeveloper"));
 		try{
+			PropertiesLoader gameProps = new PropertiesLoader();
+			gameProps.loadProperties("games.properties");
 			modeDev=gameProps.getModeDev();
 			nbTests=gameProps.getNumberTests();
 			combinationLength=gameProps.getCombinationLength();
@@ -71,10 +70,18 @@ public class Game {
 			gameMsg.logError("Paramètres du jeu non valides. Sortie du programme.");
 			System.exit(0);
 		} catch (IllegalGamePropertiesValue e) {
-			gameMsg.printInfo("Paramètre du jeu non valide : " + e.getMessage() + ". Sortie du programme.");
+			gameMsg.printInfo("Paramètres du jeu non valide : " + e.getMessage() + ". Sortie du programme.");
 			gameMsg.logError("Paramètres du jeu non valides. " + e.getMessage() + ". Sortie du programme.");
 			System.exit(0);
-		}
+		} catch (NullPointerException e) {
+			gameMsg.printInfo("Le fichier de propriétés ne peut pas être lu. Sortie du programme.");
+			gameMsg.logError("Erreur récupération fichier de propriétés");
+			System.exit(0);
+        } catch (IOException e) {
+        	gameMsg.printInfo("Le fichier de propriétés ne peut pas être lu. Sortie du programme.");
+			gameMsg.logError("Fichier de propriétés illisible");
+			System.exit(0);
+        } 
 		
 	}
 	

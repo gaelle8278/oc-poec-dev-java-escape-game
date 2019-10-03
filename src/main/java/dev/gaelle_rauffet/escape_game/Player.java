@@ -3,23 +3,18 @@ package dev.gaelle_rauffet.escape_game;
 public interface Player {
 	
 	/**
-	 * Return a response, with code : +,-,=, to indicate if a given combination corresponds to a reference combination
+	 * Set a response, with code : +,-,=, to indicate if a given test combination corresponds to combination
 	 * 
 	 * Combinations are composed of integers.
 	 * 
-	 * @param combinationTest			combination to test
-	 * @param combinationReference		combination to compare to
 	 * @return
 	 */
-	public String[] checkCombination(Combination combinationTest, int[] combinationReference);
+	public void checkCombination(Combination combinationTest);
 	
 	/**
-	 * Defines a combination of the given size
+	 * Defines a guess value of combination
 	 * 
-	 * @param size		size of the combination
 	 * @return
 	 */
-	/*public Combination guessCombination(String[] indications, int size);*/
-
-	void guessCombination(Combination combinationToFind);
+	public void guessCombination(Combination combinationToFind);
 }

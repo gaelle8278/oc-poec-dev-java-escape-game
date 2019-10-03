@@ -12,19 +12,13 @@ public class Combination {
 		this.guessValue = new int[length];
 		this.responseValue = new String[length];
 	}
-
-	/*public void setCombinationFromString(String strCombination) {	
-		for(int i=0; i < strCombination.length(); i++) {
-			if(Character.isDigit(strCombination.charAt(i))) {
-				this.value[i] = Character.getNumericValue(strCombination.charAt(i));
-			} else {
-				this.value[i] = -1;
-			}
-		}
-	}*/
 	
+	/**
+	 * Set the game combination
+	 * @param strCombination
+	 */
 	public void setGuessTestValueFromString(String strCombination) {	
-	for(int i=0; i < strCombination.length(); i++) {
+		for(int i=0; i < strCombination.length(); i++) {
 			if(Character.isDigit(strCombination.charAt(i))) {
 				this.guessValue[i] = Character.getNumericValue(strCombination.charAt(i));
 			} else {
@@ -33,25 +27,9 @@ public class Combination {
 		}	
 	}
 	
-	/**
-	 * Check if combination value contains only integer between 0 to 9
-	 * @param combination
-	 * @return
-	 */
-	/*public void checkCombinationContainsValidInt() {
-		//check length of combination
-		for(int i=0; i < length; i++) {
-			// check value between 0 to 9
-			if(value[i] < 0 || value[i] >= 10) {
-				// throw Exception
-				throw new IllegalCombinationItem("La combinaison ne doit contenir que des entiers compris entre 0 et 9.");
-			} 
-			
-		} 
-	}*/
 	
 	/**
-	 * Check if combination value contains only integer between 0 to 9
+	 * Check if guess combination value contains only integer between 0 to 9
 	 * @param combination
 	 * @return
 	 */
@@ -68,7 +46,7 @@ public class Combination {
 	}
 	
 	/**
-	 * Check if test to guess combination valkue is good or not
+	 * Check if the test to guess combination value is good or not
 	 * @return
 	 */
 	public boolean checkTest() {
@@ -84,51 +62,30 @@ public class Combination {
 	
 	
 	/**
-	 * Concatenate value to string
+	 * Concatenate value to string integer array
 	 * @return
 	 */
 	public String valueToString(int[] intArray) {
-		String value = intArrayToString(intArray);
+		String value = "";
+		for(int i=0; i < intArray.length; i++ ) {
+			value += String.valueOf(intArray[i]);
+		}
 		return value;
 		
 	}
 	
 	/**
-	 * Concatenate value to string
+	 * Concatenate value to string from string array
 	 * @return
 	 */
 	public String valueToString(String[] stringArray) {
-		String value = stringArrayToString(stringArray);
+		String value = "";
+		for(int i=0; i < stringArray.length; i++ ) {
+			value += stringArray[i];
+		}
 		return value;
 	}
 	
-	/**
-	 * Concatenate Integer array to a string
-	 * 
-	 * @return
-	 */
-	private String intArrayToString(int[] intArrayValue) {
-		String strCombination = "";
-		for(int i=0; i < intArrayValue.length; i++ ) {
-			strCombination += String.valueOf(intArrayValue[i]);
-		}
-		
-		return strCombination;
-	}
-	
-	/**
-	 * Concatenate String array to a string
-	 * 
-	 * @return
-	 */
-	private String stringArrayToString(String[] stringArrayValue) {
-		String strCombination = "";
-		for(int i=0; i < stringArrayValue.length; i++ ) {
-			strCombination += stringArrayValue[i];
-		}
-		
-		return strCombination;
-	}
 	
 	/*
 	 * Getters and Setters

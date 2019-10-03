@@ -9,27 +9,21 @@ import java.util.Properties;
 public class PropertiesLoader {
 	
 	private Properties prop;
-	private Message msgManager;
 	
 	
 	public PropertiesLoader() {
 		this.prop = new Properties();
-		this.msgManager  = new Message();
 	}
 	
 	/**
 	 * Loads properties from a .properties file in classpath
+	 * @throws IOException 
 	 */
-	public void loadProperties(String filename) {
-		try {
-			InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
+	public void loadProperties(String filename) throws IOException {
+		InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
 
-            //load a properties file from class path, inside static method
-            prop.load(input);
-
-        } catch (IOException e) {
-        	msgManager.logError("Erreur récupération fichier de properties", e);
-        } 
+        //load a properties file from class path, inside static method
+        prop.load(input);
 	}
 	
 	
@@ -69,6 +63,10 @@ public class PropertiesLoader {
 	}
 
 
+	/**
+	 * Get "combinationLength" property value
+	 * @return
+	 */
 	public int getCombinationLength() {
 		int combinationLength =  Integer.parseInt(getPropValue("combinationLength"));
 		if(combinationLength < 0 || combinationLength > 10) {

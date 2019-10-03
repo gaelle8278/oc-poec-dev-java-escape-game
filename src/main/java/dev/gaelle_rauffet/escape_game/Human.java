@@ -7,26 +7,12 @@ public class Human implements Player{
 	private Message msgManager = new Message();
 	
 	
-	/*public Combination guessCombination(String[] indications, int size) {
-		
-	    
-	    Combination proposedCombination  = new Combination(size);
-	  
-	    proposedCombination.setCombinationFromString(userResponse);
-	    proposedCombination.checkCombinationContainsValidInt();
-	   
-	    
-	    //int[] combination = this.convertStrCombinationToIntArray(userResponse);
-	    
-	    return proposedCombination;
-		
-	}*/
 
 
 	@Override
-	public String[] checkCombination(Combination combinationTest, int[] combinationReference) {
+	public void checkCombination(Combination combinationTest) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
