@@ -24,10 +24,19 @@ public class Message {
 		
 	}
 
+	/**
+	 * Add an error with stack trace in log system info
+	 * @param msg
+	 * @param e
+	 */
 	public void logError(String msg, Exception e) {
 		logger.error(msg, e);
 	}
 	
+	/**
+	 * Add an error in log system info
+	 * @param msg
+	 */
 	public void logError(String msg) {
 		logger.error(msg);
 	}

@@ -41,9 +41,22 @@ public class Game {
 		PropertiesLoader gameProps = new PropertiesLoader();
 		gameProps.loadProperties("game.properties");
 		// set attributes with properties values
-		modeDev=Integer.parseInt(gameProps.getPropValue("modeDeveloper"));
-		nbTests=Integer.parseInt(gameProps.getPropValue("numberTests"));
-		combinationLength=Integer.parseInt(gameProps.getPropValue("combinationLength"));
+		//modeDev=Integer.parseInt(gameProps.getPropValue("modeDeveloper"));
+		try{
+			modeDev=gameProps.getModeDev();
+			nbTests=gameProps.getNumberTests();
+			combinationLength=gameProps.getCombinationLength();
+		} catch(NumberFormatException e){
+			gameMsg.printInfo("Paramètres du jeu non valides. Sortie du programme.");
+			gameMsg.logError("Paramètres du jeu non valides. Sortie du programme.");
+			System.exit(0);
+		} catch (IllegalGamePropertiesValue e) {
+			gameMsg.printInfo("Paramètre du jeu non valide : " + e.getMessage() + ". Sortie du programme.");
+			gameMsg.logError("Paramètres du jeu non valides. " + e.getMessage() + ". Sortie du programme.");
+			System.exit(0);
+		}
+		
+		
 		
 	}
 

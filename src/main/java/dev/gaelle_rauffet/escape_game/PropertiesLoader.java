@@ -43,4 +43,41 @@ public class PropertiesLoader {
 		return prop.getProperty(propKey);
 	}
 
+	/**
+	 * Get "modeDevelopper" prrperty value
+	 * @return
+	 */
+	public int getModeDev() {
+		int modeDev= Integer.parseInt(this.getPropValue("modeDeveloper"));
+		if(modeDev !=0 && modeDev!=1) {
+			throw new IllegalGamePropertiesValue("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
+		}
+		return modeDev;
+		
+	}
+
+	/**
+	 * Get "numberTests" property value
+	 * @return
+	 */
+	public int getNumberTests() {
+		int nbTests= Integer.parseInt(this.getPropValue("numberTests"));
+		if(nbTests < 0 || nbTests > 20) {
+			throw new IllegalGamePropertiesValue("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
+		}
+		return nbTests;
+	}
+
+
+	public int getCombinationLength() {
+		int combinationLength =  Integer.parseInt(getPropValue("combinationLength"));
+		if(combinationLength < 0 || combinationLength > 10) {
+			throw new IllegalGamePropertiesValue("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
+		}
+		return combinationLength;
+	}
+
+	
+	
+
 }
