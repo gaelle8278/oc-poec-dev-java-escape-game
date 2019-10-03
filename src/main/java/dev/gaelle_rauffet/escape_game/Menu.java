@@ -9,67 +9,47 @@ public class Menu {
 	private Message msgManager = new Message();
 	private Scanner sc = new Scanner(System.in);
 	
-	String startMenuTitle;
-	List<String> startMenuOptions = new ArrayList<String>();;
-	String endMenuTitle;
-	List<String> endMenuOptions = new ArrayList<String>();
+	private String menuTitle;
+	private List<String> menuOptions = new ArrayList<String>();
 	
 
-	/**
-	 * Displays menu at starting
-	 */
-	public void displayStartMenu() {
-		startMenuTitle = ("Choissisez le mode jeu :");
-		startMenuOptions.add("Challenger");
-		startMenuOptions.add("Défenseur");
-		startMenuOptions.add("Duel");
-		startMenuOptions.add("Quitter l'application");
-		
-		this.displayMenu(startMenuTitle, startMenuOptions);
+	public Menu(String title, List<String> options) {
+		this.menuTitle = title;
+		this.menuOptions = options;
 	}
 	
 	/**
-	 * Display menu at ending 
+	 * Display the menu
 	 */
-	public void displayEndMenu() {
-		endMenuTitle = ("Fin de partie : ");
-		endMenuOptions.add("Rejouer au même mode");
-		endMenuOptions.add("Rejouer avec un mode différent");
-		endMenuOptions.add("Quitter l'application");
+	public void display() {
+		msgManager.printInfo(this.menuTitle);
+		for(int i = 0; i < menuOptions.size(); i++) {
+			msgManager.printInfo((i+1) + " - " + menuOptions.get(i));
+		}
 		
-		this.displayMenu(endMenuTitle, endMenuOptions);
 	}
+
 	
 	/**
-	 * Get selected item from start menu
+	 * Get selected item from the menu or exits if necessary
 	 * 
 	 * @return
 	 */
-	public int getSelectedStartMenuItem() {
-		int choice = getMenuiItem(startMenuOptions);
-		checkifExitProgram(startMenuOptions, choice);
+	public int getSelectedItem() {
+		int choice = getMenuiItem();
+		checkifExitProgram(choice);
 		
 		return choice;
 	}
 	
-	/**
-	 * Get selected item from end menu
-	 * 
-	 * @return
-	 */
-	public int getSelectedEndMenuItem() {
-		int choice = getMenuiItem(endMenuOptions);
-		checkifExitProgram(endMenuOptions, choice);
-		
-		return choice;
-	}
+
 	
 	/**
 	 * Exit program if it's the item selected in list options
 	 * @param menuOptions
 	 * @param choice
 	 */
-	private void checkifExitProgram(List<String> menuOptions, int choice) {
+	private void checkifExitProgram(int choice) {
 		//@TODO change to better process : here based on convention ie last option is for exit
 		if(choice == menuOptions.size()) {
 			msgManager.printInfo("Bye bye !");
@@ -81,11 +61,11 @@ public class Menu {
 	}
 
 	/**
-	 * Get option selected in a menu
+	 * Get option selected among menu options
 	 * @param menuOptions		list of menu items
 	 * @return
 	 */
-	private int getMenuiItem(List<String> menuOptions) {
+	private int getMenuiItem() {
 		int selectedItem = 0;
         boolean responseCheck = false;
         do {
@@ -97,10 +77,9 @@ public class Menu {
             }
             
             if( responseCheck ) {
-                //msgManager.printInfo("Option sélectionnée : " + menuOptions.get(selectedItem - 1));
                 msgManager.logInfo("Item sélectionné : " + selectedItem + " = " + menuOptions.get(selectedItem - 1));
             } else {
-            	msgManager.printInfo("Vous n'avez pas choisi une option valide");
+            	msgManager.printInfo("Vous n'avez pas choisi une option de menu valide");
                 msgManager.logInfo("Option de menu invalide : " + selectedItem);  
             }
         } while ( ! responseCheck  );
@@ -110,19 +89,7 @@ public class Menu {
         return selectedItem;
 	}
 	
-	/**
-	 * Display a menu
-	 * @param title			menu title
-	 * @param endMenuOptions2		options of menu
-	 */
-	private void displayMenu(String title, List<String> menuOptions) {
-		msgManager.printInfo(title);
-		for(int i = 0; i < menuOptions.size(); i++) {
-			msgManager.printInfo((i+1) + " - " + menuOptions.get(i));
-		}
-		
-	}
-
+	
 	
 	
 	

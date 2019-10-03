@@ -1,19 +1,18 @@
 package dev.gaelle_rauffet.escape_game;
 
-
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game {
 	int modeDev;
 	int nbTests;
 	int combinationLength;
 	Message gameMsg;
-	Menu gameMenu;
 	
 	
 	
 	public Game() {
 		this.gameMsg = new Message();
-		this.gameMenu = new Menu();
 	}
 	
 	/**
@@ -22,17 +21,38 @@ public class Game {
 	public void run() {
 		gameMsg.logInfo("Démarrage du jeu");
 		loadConfig();
-		gameMenu.displayStartMenu();
-		int gameMode = gameMenu.getSelectedStartMenuItem();
+		int gameMode = getMode();
 		runMode(gameMode);
-		gameMenu.displayEndMenu();
-		int endOption = gameMenu.getSelectedEndMenuItem();
+		int endOption = getEndOption();
 		runEndOption(endOption);
 		gameMsg.logInfo("Fin du jeu");
 	}
 	
 	
+	/**
+	 * Get the game mode selected
+	 * @return
+	 */
+	private int getMode() {
+		Menu startMenu = this.setStartMenu();
+		startMenu.display();
+		int gameMode = startMenu.getSelectedItem();
+		
+		return gameMode;
+	}
 
+	/**
+	 * Get the end option selected
+	 * @return
+	 */
+	private int getEndOption() {
+		Menu endMenu = this.setEndMenu();
+		endMenu.display();
+		int endOption = endMenu.getSelectedItem();
+		
+		return endOption;
+	}
+	
 	/**
 	 * Load a configuration file
 	 */
@@ -56,8 +76,42 @@ public class Game {
 			System.exit(0);
 		}
 		
-		
-		
+	}
+	
+	
+	/**
+	 * Defines the start menu of the game
+	 * @return
+	 */
+	private Menu setStartMenu() {
+		 ArrayList<String> menuOptions = new ArrayList<String>( 
+		            Arrays.asList("Challenger", 
+		                          "Défenseur", 
+		                          "Duel",
+		                          "Quitter l'application"
+		                          )
+		            ); 
+		 
+		String menuTitle = "Choissisez le mode jeu :";
+		Menu startMenu = new Menu(menuTitle, menuOptions);
+		return startMenu;
+	}
+	
+	/**
+	 * Defines the end menu of the game
+	 * @return
+	 */
+	private Menu setEndMenu() {
+		 ArrayList<String> menuOptions = new ArrayList<String>( 
+		            Arrays.asList("Rejouer au même mode", 
+		                          "Rejouer", 
+		                          "Quitter l'application"
+		                          )
+		            ); 
+		 
+		String menuTitle = "Choissisez le mode jeu :";
+		Menu endMenu = new Menu(menuTitle, menuOptions);
+		return endMenu;
 	}
 
 	/**
