@@ -9,7 +9,7 @@ public interface Player {
 	 * 
 	 * @return
 	 */
-	public void checkCombination(Combination combinationTest);
+	public void checkCombination(Combination combinationToFind);
 	
 	/**
 	 * Defines a guess value of combination

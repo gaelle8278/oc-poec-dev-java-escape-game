@@ -4,22 +4,20 @@ import java.util.Scanner;
 
 public class Human implements Player{
 	private Scanner sc = new Scanner(System.in); 
-	private Message msgManager = new Message();
 	
 	
 
 
 	@Override
-	public void checkCombination(Combination combinationTest) {
-		// TODO Auto-generated method stub
+	public void checkCombination(Combination combinationToFind) {
+		String userResponse = sc.nextLine();
+		combinationToFind.setResponseValueFromString(userResponse);
 		
 	}
 
 	@Override
 	public void guessCombination(Combination combinationToFind) {
-		msgManager.printInfo("Votre propositon (combinaison à " + combinationToFind.getLength() + " chiffres) :");
 	    String userResponse = sc.nextLine();
-	    
 	    combinationToFind.setGuessTestValueFromString(userResponse);
 		
 	}
