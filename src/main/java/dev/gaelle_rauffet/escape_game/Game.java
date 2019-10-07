@@ -8,57 +8,24 @@ public class Game {
 	int modeDev;
 	int nbTests;
 	int combinationLength;
-	Message gameMsg;
 	int gameMode;
-	
-	
+	Message gameMsg;
+	Menu startMenu;
+	Menu endMenu;
 	
 	public Game() {
 		this.gameMsg = new Message();
 	}
 	
 	/**
-	 * Init game parameters and run the game
+	 * Init game parameters and run the selected game mode
 	 */
 	public void initAndRun() {
 		loadConfig();
+		setMenus();
+		setGameMode();
 		this.run();
 		
-	}
-	
-	/**
-	 * Run the game
-	 */
-	private void run() {
-		this.gameMode = getMode();
-		runMode(gameMode);
-		int endOption = getEndOption();
-		runEndOption(endOption);
-	}
-	
-	
-	/**
-	 * Get the game mode selected
-	 * @return
-	 */
-	private int getMode() {
-		Menu startMenu = this.setStartMenu();
-		startMenu.display();
-		int gameMode = startMenu.getSelectedItem();
-		
-		return gameMode;
-	}
-
-	/**
-	 * Get the end option selected
-	 * @return
-	 */
-	private int getEndOption() {
-		Menu endMenu = this.setEndMenu();
-		endMenu.display();
-		int endOption = endMenu.getSelectedItem();
-		
-		return endOption;
 	}
 	
 	/**
@@ -72,10 +39,6 @@ public class Game {
 			modeDev=gameProps.getModeDev();
 			nbTests=gameProps.getNumberTests();
 			combinationLength=gameProps.getCombinationLength();
-		} catch(NumberFormatException e){
-			gameMsg.printInfo("Paramètres du jeu non valide. Sortie du programme.");
-			gameMsg.logError("Paramètres du jeu non valide. Sortie du programme.");
-			System.exit(0);
 		} catch (IllegalGamePropertiesValue e) {
 			gameMsg.printInfo("Paramètres du jeu non valide : " + e.getMessage() + ". Sortie du programme.");
 			gameMsg.logError("Paramètres du jeu non valides. " + e.getMessage() + ". Sortie du programme.");
@@ -92,6 +55,48 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Define menus used by the game
+	 */
+	private void setMenus() {
+		this.setStartMenu();
+		this.setEndMenu();
+	}
+	
+	/**
+	 * Run the game
+	 */
+	private void run() {
+		runMode();
+		int endOption = getEndOption();
+		runEndOption(endOption);
+	}
+	
+	
+	
+	/**
+	 * Get the game mode selected
+	 * @return
+	 */
+	private void setGameMode() {
+		startMenu.display();
+		this.gameMode = startMenu.getSelectedItem();
+		;
+	}
+
+	/**
+	 * Get the end option selected
+	 * @return
+	 */
+	private int getEndOption() {
+		endMenu.display();
+		int endOption = endMenu.getSelectedItem();
+		
+		return endOption;
+	}
+	
+	
+	
 	
 	/**
 	 * Defines the start menu of the game
@@ -107,7 +112,7 @@ public class Game {
 		            ); 
 		 
 		String menuTitle = "Choissisez le mode jeu :";
-		Menu startMenu = new Menu(menuTitle, menuOptions);
+		this.startMenu = new Menu(menuTitle, menuOptions);
 		return startMenu;
 	}
 	
@@ -124,7 +129,7 @@ public class Game {
 		            ); 
 		 
 		String menuTitle = "Choissisez le mode jeu :";
-		Menu endMenu = new Menu(menuTitle, menuOptions);
+		this.endMenu = new Menu(menuTitle, menuOptions);
 		return endMenu;
 	}
 
@@ -133,8 +138,8 @@ public class Game {
 	 * 
 	 * @param mode
 	 */
-	private void runMode(int mode) {
-		if(mode == 1) {
+	private void runMode() {
+		if(this.gameMode == 1) {
 			runChallengerMode();
 		} else {
 			gameMsg.printInfo("Mode pas encore implémenté");
@@ -149,12 +154,13 @@ public class Game {
 	 * @param endOption
 	 */
 	private void runEndOption(int endOption) {
-		if(endOption == 1) {
-			runMode(endOption);
-		} else if (endOption == 2 ) {
-			run();
+		if (endOption == 2 ) {
+			//selected an another game mode
+			setGameMode();
 		}
 		
+		//re-run a game
+		run();
 	}
 
 	/**
@@ -181,10 +187,11 @@ public class Game {
 		
 		//3- human try to guess the combination = until the answer is good or there is no more test
 		boolean responseIsGood = false;
-		int currentTest = 1;
-		while(currentTest <= nbTests && !responseIsGood) {
+		int currentTest = 0;
+		while(currentTest < nbTests && !responseIsGood) {
 			try {
 				//Combination userResponseCombination = human.guessCombination(combinationIndications, combinationLength);
+				gameMsg.printInfo("Votre propositon (combinaison à " + combinationToFind.getLength() + " chiffres) - " + (this.nbTests - currentTest) + " essai(s) restant(s) :");
 				human.guessCombination(combinationToFind);
 				//int[] combinationTest = this.validCombination(human.guessCombination(responseCombination, combinationLength), combinationLength);
 				
@@ -197,19 +204,20 @@ public class Game {
 				//String strResponseCombination = this.getStringCombinationFromArray(combinationIndications);
 				//String strResponseCombination = combinationToFind.responseTestValueToString();
 				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
-				gameMsg.printInfo("Proposition (" + currentTest + ") : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
-				gameMsg.logInfo("essai " + currentTest + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
+				gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
 				
+				//new test if goodproposition
+				currentTest++;
 			} catch (IndexOutOfBoundsException e) {
 				gameMsg.printInfo("La combinaison est trog longue");
-				gameMsg.logError("essai " + currentTest + " la combination  trog longue");
+				gameMsg.logError("essai " + (currentTest + 1) + " la combination  trog longue");
 			} catch (IllegalCombinationItem e) {
 				//catch custom array if try to get char into int array
 				gameMsg.printInfo( e.getMessage());
-				gameMsg.logError("essai " + currentTest + " " + e.getMessage());
+				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 			}
-			//new test if good or bad combination format
-			currentTest++;
+			
 		}
 		
 		if(responseIsGood) {
