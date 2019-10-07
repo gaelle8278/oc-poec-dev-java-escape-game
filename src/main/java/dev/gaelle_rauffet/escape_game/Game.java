@@ -9,24 +9,18 @@ public class Game {
 	int nbTests;
 	int combinationLength;
 	int gameMode;
+	int endOption;
 	Message gameMsg;
 	Menu startMenu;
 	Menu endMenu;
 	
 	public Game() {
-		this.gameMsg = new Message();
+		loadConfig();
+		gameMsg = new Message();
+		this.setStartMenu();
+		this.setEndMenu();
 	}
 	
-	/**
-	 * Init game parameters and run the selected game mode
-	 */
-	public void initAndRun() {
-		loadConfig();
-		setMenus();
-		setGameMode();
-		this.run();
-		
-	}
 	
 	/**
 	 * Load a configuration file
@@ -54,49 +48,6 @@ public class Game {
         } 
 		
 	}
-	
-	/**
-	 * Define menus used by the game
-	 */
-	private void setMenus() {
-		this.setStartMenu();
-		this.setEndMenu();
-	}
-	
-	/**
-	 * Run the game
-	 */
-	private void run() {
-		runMode();
-		int endOption = getEndOption();
-		runEndOption(endOption);
-	}
-	
-	
-	
-	/**
-	 * Get the game mode selected
-	 * @return
-	 */
-	private void setGameMode() {
-		startMenu.display();
-		this.gameMode = startMenu.getSelectedItem();
-		;
-	}
-
-	/**
-	 * Get the end option selected
-	 * @return
-	 */
-	private int getEndOption() {
-		endMenu.display();
-		int endOption = endMenu.getSelectedItem();
-		
-		return endOption;
-	}
-	
-	
-	
 	
 	/**
 	 * Defines the start menu of the game
@@ -132,7 +83,38 @@ public class Game {
 		this.endMenu = new Menu(menuTitle, menuOptions);
 		return endMenu;
 	}
+	
+	/**
+	 * Run all steps of a game
+	 */
+	public void run(boolean setGame) {
+		if( setGame == true) {
+			setGameMode();
+		}
+		runMode();
+		setEndOption();
+		runEndOption();
+	}
+	
+	
+	/**
+	 * Set the end option
+	 */
+	private void setEndOption() {
+		endMenu.display();
+		this.endOption = endMenu.getSelectedItem();
+	}
+	
+	/**
+	 * Set the game mode selected
+	 * @return
+	 */
+	private void setGameMode() {
+		startMenu.display();
+		this.gameMode = startMenu.getSelectedItem();
+	}
 
+	
 	/**
 	 * Run a game mode
 	 * 
@@ -153,14 +135,17 @@ public class Game {
 	 * 
 	 * @param endOption
 	 */
-	private void runEndOption(int endOption) {
-		if (endOption == 2 ) {
+	private void runEndOption() {
+		boolean setMode = false;
+		if (this.endOption == 2 ) {
 			//selected an another game mode
-			setGameMode();
-		}
+			setMode = true;;
+		} 
+	
+		run(setMode);
 		
-		//re-run a game
-		run();
+		
+		
 	}
 
 	/**
@@ -228,6 +213,10 @@ public class Game {
 			gameMsg.logInfo("Fin de partie : le joueur a perdu");
 		}
 	}
+	
+	
+
+
 
 	
 

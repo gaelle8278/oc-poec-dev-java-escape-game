@@ -6,7 +6,7 @@ public class Main {
 		Message gameMsg = new Message();
 		Game game = new Game();
 		gameMsg.logInfo("Démarrage du jeu");
-		game.initAndRun();
+		game.run(true);
 		gameMsg.logInfo("Fin du jeu");
 	}
 
