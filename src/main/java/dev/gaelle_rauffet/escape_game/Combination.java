@@ -40,10 +40,12 @@ public class Combination {
 			this.responseValue[i] = String.valueOf(strResponse.charAt(i));
 		}
 		this.checkContentResponseValue();
+		this.checkConsistencyResponseValue();
 		
 		
 	}
 	
+
 	/**
 	 * Check if the length of given guess combination is equals to the length of combination
 	 * @param strCombination
@@ -61,7 +63,7 @@ public class Combination {
 	 */
 	private void checkLengthResponseValue(String strResponse) {
 		if(strResponse.length() != length) {
-			throw new IllegalCombinationItem("La réponse proposée doit contenir " + length + " caractères parmi +, - et =.");
+			throw new IllegalCombinationItem("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		 
 	}
@@ -72,7 +74,6 @@ public class Combination {
 	 * @return
 	 */
 	private void checkContentGuessValue() {
-		//check length of combination
 		for(int i=0; i < length; i++) {
 			// check value between 0 to 9
 			if(guessValue[i] < 0 || guessValue[i] >= 10) {
@@ -89,7 +90,6 @@ public class Combination {
 	 * @return
 	 */
 	private void checkContentResponseValue() {
-		//check length of combination
 		for(int i=0; i < length; i++) {
 			// check character among +, - and =
 			if(!responseValue[i].equals("-") && !responseValue[i].equals("+") && !responseValue[i].equals("=")) {
@@ -101,13 +101,30 @@ public class Combination {
 	}
 	
 	/**
+	 * Check consistency between given combination value and response
+	 */
+	private void checkConsistencyResponseValue() {
+		//for each number of a a given guess value
+		for (int i = 0; i < guessValue.length; i++) {
+			if(guessValue[i] == 0 && responseValue[i].contentEquals("-")) {
+				//check consistency between - and 0
+				throw new IllegalCombinationItem("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+			} else if (guessValue[i] == 9 && responseValue[i].contentEquals("+")) {
+				//check consistency between + and 9
+				throw new IllegalCombinationItem("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 9, la réponse ne peut pas être \"+\".");
+			}
+		}
+		
+	}
+	
+	/**
 	 * Check if the test to guess combination value is good or not
 	 * @return
 	 */
 	public boolean checkTest() {
 		boolean check = true;
 		for(int i = 0; i < responseValue.length; i++) {
-			if(responseValue[i] != "=") {
+			if(!responseValue[i].equals("=")) {
 				check = false;
 				break;
 			}
@@ -141,6 +158,30 @@ public class Combination {
 		return value;
 	}
 	
+	/**
+	 * Check if a response is set
+	 * @return
+	 */
+	public boolean responseIsNull() {
+		boolean check = false;
+		for(int i=0; i < responseValue.length; i++) {
+			if(responseValue[i] == null) {
+				check = true;
+				break;
+			}
+		}
+		return check;
+	}
+	
+	/**
+	 * Reset the responseValue
+	 * 
+	 * Set a new String array with null values
+	 */
+	public void resetResponseValue() {
+		this.responseValue = new String[length];
+		
+	}
 	
 	/*
 	 * Getters and Setters
@@ -174,6 +215,10 @@ public class Combination {
 		this.responseValue = responseValue;
 		
 	}
+
+	
+
+	
 
 	
 

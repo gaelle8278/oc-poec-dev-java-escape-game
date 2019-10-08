@@ -250,13 +250,21 @@ public class Game {
 			} catch (IndexOutOfBoundsException e) {
 				gameMsg.printInfo("La réponse donnée est trog longue.");
 				gameMsg.logError("La réponse donnée par le joueur est trog longue");
+				combinationToFind.resetResponseValue();
 			} catch (IllegalArgumentException e) {
-				//TODO a vérifier Exception levée par int() de Random
-				gameMsg.printInfo("La réponse donnée par le joueur est incohérente.");
-				gameMsg.logError("La réponse donnée par le joueur est incohérente.");
+				//Exception levée par ints() de Random lorsqu'un chiffre ne peut pas être trouvé de façon logique 
+				//raison précise non connue donc non catchée dans human.checkCombination
+				gameMsg.printInfo("La réponse est incohérente.");
+				gameMsg.logError("La réponse est incohérente.", e);
+				//reset responseValue
+				combinationToFind.resetResponseValue();
+				//given back a try
+				currentTest--;
 			} catch (IllegalCombinationItem e){
-				gameMsg.printInfo( e.getMessage());
+				gameMsg.printInfo(e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
+				//reset responseValue
+				combinationToFind.resetResponseValue();
 			}
 		}
 					

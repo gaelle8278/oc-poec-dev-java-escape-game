@@ -33,18 +33,29 @@ public class AI implements Player {
 	
 	@Override
 	public void guessCombination(Combination combinationToFind) {
-		if(storedTests.isEmpty()) {
-			this.setGuessCombination(combinationToFind);
-		} else {
-			this.setGuessCombinationFromResponse(combinationToFind);
+		int[] guessCombination = new int[combinationToFind.getLength()];
+		
+		// if at least one guess value is set and response value is null (= last given response is mal-formatted or inconsistency)
+		// the same last guess value is kept 
+		// otherwise a new guess value is set from zero or from the last correct response
+		if( !( !storedTests.isEmpty() && combinationToFind.responseIsNull() ) ) {
+			if (storedTests.isEmpty()) {
+				// if no yet test => set a new guess value from zero
+				guessCombination = setCombination(combinationToFind.getLength());
+			} else {
+				// at leat one test is stored and a correct response is set
+				// => set a new guess value from response and last test
+				guessCombination = this.setGuessCombinationFromResponse(combinationToFind);
+			}
+		
+			// guess value is set to combination
+			combinationToFind.setGuessValue(guessCombination);
+		
+			// add the new combination to the ai tests stock
+			storedTests.add(guessCombination);
 		}
 		
-		// add the new combination in the storage
-		storedTests.add(combinationToFind.getGuessValue());
-		
 	}
-	
-	
 
 	/** 
 	 * Define a value for combination
@@ -56,21 +67,13 @@ public class AI implements Player {
 		
 	}
 	
-	/** 
-	 * Define a value for combination test
-	 * @param combinationToFind
-	 */
-	private void setGuessCombination(Combination combinationToFind) {
-		int[] guessCombination = setCombination(combinationToFind.getLength());
- 		combinationToFind.setGuessValue(guessCombination);
-		
-	}
+	
 	
 	/**
 	 * Define a value for combination test from indications 
 	 * @param combinationToFind
 	 */
-	private void setGuessCombinationFromResponse(Combination combinationToFind) {
+	private int[] setGuessCombinationFromResponse(Combination combinationToFind) {
 		int[] guessCombination = new int[combinationToFind.getLength()];
 		//get last proposition
 		int[] lastTest = storedTests.get(storedTests.size() - 1);
@@ -79,14 +82,14 @@ public class AI implements Player {
 		for (int i = 0; i < lastTest.length; i++) {
 			if(responseValue[i].equals("=") ) {
 				guessCombination[i] = lastTest[i];
-			} else if (responseValue[i].equals("-") ){
+			} else if (responseValue[i].equals("-")) {
 				guessCombination[i] = this.setRandomNumber(0, lastTest[i]);
-			} else {
+			} else if (responseValue[i].equals("+")) {
 				guessCombination[i] =  this.setRandomNumber(lastTest[i] + 1, 10);
 			}
 					
 		}
-		combinationToFind.setGuessValue(guessCombination);
+		return guessCombination;
 	}
 	
 	/**
