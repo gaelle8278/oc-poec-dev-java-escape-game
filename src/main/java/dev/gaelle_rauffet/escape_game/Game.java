@@ -270,7 +270,7 @@ public class Game {
 					
 		if(responseIsGood) {
 			gameMsg.printInfo("Le joueur a perdu. L'ai a trouvée la combinaison définie par le joueur");
-			gameMsg.logInfo("Fin de partie : le joueur aperdu");
+			gameMsg.logInfo("Fin de partie : le joueur a perdu");
 		} else {
 			gameMsg.printInfo("Le joueur a gagné. L'ai n'a pas trouvé la combinaison.");
 			gameMsg.logInfo("Fin de partie : le joueur a gagné.");

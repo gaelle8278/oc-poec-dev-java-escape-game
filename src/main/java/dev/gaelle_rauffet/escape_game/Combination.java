@@ -94,7 +94,7 @@ public class Combination {
 			// check character among +, - and =
 			if(!responseValue[i].equals("-") && !responseValue[i].equals("+") && !responseValue[i].equals("=")) {
 				// throw Exception
-				throw new IllegalCombinationItem("La réponse proposée ne doit contenir que des cacartères parmi +, - et =.");
+				throw new IllegalCombinationItem("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
 			} 
 			
 		} 
