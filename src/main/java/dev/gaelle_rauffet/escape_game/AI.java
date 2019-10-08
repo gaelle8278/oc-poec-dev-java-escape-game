@@ -1,6 +1,8 @@
 package dev.gaelle_rauffet.escape_game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.OptionalInt;
 import java.util.Random;
 
 /**
@@ -43,7 +45,7 @@ public class AI implements Player {
 				// if no yet test => set a new guess value from zero
 				guessCombination = setCombination(combinationToFind.getLength());
 			} else {
-				// at leat one test is stored and a correct response is set
+				// at least one test is stored and a correct response is set
 				// => set a new guess value from response and last test
 				guessCombination = this.setGuessCombinationFromResponse(combinationToFind);
 			}
@@ -83,15 +85,132 @@ public class AI implements Player {
 			if(responseValue[i].equals("=") ) {
 				guessCombination[i] = lastTest[i];
 			} else if (responseValue[i].equals("-")) {
-				guessCombination[i] = this.setRandomNumber(0, lastTest[i]);
+				int max = lastTest[i];
+				int min = getMinLimit(i, max);
+				guessCombination[i] = this.setRandomNumber(min, max);
 			} else if (responseValue[i].equals("+")) {
-				guessCombination[i] =  this.setRandomNumber(lastTest[i] + 1, 10);
+				int min = lastTest[i] + 1 ;
+				int max = getMaxLimit(i, lastTest[i]);
+				guessCombination[i] =  this.setRandomNumber(min, max);
 			}
 					
 		}
 		return guessCombination;
 	}
+
+	/**
+	 * Get minimum limit to set a random number for combination
+	 * 
+	 * @param positionNumber		position of number in combination
+	 * @return
+	 */
+	private int getMinLimit(int positionNumber, int maxValue) {
+		int min;
+		
+		//retrieves all values tested for number with positionNumber in combination
+		ArrayList<Integer> testValuesForPosition = getValuesForPositionLowerMax(positionNumber, maxValue);
+		
+		if(testValuesForPosition.isEmpty()) {
+			min = 0;
+		} else {
+			min = getMaxNumber(testValuesForPosition) + 1;
+		}
+		
+		return min;
+	}
 	
+	/**
+	 * Retrieve all tested values lower than a maximum value for a number position in combination
+	 * 
+	 * @param 	position		the position of number in combination
+	 * @param	maxValue		the maximum limit
+	 * @return
+	 */
+	private ArrayList<Integer> getValuesForPositionLowerMax(int position, int maxLimit) {
+		ArrayList<Integer> testValuesForPosition = new ArrayList<Integer>();
+		for(int i=0; i < storedTests.size(); i++) {
+			int[] combination = storedTests.get(i);
+			if( combination[position] < maxLimit) {
+				testValuesForPosition.add(combination[position]);
+			}
+		}
+		return testValuesForPosition;
+		
+	}
+	
+	/**
+	 * Get the max integer from an array
+	 * 
+	 * @param numbers		array of numbers from which get the lowest
+	 * @return
+	 */
+	private int getMaxNumber(ArrayList<Integer> numbers) {
+		int maximum = 0;
+		for(int i=0; i < numbers.size(); i++) {
+			maximum=Math.max(maximum, numbers.get(i));
+		}
+			
+		return maximum;
+	}
+	
+	
+	/**
+	 * Get maximum limit to set a random number for combination
+	 * 
+	 * @param positionNumber		position of number in combination
+	 * @return
+	 */
+	private int getMaxLimit(int positionNumber, int minValue) {
+		int max;
+		
+		//retrieves all values tested for number with positionNumber in combination
+		ArrayList<Integer> testValuesForPosition = getValuesForPositionGreaterMin(positionNumber, minValue);
+		
+		if(testValuesForPosition.isEmpty()) {
+			max = 10;
+		} else {
+			max = getMinNumber(testValuesForPosition);
+		}
+		
+		return max;
+	}
+	
+	
+	/**
+	 * Retrieve all tested values greater than a minimum value for a number position in combination
+	 * 
+	 * @param	position		the position of number in combination
+	 * @param	minValue		the minimum limit
+	 * @return
+	 */
+	private ArrayList<Integer> getValuesForPositionGreaterMin(int position, int minValue) {
+		ArrayList<Integer> testValuesForPosition = new ArrayList<Integer>();
+		for(int i=0; i < storedTests.size(); i++) {
+			int[] combination = storedTests.get(i);
+			if( combination[position] > minValue) {
+				testValuesForPosition.add(combination[position]);
+			}
+		}
+		return testValuesForPosition;
+	}
+
+	/**
+	 * Get the min integer from an array
+	 * 
+	 * @param numbers		array of numbers from which get the lowest
+	 * @return
+	 */
+	private int getMinNumber(ArrayList<Integer> numbers) {
+		int minimum = 9;
+		for(int i=0; i < numbers.size(); i++) {
+			 minimum=Math.min(minimum, numbers.get(i));
+		}
+			
+		return minimum;
+	}
+	
+	
+
 	/**
 	 * Set combination value of a given size
 	 * @param size
@@ -112,9 +231,16 @@ public class AI implements Player {
 	 * @return
 	 */
 	private int setRandomNumber(int min, int max) {
-	    Random random = new Random();
-
-	    return random.ints(min,max).findFirst().getAsInt();
+		int number;
+		if(min == max) {
+			number = min;
+		} else {
+			Random random = new Random();
+			number = random.ints(1,min,max).findFirst().getAsInt();
+		}
+		
+		
+		return number;
 	
 	}
 

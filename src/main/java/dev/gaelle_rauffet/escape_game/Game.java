@@ -15,8 +15,8 @@ public class Game {
 	Menu endMenu;
 	
 	public Game() {
-		loadConfig();
 		gameMsg = new Message();
+		loadConfig();
 		this.setStartMenu();
 		this.setEndMenu();
 	}
