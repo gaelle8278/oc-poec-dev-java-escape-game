@@ -1,4 +1,4 @@
-package dev.gaelle_rauffet.escape_game;
+package dev.gaellerauffet.escapegame;
 
 public interface Player {
 	

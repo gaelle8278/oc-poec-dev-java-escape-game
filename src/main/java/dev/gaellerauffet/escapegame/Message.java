@@ -1,4 +1,4 @@
-package dev.gaelle_rauffet.escape_game;
+package dev.gaellerauffet.escapegame;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

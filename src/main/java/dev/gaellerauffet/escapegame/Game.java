@@ -1,4 +1,4 @@
-package dev.gaelle_rauffet.escape_game;
+package dev.gaellerauffet.escapegame;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -157,7 +157,8 @@ public class Game {
 	 * Manage the "challenger" mode of the game
 	 */
 	private void runChallengerMode() {
-		
+		gameMsg.printInfo("Démarrage mode Challengeur");
+		gameMsg.logInfo("Mode de jeu : Challengeur");
 		
 		//1- set required elements to play "challenger" mode
 		AI ai = new AI();
@@ -170,7 +171,7 @@ public class Game {
 		if(modeDev == 1) {
 			gameMsg.printInfo("(combinaison secrète : " + strCombination + ")");
 		}
-		gameMsg.logInfo("combinaison définit par l'ia : " + strCombination);
+		gameMsg.logInfo("combinaison définit par l'IA : " + strCombination);
 		
 		//3- human try to guess the combination = until the answer is good or there is no more test
 		boolean responseIsGood = false;
@@ -187,7 +188,7 @@ public class Game {
 				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
 				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
 				gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
-				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'ia " + strResponseCombination);
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'IA " + strResponseCombination);
 				
 				//new test if proposition is well-formatted
 				currentTest++;
@@ -203,11 +204,11 @@ public class Game {
 		}
 		
 		if(responseIsGood) {
-			gameMsg.printInfo("Le joueur a gagné");
-			gameMsg.logInfo("Fin de partie : le joueur a gagné");
+			gameMsg.printInfo("Le joueur a gagné.");
+			gameMsg.logInfo("Fin de partie : le joueur a gagné.");
 		} else {
 			gameMsg.printInfo("Le joueur a perdu. La combinaison était : " +  strCombination);
-			gameMsg.logInfo("Fin de partie : le joueur a perdu");
+			gameMsg.logInfo("Fin de partie : le joueur a perdu.");
 		}
 	}
 	
@@ -236,14 +237,15 @@ public class Game {
 			try {
 				ai.guessCombination(combinationToFind);
 				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
-				gameMsg.printInfo("Proposition de l'ai - " + (this.nbTests - currentTest) + " essai(s) restant(s) : " + strCombinationTest);
+				gameMsg.printInfo("Proposition de l'IA - " + (this.nbTests - currentTest) + " essai(s) restant(s) : " + strCombinationTest);
 				human.checkCombination(combinationToFind);
-				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
+				
 				responseIsGood = combinationToFind.checkTest();
 								
 				//messages
+				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
 				gameMsg.printInfo("Proposition : " + strCombinationTest + " -> Réponse : " + strResponseCombination);
-				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'ai : " + strCombinationTest + "/ Réponse faites par le joueur " + strResponseCombination);
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTest + " / Réponse faites par le joueur " + strResponseCombination);
 								
 				//new test 
 				currentTest++;
@@ -255,7 +257,11 @@ public class Game {
 				//Exception levée par ints() de Random lorsqu'un chiffre ne peut pas être trouvé de façon logique 
 				//raison précise non connue donc non catchée dans human.checkCombination
 				gameMsg.printInfo("La réponse est incohérente.");
-				gameMsg.logError("La réponse est incohérente.", e);
+				if(modeDev == 1) {
+					gameMsg.logError("La réponse est incohérente.", e);
+				} else {
+					gameMsg.logError("La réponse est incohérente.");
+				}
 				//reset responseValue
 				combinationToFind.resetResponseValue();
 				//given back a try
@@ -269,10 +275,10 @@ public class Game {
 		}
 					
 		if(responseIsGood) {
-			gameMsg.printInfo("Le joueur a perdu. L'ai a trouvée la combinaison définie par le joueur");
-			gameMsg.logInfo("Fin de partie : le joueur a perdu");
+			gameMsg.printInfo("Le joueur a perdu. L'IA a trouvée la combinaison définie par le joueur.");
+			gameMsg.logInfo("Fin de partie : le joueur a perdu.");
 		} else {
-			gameMsg.printInfo("Le joueur a gagné. L'ai n'a pas trouvé la combinaison.");
+			gameMsg.printInfo("Le joueur a gagné. L'IA n'a pas trouvé la combinaison.");
 			gameMsg.logInfo("Fin de partie : le joueur a gagné.");
 		}
 		

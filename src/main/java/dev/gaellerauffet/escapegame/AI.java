@@ -1,4 +1,4 @@
-package dev.gaelle_rauffet.escape_game;
+package dev.gaellerauffet.escapegame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class AI implements Player {
 		if( !( !storedTests.isEmpty() && combinationToFind.responseIsNull() ) ) {
 			if (storedTests.isEmpty()) {
 				// if no yet test => set a new guess value from zero
-				guessCombination = setCombination(combinationToFind.getLength());
+				guessCombination = setInitCombination(combinationToFind.getLength());
 			} else {
 				// at least one test is stored and a correct response is set
 				// => set a new guess value from response and last test
@@ -64,13 +64,12 @@ public class AI implements Player {
 	 * @param combinationToFind
 	 */
 	public void setValueCombination(Combination combinationToFind) {
-		int[] combination = setCombination(combinationToFind.getLength());
+		int[] combination = setRandomCombination(combinationToFind.getLength());
 		combinationToFind.setValue(combination);
 		
 	}
 	
-	
-	
+
 	/**
 	 * Define a value for combination test from indications 
 	 * @param combinationToFind
@@ -87,6 +86,7 @@ public class AI implements Player {
 			} else if (responseValue[i].equals("-")) {
 				int max = lastTest[i];
 				int min = getMinLimit(i, max);
+				//TODO test case when min and max are equals => is inconsistent
 				guessCombination[i] = this.setRandomNumber(min, max);
 			} else if (responseValue[i].equals("+")) {
 				int min = lastTest[i] + 1 ;
@@ -210,13 +210,26 @@ public class AI implements Player {
 	}
 	
 	
-
+	/**
+	 * Create combination with specified values
+	 * @param length
+	 * @return
+	 */
+	private int[] setInitCombination(int size) {
+		int[] combination = new int[size];
+		for(int i = 0; i < size; i++) {
+			combination[i] = 5;
+		}
+		
+		return combination;
+	}
+	
 	/**
 	 * Set combination value of a given size
 	 * @param size
 	 * @return
 	 */
-	private int[] setCombination(int size) {
+	private int[] setRandomCombination(int size) {
 		int[] combination = new int[size];
 		for(int i = 0; i < size; i++) {
 			combination[i] = setRandomNumber(0, 10);
