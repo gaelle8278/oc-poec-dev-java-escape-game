@@ -123,15 +123,13 @@ public class Game {
 	private void runMode() {
 		if(this.gameMode == 1) {
 			runChallengerMode();
-		} else if(this.gameMode == 2) {
+		} else if (this.gameMode == 2) {
 			runDefenseMode();
-		} else {
-			gameMsg.printInfo("Mode pas encore implémenté");
-			gameMsg.logInfo("Mode pas encore implémenté");
+		} else if (this.gameMode == 3) {
+			runDuelMode();
 		}
 		
 	}
-	
 	
 
 
@@ -192,9 +190,6 @@ public class Game {
 				
 				//new test if proposition is well-formatted
 				currentTest++;
-			} catch (IndexOutOfBoundsException e) {
-				gameMsg.printInfo("La combinaison est trog longue");
-				gameMsg.logError("essai " + (currentTest + 1) + " la combination est trog longue");
 			} catch (IllegalCombinationItem e) {
 				//catch custom array if try to get char into int array
 				gameMsg.printInfo( e.getMessage());
@@ -204,11 +199,11 @@ public class Game {
 		}
 		
 		if(responseIsGood) {
-			gameMsg.printInfo("Le joueur a gagné.");
-			gameMsg.logInfo("Fin de partie : le joueur a gagné.");
+			gameMsg.printInfo("Combinaison trouvée ! Le joueur a gagné.");
+			gameMsg.logInfo("Fin de partie mode Challenger : le joueur a gagné. Il a trouvé la combinaison.");
 		} else {
 			gameMsg.printInfo("Le joueur a perdu. La combinaison était : " +  strCombination);
-			gameMsg.logInfo("Fin de partie : le joueur a perdu.");
+			gameMsg.logInfo("Fin de partie mode Challenger : le joueur a perdu. Il n'a pas trouvé la combinaison.");
 		}
 	}
 	
@@ -238,6 +233,7 @@ public class Game {
 				ai.guessCombination(combinationToFind);
 				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
 				gameMsg.printInfo("Proposition de l'IA - " + (this.nbTests - currentTest) + " essai(s) restant(s) : " + strCombinationTest);
+				gameMsg.printInfo("Votre réponse :");
 				human.checkCombination(combinationToFind);
 				
 				responseIsGood = combinationToFind.checkTest();
@@ -249,13 +245,9 @@ public class Game {
 								
 				//new test 
 				currentTest++;
-			} catch (IndexOutOfBoundsException e) {
-				gameMsg.printInfo("La réponse donnée est trog longue.");
-				gameMsg.logError("La réponse donnée par le joueur est trog longue");
-				combinationToFind.resetResponseValue();
 			} catch (IllegalArgumentException e) {
 				//Exception levée par ints() de Random lorsqu'un chiffre ne peut pas être trouvé de façon logique 
-				//raison précise non connue donc non catchée dans human.checkCombination
+				//raison précise non connue donc non catchée manuellement dans human.checkCombination
 				gameMsg.printInfo("La réponse est incohérente.");
 				if(modeDev == 1) {
 					gameMsg.logError("La réponse est incohérente.", e);
@@ -264,27 +256,109 @@ public class Game {
 				}
 				//reset responseValue
 				combinationToFind.resetResponseValue();
-				//given back a try
+				//given back a try (because exception is raised the next round after human response)
 				currentTest--;
 			} catch (IllegalCombinationItem e){
 				gameMsg.printInfo(e.getMessage());
-				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
+				//gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				//reset responseValue
 				combinationToFind.resetResponseValue();
 			}
 		}
 					
 		if(responseIsGood) {
-			gameMsg.printInfo("Le joueur a perdu. L'IA a trouvée la combinaison définie par le joueur.");
-			gameMsg.logInfo("Fin de partie : le joueur a perdu.");
+			gameMsg.printInfo("Le joueur a perdu. L'IA a trouvé la combinaison.");
+			gameMsg.logInfo("Fin de partie mode Défenseur : le joueur a perdu, l'IA a trouvé la combinaison.");
 		} else {
 			gameMsg.printInfo("Le joueur a gagné. L'IA n'a pas trouvé la combinaison.");
-			gameMsg.logInfo("Fin de partie : le joueur a gagné.");
+			gameMsg.logInfo("Fin de partie mode Défenseur : le joueur a gagné, l'IA n'a pas trouvé la combinaison.");
 		}
 		
 	}
 
+	/**
+	 * Manage the "Duel" mode
+	 */
+	private void runDuelMode() {
+		gameMsg.printInfo("Démarrage mode Duel");
+		gameMsg.logInfo("Mode de jeu : Duel");
+		
+		//1- set required elements to play "défenseur" mode
+		AI ai = new AI();
+		Human human = new Human();
+		Combination humanCombination = new Combination(combinationLength);
+		Combination aiCombination = new Combination(combinationLength);
+		
+		//2- the human and ai set the value to find for its own combination 
+		//human in his head
+		if(modeDev == 1) {
+			gameMsg.printInfo("(combinaison secrète définie par le joueur : connue de lui seul)");
+		}
+		gameMsg.logInfo("combinaison définit par le joueur et connue de lui seul");
+		
+		//the ai set the value for combination
+		ai.setValueCombination(aiCombination);
+		String strCombination = aiCombination.valueToString(aiCombination.getValue());
+		if(modeDev == 1) {
+			gameMsg.printInfo("(combinaison secrète définit par l'ia : " + strCombination + ")");
+		}
+		gameMsg.logInfo("combinaison définit par l'IA : " + strCombination);
+		
+		//3- ai try to guess the combination = until the answer is good or there is no more test
+		boolean responseHumanIsGood = false;
+		boolean responseAIIsGood = false;
+		int currentTest = 0;
+		while(currentTest < nbTests && !responseHumanIsGood && !responseAIIsGood) {
+			
+				//3-a each player set a test to guess combination
+				gameMsg.printInfo("Votre propositon (combinaison à " + aiCombination.getLength() + " chiffres) - " + (this.nbTests - currentTest) + " essai(s) restant(s) :");
+				human.guessCombination(aiCombination);
+				String strCombinationTestHuman = aiCombination.valueToString(aiCombination.getGuessValue());
+				
+				ai.guessCombination(humanCombination);
+				String strCombinationTestAI = humanCombination.valueToString(humanCombination.getGuessValue());
+				gameMsg.printInfo("Proposition de l'IA - " + (this.nbTests - currentTest) + " essai(s) restant(s) : " + strCombinationTestAI);
+				
+						
+				
+				
+				//3-b evaluation of proposals
+				gameMsg.printInfo("Votre réponse : ");
+				human.checkCombination(humanCombination);
+				ai.checkCombination(aiCombination);
+				
+			
+				//3-c display of answers
+				String strResponseAI = aiCombination.valueToString(aiCombination.getResponseValue());
+				gameMsg.printInfo("Proposition du joueur : " + strCombinationTestHuman + " -> Réponse : " + strResponseAI);
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTestHuman + "/ Réponse faite par l'IA " + strResponseAI);
+				
+				String strResponseHuman = humanCombination.valueToString(humanCombination.getResponseValue());
+				gameMsg.printInfo("Proposition de l'AI : " + strCombinationTestAI + " -> Réponse : " + strResponseHuman);
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTestAI + " / Réponse faite par le joueur " + strResponseHuman);	
+				
+				//3-d Vérification si la bonne réponse a été donnée
+				responseAIIsGood = humanCombination.checkTest();
+				responseHumanIsGood = aiCombination.checkTest();
+				
+				//new test 
+				currentTest++;
+			
+		
+		}
+		
+		if(responseHumanIsGood && responseAIIsGood) {
+			gameMsg.printInfo("Egalité ! Le joueur et l'IA ont deviné la combinaison.  ");
+			gameMsg.logInfo("Fin de partie mode Duel : égalité.");
+		} else if(responseHumanIsGood) {
+			gameMsg.printInfo("Le joueur a gagné. Il a trouvé la combinaison définit par l'IA.");
+			gameMsg.logInfo("Fin de partie mode Duel : le joueur a gagné, il a trouvé la combinaison définit par l'IA.");
+		} else if (responseAIIsGood){
+			gameMsg.printInfo("L'IA a gagné. L'IA a trouvé la combinaison définit par le joueur.");
+			gameMsg.logInfo("Fin de partie mode Duel : l'IA a gagné, elle a trouvé la combinaison définit par l'IA.");
+		}
+	}
 
 	
-
+	
 }

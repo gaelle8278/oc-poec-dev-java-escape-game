@@ -19,12 +19,16 @@ public class Combination {
 	 */
 	public void setGuessTestValueFromString(String strCombination) {	
 		this.checkLengthGuessValue(strCombination);
-		for(int i=0; i < strCombination.length(); i++) {
-			if(Character.isDigit(strCombination.charAt(i))) {
-				this.guessValue[i] = Character.getNumericValue(strCombination.charAt(i));
-			} else {
-				this.guessValue[i] = -1;
-			}
+		try {
+			for(int i=0; i < strCombination.length(); i++) {
+				if(Character.isDigit(strCombination.charAt(i))) {
+					this.guessValue[i] = Character.getNumericValue(strCombination.charAt(i));
+				} else {
+					this.guessValue[i] = -1;
+				}
+			} 
+		} catch (IndexOutOfBoundsException e) {
+			throw new IllegalCombinationItem("La combinaison proposée doit contenir au maximum " + length + " chiffres.");
 		}	
 		
 		this.checkContentGuessValue();
@@ -36,8 +40,12 @@ public class Combination {
 	 */
 	public void setResponseValueFromString(String strResponse) {
 		this.checkLengthResponseValue(strResponse);
-		for(int i=0; i < strResponse.length(); i++) {
-			this.responseValue[i] = String.valueOf(strResponse.charAt(i));
+		try {
+			for(int i=0; i < strResponse.length(); i++) {
+				this.responseValue[i] = String.valueOf(strResponse.charAt(i));
+			}
+		} catch (IndexOutOfBoundsException e) {
+			throw new IllegalCombinationItem("La réponse proposée doit contenir au maximum " + length + " caractères (parmi +, - et =).");
 		}
 		this.checkContentResponseValue();
 		this.checkConsistencyResponseValue();
@@ -51,8 +59,10 @@ public class Combination {
 	 * @param strCombination
 	 */
 	private void checkLengthGuessValue(String strCombination) {
-		if(strCombination.length() != length) {
-			throw new IllegalCombinationItem("La combinaison proposée doit contenir " + length + " chiffres.");
+		if(strCombination.length() > length) {
+			throw new IllegalCombinationItem("La combinaison proposée doit contenir au maximum " + length + " chiffres.");
+		} else if(strCombination.length() > length) {
+			throw new IllegalCombinationItem("La combinaison proposée doit contenir au minimum " + length + " chiffres.");
 		}
 		 
 	}
@@ -62,8 +72,10 @@ public class Combination {
 	 * @param strCombination
 	 */
 	private void checkLengthResponseValue(String strResponse) {
-		if(strResponse.length() != length) {
-			throw new IllegalCombinationItem("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+		if(strResponse.length() > length) {
+			throw new IllegalCombinationItem("La réponse proposée doit contenir au maximum" + length + " caractères (parmi +, - et =).");
+		} else if(strResponse.length() > length) {
+			throw new IllegalCombinationItem("La réponse proposée doit contenir au minimum" + length + " caractères (parmi +, - et =).");
 		}
 		 
 	}
@@ -106,10 +118,10 @@ public class Combination {
 	private void checkConsistencyResponseValue() {
 		//for each number of a a given guess value
 		for (int i = 0; i < guessValue.length; i++) {
-			if(guessValue[i] == 0 && responseValue[i].contentEquals("-")) {
+			if(guessValue[i] == 0 && responseValue[i].equals("-")) {
 				//check consistency between - and 0
 				throw new IllegalCombinationItem("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
-			} else if (guessValue[i] == 9 && responseValue[i].contentEquals("+")) {
+			} else if (guessValue[i] == 9 && responseValue[i].equals("+")) {
 				//check consistency between + and 9
 				throw new IllegalCombinationItem("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 9, la réponse ne peut pas être \"+\".");
 			}
