@@ -183,7 +183,7 @@ public class Game {
 				//log 
 				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
 				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
-				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTest + "/ Réponse faites par l'IA " + strResponseCombination);
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTest + " / Réponse faites par l'IA " + strResponseCombination);
 				
 				responseIsGood = combinationToFind.checkTest();
 				
