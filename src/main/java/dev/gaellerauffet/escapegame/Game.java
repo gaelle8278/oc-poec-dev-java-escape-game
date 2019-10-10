@@ -8,8 +8,11 @@ public class Game {
 	int modeDev;
 	int nbTests;
 	int combinationLength;
+	int currentTest = 0;
 	int gameMode;
 	int endOption;
+	AI ai;
+	Human human;
 	Message gameMsg;
 	Menu startMenu;
 	Menu endMenu;
@@ -17,6 +20,8 @@ public class Game {
 	public Game() {
 		gameMsg = new Message();
 		loadConfig();
+		ai = new AI();
+		human = new Human();
 		this.setStartMenu();
 		this.setEndMenu();
 	}
@@ -283,9 +288,7 @@ public class Game {
 		gameMsg.printInfo("Démarrage mode Duel");
 		gameMsg.logInfo("Mode de jeu : Duel");
 		
-		//1- set required elements to play "défenseur" mode
-		AI ai = new AI();
-		Human human = new Human();
+		//1- set required elements to play "duel" mode : 2 combinations
 		Combination humanCombination = new Combination(combinationLength);
 		Combination aiCombination = new Combination(combinationLength);
 		
@@ -304,51 +307,48 @@ public class Game {
 		}
 		gameMsg.logInfo("combinaison définit par l'IA : " + strCombination);
 		
-		//3- ai try to guess the combination = until the answer is good or there is no more test
+		//3 - ai and human try to guess the combination = until one give the good answer or there is no more test
 		boolean responseHumanIsGood = false;
 		boolean responseAIIsGood = false;
-		int currentTest = 0;
-		while(currentTest < nbTests && !responseHumanIsGood && !responseAIIsGood) {
-			
-				//3-a each player set a test to guess combination
-				gameMsg.printInfo("Votre propositon (combinaison à " + aiCombination.getLength() + " chiffres) - " + (this.nbTests - currentTest) + " essai(s) restant(s) :");
-				human.guessCombination(aiCombination);
+		currentTest = 0;
+		while(this.currentTest < nbTests && !responseHumanIsGood && !responseAIIsGood) {
+			try {
+				//3a - human do a test and ai evaluate the test
+				askATestToHuman(aiCombination);
+				askResponseToAI(aiCombination);
+				
+				//log 3a
 				String strCombinationTestHuman = aiCombination.valueToString(aiCombination.getGuessValue());
-				
-				ai.guessCombination(humanCombination);
-				String strCombinationTestAI = humanCombination.valueToString(humanCombination.getGuessValue());
-				gameMsg.printInfo("Proposition de l'IA - " + (this.nbTests - currentTest) + " essai(s) restant(s) : " + strCombinationTestAI);
-				
-						
-				
-				
-				//3-b evaluation of proposals
-				gameMsg.printInfo("Votre réponse : ");
-				human.checkCombination(humanCombination);
-				ai.checkCombination(aiCombination);
-				
-			
-				//3-c display of answers
 				String strResponseAI = aiCombination.valueToString(aiCombination.getResponseValue());
-				gameMsg.printInfo("Proposition du joueur : " + strCombinationTestHuman + " -> Réponse : " + strResponseAI);
 				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTestHuman + "/ Réponse faite par l'IA " + strResponseAI);
 				
-				String strResponseHuman = humanCombination.valueToString(humanCombination.getResponseValue());
-				gameMsg.printInfo("Proposition de l'AI : " + strCombinationTestAI + " -> Réponse : " + strResponseHuman);
-				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTestAI + " / Réponse faite par le joueur " + strResponseHuman);	
+				//3b - ai do a test and human evaluate the test
+				askATestToAI(humanCombination);
+				askResponseToHuman(humanCombination);
 				
-				//3-d Vérification si la bonne réponse a été donnée
+				//log 3b
+				String strCombinationTestAI = humanCombination.valueToString(humanCombination.getGuessValue());
+				String strResponseHuman = humanCombination.valueToString(humanCombination.getResponseValue());
+				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTestAI + " / Réponse faite par le joueur " + strResponseHuman);
+				
+				//3c - checks if the tests done are good
 				responseAIIsGood = humanCombination.checkTest();
 				responseHumanIsGood = aiCombination.checkTest();
 				
-				//new test 
-				currentTest++;
+				//3d - a test is lost
+				this.currentTest++;
+				
+			}  catch (IllegalCombinationItem e) {
+				gameMsg.printInfo(e.getMessage());
+				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
+				humanCombination.resetResponseValue();
+			}
 			
-		
 		}
 		
+		//4 - when the loop is terminated display the right end game message according to responses checks
 		if(responseHumanIsGood && responseAIIsGood) {
-			gameMsg.printInfo("Egalité ! Le joueur et l'IA ont deviné la combinaison.  ");
+			gameMsg.printInfo("Egalité ! Le joueur et l'IA ont deviné la combinaison. ");
 			gameMsg.logInfo("Fin de partie mode Duel : égalité.");
 		} else if(responseHumanIsGood) {
 			gameMsg.printInfo("Le joueur a gagné. Il a trouvé la combinaison définit par l'IA.");
@@ -356,9 +356,61 @@ public class Game {
 		} else if (responseAIIsGood){
 			gameMsg.printInfo("L'IA a gagné. L'IA a trouvé la combinaison définit par le joueur.");
 			gameMsg.logInfo("Fin de partie mode Duel : l'IA a gagné, elle a trouvé la combinaison définit par l'IA.");
+		} else {
+			gameMsg.printInfo("Aucun gagant. Personne n'a trouvé la cominaison secrète.");
+			gameMsg.logInfo("Fin de partie mode Duel : personne n'a gagné.");
 		}
 	}
 
 	
+
+
+	/**
+	 * Ask a test to human for a given combination
+	 * 
+	 * @param combination		combination to guess
+	 */
+	private void askATestToHuman(Combination combination) {
+		
+			//ask a proposition for combination
+			gameMsg.printInfo("Votre propositon (combinaison à " + combination.getLength() + " chiffres) - " + (nbTests - currentTest) + " essai(s) restant(s) :");
+			human.guessCombination(combination);
+		
+	}
 	
+	/**
+	 * Ask a test to AI for a given combination
+	 * 
+	 * @param combination		combination to guess
+	 */
+	private void askATestToAI(Combination combination) {
+		//ai set a proposition for the combination
+		ai.guessCombination(combination);
+		//display the proposition done by ai
+		gameMsg.printInfo("Proposition de l'IA - " + (nbTests - currentTest) + " essai(s) restant(s) : " + combination.valueToString(combination.getGuessValue()));
+		
+	}
+	
+	/**
+	 * Ask a response to human for a given combination
+	 * 
+	 * @param combination		combination to guess
+	 */
+	private void askResponseToHuman(Combination combination) {
+			//ask for an answer to proposition done by ai
+			gameMsg.printInfo("Votre réponse : ");
+			human.checkCombination(combination);
+	}
+	
+	/**
+	 * Ask a response to ai for a given combination
+	 * 
+	 * @param combination		combination to guess
+	 */
+	private void askResponseToAI(Combination combination) {
+		ai.checkCombination(combination);
+		gameMsg.printInfo("Réponse de l'IA : " + combination.valueToString(combination.getResponseValue()));
+		
+		
+	}
 }

@@ -86,7 +86,7 @@ public class AI implements Player {
 			} else if (responseValue[i].equals("-")) {
 				int max = lastTest[i];
 				int min = getMinLimit(i, max);
-				//TODO test case when min and max are equals => is inconsistent
+				//TODO test case when min and max are equals or inverted => is inconsistent
 				guessCombination[i] = this.setRandomNumber(min, max);
 			} else if (responseValue[i].equals("+")) {
 				int min = lastTest[i] + 1 ;
