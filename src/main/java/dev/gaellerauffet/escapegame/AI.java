@@ -12,8 +12,11 @@ import java.util.Random;
  */
 public class AI implements Player {
 	//int[][] storedTests;
-	private ArrayList<int[]> storedTests = new ArrayList<int[]>();
+	private ArrayList<int[]> storedTests; 
 	
+	public AI() {
+		storedTests = new ArrayList<int[]>();
+	}
 	
 	@Override
 	public void checkCombination(Combination combinationToFind) {
@@ -86,12 +89,24 @@ public class AI implements Player {
 			} else if (responseValue[i].equals("-")) {
 				int max = lastTest[i];
 				int min = getMinLimit(i, max);
-				//TODO test case when min and max are equals or inverted => is inconsistent
-				guessCombination[i] = this.setRandomNumber(min, max);
+				try {
+					//catch when min and max are equals or inverted => is inconsistent
+					guessCombination[i] = this.setRandomNumber(min, max);
+				} catch (IllegalArgumentException e) {
+					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : - "
+							+ " alors que le dernier plus grand chiffre inférieur à " +  lastTest[i] + " était " + (min-1);
+					throw new InconsistencyDetectedByAIException(message);
+				}
 			} else if (responseValue[i].equals("+")) {
 				int min = lastTest[i] + 1 ;
 				int max = getMaxLimit(i, lastTest[i]);
-				guessCombination[i] =  this.setRandomNumber(min, max);
+				try {
+					guessCombination[i] =  this.setRandomNumber(min, max);
+				} catch (IllegalArgumentException e) {
+					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : + "
+							+ " alors que le dernier plus petit chiffre inférieur à " +  lastTest[i] + " était " + (max);
+					throw new InconsistencyDetectedByAIException(message);
+				}
 			}
 					
 		}
@@ -244,17 +259,16 @@ public class AI implements Player {
 	 * @return
 	 */
 	private int setRandomNumber(int min, int max) {
-		int number;
-		if(min == max) {
-			number = min;
-		} else {
-			Random random = new Random();
-			number = random.ints(1,min,max).findFirst().getAsInt();
-		}
-		
-		
+		Random random = new Random();
+		int number = random.ints(1,min,max).findFirst().getAsInt();
 		return number;
-	
+	}
+
+	/**
+	 * Reset AI roperties
+	 */
+	public void reset() {
+		storedTests = new ArrayList<int[]>();
 	}
 
 }

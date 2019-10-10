@@ -22,9 +22,9 @@ public class Menu {
 	 * Display the menu
 	 */
 	public void display() {
-		msgManager.printInfo(this.menuTitle);
+		msgManager.printLineInfo(this.menuTitle);
 		for(int i = 0; i < menuOptions.size(); i++) {
-			msgManager.printInfo((i+1) + " - " + menuOptions.get(i));
+			msgManager.printLineInfo((i+1) + " - " + menuOptions.get(i));
 		}
 		
 	}
@@ -52,7 +52,7 @@ public class Menu {
 	private void checkifExitProgram(int choice) {
 		//@TODO change to better process : here based on convention ie last option is for exit
 		if(choice == menuOptions.size()) {
-			msgManager.printInfo("Bye bye !");
+			msgManager.printLineInfo("Bye bye !");
 			msgManager.logInfo("Sortie du programme");
 			System.exit(0);
 		}
@@ -79,7 +79,7 @@ public class Menu {
             if( responseCheck ) {
                 msgManager.logInfo("Item sélectionné : " + selectedItem + " = " + menuOptions.get(selectedItem - 1));
             } else {
-            	msgManager.printInfo("Vous n'avez pas choisi une option de menu valide");
+            	msgManager.printLineInfo("Vous n'avez pas choisi une option de menu valide");
                 msgManager.logInfo("Option de menu invalide : " + selectedItem);  
             }
         } while ( ! responseCheck  );

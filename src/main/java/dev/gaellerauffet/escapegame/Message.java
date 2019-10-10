@@ -19,7 +19,7 @@ public class Message {
 	 * Print a message in standard output
 	 * @param string
 	 */
-	public void printInfo(String msg) {
+	public void printLineInfo(String msg) {
 		System.out.println(msg);
 		
 	}
@@ -39,6 +39,11 @@ public class Message {
 	 */
 	public void logError(String msg) {
 		logger.error(msg);
+	}
+
+	public void printInfo(String msg) {
+		System.out.print(msg);
+		
 	}
 	
 	
