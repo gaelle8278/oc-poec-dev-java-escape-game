@@ -104,7 +104,7 @@ public class AI implements Player {
 					guessCombination[i] =  this.setRandomNumber(min, max);
 				} catch (IllegalArgumentException e) {
 					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : + "
-							+ " alors que le dernier plus petit chiffre inférieur à " +  lastTest[i] + " était " + (max);
+							+ " alors que le dernier plus petit chiffre supérieur à " +  lastTest[i] + " était " + (max);
 					throw new InconsistencyDetectedByAIException(message);
 				}
 			}

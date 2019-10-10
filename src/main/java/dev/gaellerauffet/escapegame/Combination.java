@@ -28,7 +28,7 @@ public class Combination {
 				}
 			} 
 		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir au maximum " + length + " chiffres.");
+			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir " + length + " chiffres.");
 		}	
 		
 		this.checkContentGuessValue();
@@ -45,7 +45,7 @@ public class Combination {
 				this.responseValue[i] = String.valueOf(strResponse.charAt(i));
 			}
 		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalItemDoneByUser("La réponse proposée doit contenir au maximum " + length + " caractères (parmi +, - et =).");
+			throw new IllegalItemDoneByUser("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		this.checkContentResponseValue();
 		this.checkConsistencyResponseValue();
@@ -60,9 +60,9 @@ public class Combination {
 	 */
 	private void checkLengthGuessValue(String strCombination) {
 		if(strCombination.length() > length) {
-			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir au maximum " + length + " chiffres.");
-		} else if(strCombination.length() > length) {
-			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir au minimum " + length + " chiffres.");
+			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir " + length + " chiffres.");
+		} else if(strCombination.length() < length) {
+			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir " + length + " chiffres.");
 		}
 		 
 	}
@@ -73,9 +73,9 @@ public class Combination {
 	 */
 	private void checkLengthResponseValue(String strResponse) {
 		if(strResponse.length() > length) {
-			throw new IllegalItemDoneByUser("La réponse proposée doit contenir au maximum" + length + " caractères (parmi +, - et =).");
-		} else if(strResponse.length() > length) {
-			throw new IllegalItemDoneByUser("La réponse proposée doit contenir au minimum" + length + " caractères (parmi +, - et =).");
+			throw new IllegalItemDoneByUser("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+		} else if(strResponse.length() < length) {
+			throw new IllegalItemDoneByUser("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		 
 	}
