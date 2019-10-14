@@ -1,4 +1,6 @@
-package dev.gaellerauffet.escapegame;
+package dev.gaellerauffet.escapegame.game;
+
+import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
 
 public class Combination {
 	private int length;
@@ -28,7 +30,7 @@ public class Combination {
 				}
 			} 
 		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir " + length + " chiffres.");
+			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
 		}	
 		
 		this.checkContentGuessValue();
@@ -45,7 +47,7 @@ public class Combination {
 				this.responseValue[i] = String.valueOf(strResponse.charAt(i));
 			}
 		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalItemDoneByUser("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		this.checkContentResponseValue();
 		this.checkConsistencyResponseValue();
@@ -60,9 +62,9 @@ public class Combination {
 	 */
 	private void checkLengthGuessValue(String strCombination) {
 		if(strCombination.length() > length) {
-			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir " + length + " chiffres.");
+			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
 		} else if(strCombination.length() < length) {
-			throw new IllegalItemDoneByUser("La combinaison proposée doit contenir " + length + " chiffres.");
+			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
 		}
 		 
 	}
@@ -73,9 +75,9 @@ public class Combination {
 	 */
 	private void checkLengthResponseValue(String strResponse) {
 		if(strResponse.length() > length) {
-			throw new IllegalItemDoneByUser("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		} else if(strResponse.length() < length) {
-			throw new IllegalItemDoneByUser("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		 
 	}
@@ -90,7 +92,7 @@ public class Combination {
 			// check value between 0 to 9
 			if(guessValue[i] < 0 || guessValue[i] >= 10) {
 				// throw Exception
-				throw new IllegalItemDoneByUser("La combinaison proposée ne doit contenir que des entiers compris entre 0 et 9.");
+				throw new IllegalItemException("La combinaison proposée ne doit contenir que des entiers compris entre 0 et 9.");
 			} 
 			
 		} 
@@ -106,7 +108,7 @@ public class Combination {
 			// check character among +, - and =
 			if(!responseValue[i].equals("-") && !responseValue[i].equals("+") && !responseValue[i].equals("=")) {
 				// throw Exception
-				throw new IllegalItemDoneByUser("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
+				throw new IllegalItemException("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
 			} 
 			
 		} 
@@ -120,10 +122,10 @@ public class Combination {
 		for (int i = 0; i < guessValue.length; i++) {
 			if(guessValue[i] == 0 && responseValue[i].equals("-")) {
 				//check consistency between - and 0
-				throw new IllegalItemDoneByUser("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+				throw new IllegalItemException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
 			} else if (guessValue[i] == 9 && responseValue[i].equals("+")) {
 				//check consistency between + and 9
-				throw new IllegalItemDoneByUser("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 9, la réponse ne peut pas être \"+\".");
+				throw new IllegalItemException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 9, la réponse ne peut pas être \"+\".");
 			}
 		}
 		

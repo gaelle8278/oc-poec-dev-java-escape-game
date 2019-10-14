@@ -1,5 +1,8 @@
 package dev.gaellerauffet.escapegame;
 
+import dev.gaellerauffet.escapegame.game.Game;
+import dev.gaellerauffet.escapegame.util.Message;
+
 public class Main {
 	
 	public static void main(String[] args) {

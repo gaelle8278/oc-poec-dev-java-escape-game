@@ -1,8 +1,10 @@
-package dev.gaellerauffet.escapegame;
+package dev.gaellerauffet.escapegame.config;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
 
 
 
@@ -40,18 +42,18 @@ public class PropertiesLoader {
 	/**
 	 * Get "modeDevelopper" prrperty value
 	 * @return
-	 * @throws IllegalGamePropertiesValue 
+	 * @throws IllegalPropertiesValueException 
 	 */
-	public int getModeDev() throws IllegalGamePropertiesValue {
+	public int getModeDev() throws IllegalPropertiesValueException {
 		int modeDev = -1;
 	
 		try {
 			modeDev = Integer.parseInt(this.getPropValue("modeDeveloper"));
 			if(modeDev !=0 && modeDev!=1) {
-				throw new IllegalGamePropertiesValue("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
+				throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalGamePropertiesValue("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
+			throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
 		}
 		return modeDev;
 		
@@ -60,17 +62,17 @@ public class PropertiesLoader {
 	/**
 	 * Get "numberTests" property value
 	 * @return
-	 * @throws IllegalGamePropertiesValue 
+	 * @throws IllegalPropertiesValueException 
 	 */
-	public int getNumberTests() throws IllegalGamePropertiesValue {
+	public int getNumberTests() throws IllegalPropertiesValueException {
 		int nbTests = -1;
 		try {
 			nbTests= Integer.parseInt(this.getPropValue("numberTests"));
 			if(nbTests < 0 || nbTests > 20) {
-				throw new IllegalGamePropertiesValue("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
+				throw new IllegalPropertiesValueException("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalGamePropertiesValue("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
+			throw new IllegalPropertiesValueException("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
 		}
 		return nbTests;
 	}
@@ -79,17 +81,17 @@ public class PropertiesLoader {
 	/**
 	 * Get "combinationLength" property value
 	 * @return
-	 * @throws IllegalGamePropertiesValue 
+	 * @throws IllegalPropertiesValueException 
 	 */
-	public int getCombinationLength() throws IllegalGamePropertiesValue {
+	public int getCombinationLength() throws IllegalPropertiesValueException {
 		int combinationLength =  -1;
 		try { 
 			combinationLength = Integer.parseInt(getPropValue("combinationLength"));
 			if(combinationLength < 0 || combinationLength > 10) {
-				throw new IllegalGamePropertiesValue("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
+				throw new IllegalPropertiesValueException("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalGamePropertiesValue("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
+			throw new IllegalPropertiesValueException("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
 		}
 		return combinationLength;
 	}

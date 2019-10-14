@@ -1,8 +1,17 @@
-package dev.gaellerauffet.escapegame;
+package dev.gaellerauffet.escapegame.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import dev.gaellerauffet.escapegame.config.PropertiesLoader;
+import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
+import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
+import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
+import dev.gaellerauffet.escapegame.players.impl.AI;
+import dev.gaellerauffet.escapegame.players.impl.Human;
+import dev.gaellerauffet.escapegame.util.Menu;
+import dev.gaellerauffet.escapegame.util.Message;
 
 public class Game {
 	int modeDev;
@@ -38,7 +47,7 @@ public class Game {
 			modeDev=gameProps.getModeDev();
 			nbTests=gameProps.getNumberTests();
 			combinationLength=gameProps.getCombinationLength();
-		} catch (IllegalGamePropertiesValue e) {
+		} catch (IllegalPropertiesValueException e) {
 			gameMsg.printLineInfo("Paramètres du jeu non valide : " + e.getMessage() + ". Sortie du programme.");
 			gameMsg.logError("Paramètres du jeu non valides. " + e.getMessage() + ". Sortie du programme.");
 			System.exit(0);
@@ -189,7 +198,7 @@ public class Game {
 				
 				//new test if proposition is well-formatted
 				currentTest++;
-			} catch (IllegalItemDoneByUser e) {
+			} catch (IllegalItemException e) {
 				//catch custom array if try to get char into int array
 				gameMsg.printLineInfo( e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
@@ -243,14 +252,14 @@ public class Game {
 								
 				//new test 
 				currentTest++;
-			} catch (InconsistencyDetectedByAIException e) {
+			} catch (InconsistencyException e) {
 				gameMsg.printLineInfo(e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				//reset responseValue
 				combinationToFind.resetResponseValue();
 				//given back a try (because exception is raised the next round after human response)
 				currentTest--;
-			} catch (IllegalItemDoneByUser e){
+			} catch (IllegalItemException e){
 				gameMsg.printLineInfo(e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				//reset responseValue
@@ -325,14 +334,14 @@ public class Game {
 				//3d - a test is lost
 				this.currentTest++;
 				
-			}  catch (InconsistencyDetectedByAIException e) {
+			}  catch (InconsistencyException e) {
 				gameMsg.printLineInfo(e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				//reset responseValue
 				humanCombination.resetResponseValue();
 				//given back a try (because exception is raised the next round after human response)
 				currentTest--;
-			} catch (IllegalItemDoneByUser e) {
+			} catch (IllegalItemException e) {
 				gameMsg.printLineInfo(e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				humanCombination.resetResponseValue();

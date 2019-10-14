@@ -1,4 +1,4 @@
-package dev.gaellerauffet.escapegame;
+package dev.gaellerauffet.escapegame.util;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

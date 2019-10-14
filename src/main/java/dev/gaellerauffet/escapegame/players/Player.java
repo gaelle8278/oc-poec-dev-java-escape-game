@@ -1,4 +1,6 @@
-package dev.gaellerauffet.escapegame;
+package dev.gaellerauffet.escapegame.players;
+
+import dev.gaellerauffet.escapegame.game.Combination;
 
 public interface Player {
 	

@@ -1,9 +1,13 @@
-package dev.gaellerauffet.escapegame;
+package dev.gaellerauffet.escapegame.players.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.OptionalInt;
 import java.util.Random;
+
+import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
+import dev.gaellerauffet.escapegame.game.Combination;
+import dev.gaellerauffet.escapegame.players.Player;
 
 /**
  * 
@@ -95,7 +99,7 @@ public class AI implements Player {
 				} catch (IllegalArgumentException e) {
 					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : - "
 							+ " alors que le dernier plus grand chiffre inférieur à " +  lastTest[i] + " était " + (min-1);
-					throw new InconsistencyDetectedByAIException(message);
+					throw new InconsistencyException(message);
 				}
 			} else if (responseValue[i].equals("+")) {
 				int min = lastTest[i] + 1 ;
@@ -105,7 +109,7 @@ public class AI implements Player {
 				} catch (IllegalArgumentException e) {
 					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : + "
 							+ " alors que le dernier plus petit chiffre supérieur à " +  lastTest[i] + " était " + (max);
-					throw new InconsistencyDetectedByAIException(message);
+					throw new InconsistencyException(message);
 				}
 			}
 					
