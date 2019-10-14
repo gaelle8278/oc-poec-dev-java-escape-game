@@ -32,19 +32,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+					<includeScope>runtime</includeScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
