@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.OptionalInt;
 import java.util.Random;
 
+import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
 import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
 import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.players.Player;
@@ -91,6 +92,9 @@ public class AI implements Player {
 			if(responseValue[i].equals("=") ) {
 				guessCombination[i] = lastTest[i];
 			} else if (responseValue[i].equals("-")) {
+				if(lastTest[i] == 0 ) {
+					throw new InconsistencyException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+				}
 				int max = lastTest[i];
 				int min = getMinLimit(i, max);
 				try {
@@ -102,6 +106,9 @@ public class AI implements Player {
 					throw new InconsistencyException(message);
 				}
 			} else if (responseValue[i].equals("+")) {
+				if(lastTest[i] == 9 ) {
+					throw new InconsistencyException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+				}
 				int min = lastTest[i] + 1 ;
 				int max = getMaxLimit(i, lastTest[i]);
 				try {

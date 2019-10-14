@@ -50,7 +50,6 @@ public class Combination {
 			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		this.checkContentResponseValue();
-		this.checkConsistencyResponseValue();
 		
 		
 	}
@@ -61,11 +60,9 @@ public class Combination {
 	 * @param strCombination
 	 */
 	private void checkLengthGuessValue(String strCombination) {
-		if(strCombination.length() > length) {
+		if(strCombination.length() != length) {
 			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
-		} else if(strCombination.length() < length) {
-			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
-		}
+		} 
 		 
 	}
 	
@@ -74,11 +71,9 @@ public class Combination {
 	 * @param strCombination
 	 */
 	private void checkLengthResponseValue(String strResponse) {
-		if(strResponse.length() > length) {
+		if(strResponse.length() != length) {
 			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
-		} else if(strResponse.length() < length) {
-			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
-		}
+		} 
 		 
 	}
 
@@ -117,7 +112,7 @@ public class Combination {
 	/**
 	 * Check consistency between given combination value and response
 	 */
-	private void checkConsistencyResponseValue() {
+	/*private void checkConsistencyResponseValue() {
 		//for each number of a a given guess value
 		for (int i = 0; i < guessValue.length; i++) {
 			if(guessValue[i] == 0 && responseValue[i].equals("-")) {
@@ -129,7 +124,7 @@ public class Combination {
 			}
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * Check if the test to guess combination value is good or not

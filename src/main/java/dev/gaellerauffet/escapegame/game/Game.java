@@ -236,15 +236,15 @@ public class Game {
 		
 		//3- ai try to guess the combination = until the answer is good or there is no more test
 		boolean responseIsGood = false;
+		
 		currentTest = 0;
 		while(currentTest < nbTests && !responseIsGood) {
 			try {
-				
 				askATestToAI(combinationToFind);
 				askResponseToHuman(combinationToFind);
-				
+					
 				responseIsGood = combinationToFind.checkTest();
-								
+				
 				//messages
 				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
 				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
@@ -308,6 +308,7 @@ public class Game {
 		boolean responseAIIsGood = false;
 		currentTest = 0;
 		while(this.currentTest < nbTests && !responseHumanIsGood && !responseAIIsGood) {
+			
 			try {
 				//3a - human do a test and ai evaluate the test
 				askATestToHuman(aiCombination);
@@ -346,6 +347,9 @@ public class Game {
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				humanCombination.resetResponseValue();
 			}
+				
+			
+			
 			
 		}
 		
