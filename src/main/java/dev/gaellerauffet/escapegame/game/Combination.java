@@ -109,22 +109,6 @@ public class Combination {
 		} 
 	}
 	
-	/**
-	 * Check consistency between given combination value and response
-	 */
-	/*private void checkConsistencyResponseValue() {
-		//for each number of a a given guess value
-		for (int i = 0; i < guessValue.length; i++) {
-			if(guessValue[i] == 0 && responseValue[i].equals("-")) {
-				//check consistency between - and 0
-				throw new IllegalItemException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
-			} else if (guessValue[i] == 9 && responseValue[i].equals("+")) {
-				//check consistency between + and 9
-				throw new IllegalItemException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 9, la réponse ne peut pas être \"+\".");
-			}
-		}
-		
-	}*/
 	
 	/**
 	 * Check if the test to guess combination value is good or not

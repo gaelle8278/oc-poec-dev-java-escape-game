@@ -155,7 +155,7 @@ public class Game {
 		boolean setMode = false;
 		if (this.endOption == 2 ) {
 			//selected an another game mode
-			setMode = true;;
+			setMode = true;
 		} 
 		run(setMode);
 		
@@ -242,7 +242,7 @@ public class Game {
 			try {
 				askATestToAI(combinationToFind);
 				askResponseToHuman(combinationToFind);
-					
+				ai.checkConsistentResponse(combinationToFind);	
 				responseIsGood = combinationToFind.checkTest();
 				
 				//messages
@@ -258,7 +258,7 @@ public class Game {
 				//reset responseValue
 				combinationToFind.resetResponseValue();
 				//given back a try (because exception is raised the next round after human response)
-				currentTest--;
+				//currentTest--;
 			} catch (IllegalItemException e){
 				gameMsg.printLineInfo(e.getMessage());
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
@@ -306,47 +306,63 @@ public class Game {
 		//3 - ai and human try to guess the combination = until one give the good answer or there is no more test
 		boolean responseHumanIsGood = false;
 		boolean responseAIIsGood = false;
+		
 		currentTest = 0;
 		while(this.currentTest < nbTests && !responseHumanIsGood && !responseAIIsGood) {
-			
-			try {
-				//3a - human do a test and ai evaluate the test
-				askATestToHuman(aiCombination);
-				askResponseToAI(aiCombination);
-				
-				//log 3a
-				String strCombinationTestHuman = aiCombination.valueToString(aiCombination.getGuessValue());
-				String strResponseAI = aiCombination.valueToString(aiCombination.getResponseValue());
-				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTestHuman + "/ Réponse faite par l'IA " + strResponseAI);
-				
-				//3b - ai do a test and human evaluate the test
-				askATestToAI(humanCombination);
-				askResponseToHuman(humanCombination);
-				
-				//log 3b
-				String strCombinationTestAI = humanCombination.valueToString(humanCombination.getGuessValue());
-				String strResponseHuman = humanCombination.valueToString(humanCombination.getResponseValue());
-				gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTestAI + " / Réponse faite par le joueur " + strResponseHuman);
-				
-				//3c - checks if the tests done are good
-				responseAIIsGood = humanCombination.checkTest();
-				responseHumanIsGood = aiCombination.checkTest();
-				
-				//3d - a test is lost
-				this.currentTest++;
-				
-			}  catch (InconsistencyException e) {
-				gameMsg.printLineInfo(e.getMessage());
-				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
-				//reset responseValue
-				humanCombination.resetResponseValue();
-				//given back a try (because exception is raised the next round after human response)
-				currentTest--;
-			} catch (IllegalItemException e) {
-				gameMsg.printLineInfo(e.getMessage());
-				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
-				humanCombination.resetResponseValue();
+			boolean validHumanTest = false;
+			boolean validHumanResponse = false;
+			while(!validHumanTest) {
+				try {
+					//3a - human do a test and ai evaluate the test
+					
+					askATestToHuman(aiCombination);
+					askResponseToAI(aiCombination);
+					
+					//log 3a
+					String strCombinationTestHuman = aiCombination.valueToString(aiCombination.getGuessValue());
+					String strResponseAI = aiCombination.valueToString(aiCombination.getResponseValue());
+					gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTestHuman + "/ Réponse faite par l'IA " + strResponseAI);
+					validHumanTest = true;
+				} catch (IllegalItemException e) {
+					gameMsg.printLineInfo(e.getMessage());
+					gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
+					humanCombination.resetResponseValue();
+				}
 			}
+			
+			while(!validHumanResponse) {
+				try {
+					//3b - ai do a test and human evaluate the test
+					askATestToAI(humanCombination);
+					askResponseToHuman(humanCombination);
+					ai.checkConsistentResponse(humanCombination);
+					
+					//log 3b
+					String strCombinationTestAI = humanCombination.valueToString(humanCombination.getGuessValue());
+					String strResponseHuman = humanCombination.valueToString(humanCombination.getResponseValue());
+					gameMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTestAI + " / Réponse faite par le joueur " + strResponseHuman);
+				
+					validHumanResponse =true;
+				}  catch (InconsistencyException e) {
+					gameMsg.printLineInfo(e.getMessage());
+					gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
+					//reset responseValue
+					humanCombination.resetResponseValue();
+				} catch (IllegalItemException e) {
+					gameMsg.printLineInfo(e.getMessage());
+					gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
+					humanCombination.resetResponseValue();
+				}
+			}
+				
+			//3c - checks if the tests done are good
+			responseAIIsGood = humanCombination.checkTest();
+			responseHumanIsGood = aiCombination.checkTest();
+				
+			//3d - a test is lost
+			this.currentTest++;
+				
+			
 				
 			
 			
@@ -361,10 +377,10 @@ public class Game {
 			gameMsg.printLineInfo("Le joueur a gagné. Il a trouvé la combinaison définit par l'IA.");
 			gameMsg.logInfo("Fin de partie mode Duel : le joueur a gagné, il a trouvé la combinaison définit par l'IA.");
 		} else if (responseAIIsGood){
-			gameMsg.printLineInfo("L'IA a gagné. L'IA a trouvé la combinaison définit par le joueur.");
+			gameMsg.printLineInfo("L'IA a gagné. L'IA a trouvé la combinaison définit par le joueur. La combinaison définit par l'IA était : " + strCombination);
 			gameMsg.logInfo("Fin de partie mode Duel : l'IA a gagné, elle a trouvé la combinaison définit par l'IA.");
 		} else {
-			gameMsg.printLineInfo("Aucun gagant. Personne n'a trouvé la cominaison secrète.");
+			gameMsg.printLineInfo("Aucun gagant. Personne n'a trouvé la cominaison secrète. La combinaison définit par l'IA était : " + strCombination);
 			gameMsg.logInfo("Fin de partie mode Duel : personne n'a gagné.");
 		}
 	}

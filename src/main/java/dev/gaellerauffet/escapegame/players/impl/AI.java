@@ -66,6 +66,47 @@ public class AI implements Player {
 		}
 		
 	}
+	
+	/**
+	 * Method that check consistency between a combination value and the given response
+	 * 
+	 * @param combination
+	 */
+	public void checkConsistentResponse(Combination combination) {
+		int[] test = combination.getGuessValue();
+		String[] responseValue = combination.getResponseValue();
+		for (int i = 0; i < test.length; i++) {
+			if (responseValue[i].equals("-")) {
+				if(test[i] == 0 ) {
+					throw new InconsistencyException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+				} else {
+					int max = test[i];
+					int min = getMinLimit(i, max);
+					if(min == max) {
+						String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par IA = " + test[i] + ", réponse donnée par joueur : - "
+								+ " alors que le dernier plus grand chiffre inférieur à " +  test[i] + " était " + (min-1);
+						throw new InconsistencyException(message);
+					}
+				}
+			} else if (responseValue[i].equals("+")) {
+				if(test[i] == 9 ) {
+					throw new InconsistencyException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+				} else {
+					int min = test[i] + 1 ;
+					int max = getMaxLimit(i, test[i]);
+					if(min==max) {
+						String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + test[i] + ", réponse donnée par joueur : + "
+								+ " alors que le dernier plus petit chiffre supérieur à " +  test[i] + " était " + (max);
+						throw new InconsistencyException(message);
+					}
+				}
+				
+				
+			}
+		}
+		
+		
+	}
 
 	/** 
 	 * Define a value for combination
@@ -92,32 +133,17 @@ public class AI implements Player {
 			if(responseValue[i].equals("=") ) {
 				guessCombination[i] = lastTest[i];
 			} else if (responseValue[i].equals("-")) {
-				if(lastTest[i] == 0 ) {
-					throw new InconsistencyException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
-				}
+				
 				int max = lastTest[i];
 				int min = getMinLimit(i, max);
-				try {
-					//catch when min and max are equals or inverted => is inconsistent
-					guessCombination[i] = this.setRandomNumber(min, max);
-				} catch (IllegalArgumentException e) {
-					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : - "
-							+ " alors que le dernier plus grand chiffre inférieur à " +  lastTest[i] + " était " + (min-1);
-					throw new InconsistencyException(message);
-				}
+				//catch when min and max are equals or inverted => is inconsistent
+				guessCombination[i] = this.setRandomNumber(min, max);
+				
 			} else if (responseValue[i].equals("+")) {
-				if(lastTest[i] == 9 ) {
-					throw new InconsistencyException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
-				}
 				int min = lastTest[i] + 1 ;
 				int max = getMaxLimit(i, lastTest[i]);
-				try {
-					guessCombination[i] =  this.setRandomNumber(min, max);
-				} catch (IllegalArgumentException e) {
-					String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + lastTest[i] + ", réponse donnée par joueur : + "
-							+ " alors que le dernier plus petit chiffre supérieur à " +  lastTest[i] + " était " + (max);
-					throw new InconsistencyException(message);
-				}
+				guessCombination[i] =  this.setRandomNumber(min, max);
+				
 			}
 					
 		}
@@ -276,10 +302,12 @@ public class AI implements Player {
 	}
 
 	/**
-	 * Reset AI roperties
+	 * Reset AI properties
 	 */
 	public void reset() {
 		storedTests = new ArrayList<int[]>();
 	}
+
+	
 
 }
