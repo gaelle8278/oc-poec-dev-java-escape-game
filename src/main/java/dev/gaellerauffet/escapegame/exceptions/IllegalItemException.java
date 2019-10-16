@@ -2,10 +2,6 @@ package dev.gaellerauffet.escapegame.exceptions;
 
 public class IllegalItemException  extends RuntimeException {
 
-	public IllegalItemException(String message) {
-		super(message);
-	}
-
 	public IllegalItemException() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -22,10 +18,17 @@ public class IllegalItemException  extends RuntimeException {
 		// TODO Auto-generated constructor stub
 	}
 
+	public IllegalItemException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
 	public IllegalItemException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
+
+	
 	
 	
 

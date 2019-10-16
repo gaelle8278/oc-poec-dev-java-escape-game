@@ -14,9 +14,16 @@ public interface Player {
 	public void checkCombination(Combination combinationToFind);
 	
 	/**
-	 * Defines a guess value of combination
+	 * Defines a test value of combination
 	 * 
 	 * @return
 	 */
 	public void guessCombination(Combination combinationToFind);
+
+	/**
+	 * Defines the combination value
+	 * 
+	 * @param combination
+	 */
+	void setValueCombination(Combination combination);
 }

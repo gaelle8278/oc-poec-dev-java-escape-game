@@ -19,11 +19,11 @@ public class DisplayMessage implements Message {
 	
 	
 	public void errorLine(String msg) {
-		System.out.print(msg);
+		System.out.println(msg);
 	}
 	
 	public void errorLine(String msg, Exception e) {
-		System.out.print(msg + e.getStackTrace());
+		System.out.println(msg + e.getStackTrace());
 	}
 	
 	

@@ -124,65 +124,6 @@ public class Game {
 		
 	}
 
-	
-
-	/**
-	 * Manage the "challenger" mode of the game
-	 */
-	/*private void runChallengerMode() {
-		displayMsg.printLineInfo("Démarrage mode Challengeur");
-		displayMsg.logInfo("Mode de jeu : Challengeur");
-		
-		//1- set required elements to play "challenger" mode : 1 combination
-		Combination combinationToFind = new Combination(combinationLength);
-		
-		//2- the aiPlayer set the value for combination
-		setValueForCombination(combinationToFind);
-		String strCombination = combinationToFind.valueToString(combinationToFind.getValue());
-		// display value of combination if necessary
-		if(modeDev == 1) {
-			displayMsg.printLineInfo("(combinaison secrète : " + strCombination + ")");
-		}
-		// log value of combination
-		displayMsg.logInfo("combinaison définit par l'IA : " + strCombination);
-		
-		//3- humanPlayer try to guess the combination = until the answer is good or there is no more test
-		boolean responseIsGood = false;
-		currentTest = 0;
-		while(currentTest < nbTests && !responseIsGood) {
-			try {
-				askATestToHuman(combinationToFind);
-				askResponseToAI(combinationToFind);
-				
-				//log 
-				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
-				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
-				displayMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + strCombinationTest + " / Réponse faites par l'IA " + strResponseCombination);
-				
-				responseIsGood = combinationToFind.checkTest();
-				
-				//new test if proposition is well-formatted
-				currentTest++;
-			} catch (IllegalItemException e) {
-				//catch custom array if try to get char into int array
-				displayMsg.printLineInfo( e.getMessage());
-				displayMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
-			}
-			
-		}
-		
-		if(responseIsGood) {
-			displayMsg.printLineInfo("Combinaison trouvée ! Le joueur a gagné.");
-			displayMsg.logInfo("Fin de partie mode Challenger : le joueur a gagné. Il a trouvé la combinaison.");
-		} else {
-			displayMsg.printLineInfo("Le joueur a perdu. La combinaison était : " +  strCombination);
-			displayMsg.logInfo("Fin de partie mode Challenger : le joueur a perdu. Il n'a pas trouvé la combinaison.");
-		}
-	}*/
-	
-	
-
-
 	/**
 	 * Manage the "Défenseur" mode
 	 */

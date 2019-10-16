@@ -22,5 +22,9 @@ public class HumanPlayer implements Player{
 		
 	}
 
+	@Override
+	public void setValueCombination(Combination combination) {
+		//human player set value of combination in his head
+	}
 	
 }

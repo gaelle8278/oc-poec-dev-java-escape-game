@@ -73,7 +73,6 @@ public abstract class Menu {
 		if(! menuOptions.containsKey(selectedItem.toUpperCase()) ) {
 			throw new MenuOptionException();
 		}
-		
 	};
 
 }

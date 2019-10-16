@@ -1,20 +1,28 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
+import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.mode.Mode;
+import dev.gaellerauffet.escapegame.player.Player;
+import dev.gaellerauffet.escapegame.util.Formater;
 
 public class DefenderMode implements Mode {
-	int modeDev;
-	int combinationLength;
-	int nbTests;
-	DisplayMessage displayMsg;
-	LogMessage logMsg;
+	private int modeDev;
+	private int nbTests;
+	private Player humanPlayer;
+	private Player aiPlayer;
+	private Combination combinationHumanPlayer;
+	private DisplayMessage displayMsg;
+	private LogMessage logMsg;
+	private Formater formater;
 
-	public DefenderMode(int nbTests, int combinationLength, int modeDev) {
+	public DefenderMode(Player humanPlayer, Player aiPlayer, int nbTests, int combinationLength, int modeDev) {
 		this.nbTests = nbTests;
-		this.combinationLength = combinationLength;
 		this.modeDev = modeDev;
+		this.humanPlayer = humanPlayer;
+		this.aiPlayer = aiPlayer;
+		this.combinationHumanPlayer = new Combination(combinationLength); 
 		this.displayMsg = new DisplayMessage();
 		this.logMsg = new LogMessage();
 		
@@ -22,8 +30,9 @@ public class DefenderMode implements Mode {
 
 	@Override
 	public void run() {
-		displayMsg.infoLine("Mode défenseur");
+		// TODO Auto-generated method stub
 		
 	}
+
 
 }
