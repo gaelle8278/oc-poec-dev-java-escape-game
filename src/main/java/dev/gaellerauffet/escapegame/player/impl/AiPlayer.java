@@ -1,4 +1,4 @@
-package dev.gaellerauffet.escapegame.players.impl;
+package dev.gaellerauffet.escapegame.player.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,18 +8,18 @@ import java.util.Random;
 import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
 import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
 import dev.gaellerauffet.escapegame.game.Combination;
-import dev.gaellerauffet.escapegame.players.Player;
+import dev.gaellerauffet.escapegame.player.Player;
 
 /**
  * 
  * @author gaelle
  *
  */
-public class AI implements Player {
+public class AiPlayer implements Player {
 	//int[][] storedTests;
 	private ArrayList<int[]> storedTests; 
 	
-	public AI() {
+	public AiPlayer() {
 		storedTests = new ArrayList<int[]>();
 	}
 	
@@ -61,7 +61,7 @@ public class AI implements Player {
 			// guess value is set to combination
 			combinationToFind.setGuessValue(guessCombination);
 		
-			// add the new combination to the ai tests stock
+			// add the new combination to the aiPlayer tests stock
 			storedTests.add(guessCombination);
 		}
 		
@@ -95,7 +95,7 @@ public class AI implements Player {
 					int min = test[i] + 1 ;
 					int max = getMaxLimit(i, test[i]);
 					if(min==max) {
-						String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AI = " + test[i] + ", réponse donnée par joueur : + "
+						String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AiPlayer = " + test[i] + ", réponse donnée par joueur : + "
 								+ " alors que le dernier plus petit chiffre supérieur à " +  test[i] + " était " + (max);
 						throw new InconsistencyException(message);
 					}
@@ -302,7 +302,7 @@ public class AI implements Player {
 	}
 
 	/**
-	 * Reset AI properties
+	 * Reset AiPlayer properties
 	 */
 	public void reset() {
 		storedTests = new ArrayList<int[]>();

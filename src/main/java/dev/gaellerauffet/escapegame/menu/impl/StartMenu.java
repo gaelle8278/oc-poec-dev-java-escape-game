@@ -1,19 +1,22 @@
-package dev.gaellerauffet.escapegame.util;
+package dev.gaellerauffet.escapegame.menu.impl;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Menu {
-	private Message msgManager = new Message();
+import dev.gaellerauffet.escapegame.menu.Menu;
+import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
+
+public class StartMenu extends Menu {
+	private DisplayMessage msgManager = new DisplayMessage();
 	private Scanner sc = new Scanner(System.in);
 	
 	private String menuTitle;
 	private List<String> menuOptions = new ArrayList<String>();
 	
 
-	public Menu(String title, List<String> options) {
+	public StartMenu(String title, List<String> options) {
 		this.menuTitle = title;
 		this.menuOptions = options;
 	}

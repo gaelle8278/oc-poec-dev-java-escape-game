@@ -1,10 +1,10 @@
-package dev.gaellerauffet.escapegame.util;
+package dev.gaellerauffet.escapegame.message.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Message {
-	private static final Logger logger = LogManager.getLogger(Message.class);
+public class DisplayMessage {
+	private static final Logger logger = LogManager.getLogger(DisplayMessage.class);
 
 	/**
 	 * Add a message in log system with level INFO

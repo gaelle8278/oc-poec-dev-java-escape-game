@@ -53,7 +53,7 @@ public class PropertiesLoader {
 				throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
+			throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1", e);
 		}
 		return modeDev;
 		

@@ -1,11 +1,11 @@
-package dev.gaellerauffet.escapegame.players.impl;
+package dev.gaellerauffet.escapegame.player.impl;
 
 import java.util.Scanner;
 
 import dev.gaellerauffet.escapegame.game.Combination;
-import dev.gaellerauffet.escapegame.players.Player;
+import dev.gaellerauffet.escapegame.player.Player;
 
-public class Human implements Player{
+public class HumanPlayer implements Player{
 	private Scanner sc = new Scanner(System.in); 
 	
 	@Override

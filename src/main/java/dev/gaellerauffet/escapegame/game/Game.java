@@ -8,10 +8,10 @@ import dev.gaellerauffet.escapegame.config.PropertiesLoader;
 import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
 import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
 import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
-import dev.gaellerauffet.escapegame.players.impl.AI;
-import dev.gaellerauffet.escapegame.players.impl.Human;
-import dev.gaellerauffet.escapegame.util.Menu;
-import dev.gaellerauffet.escapegame.util.Message;
+import dev.gaellerauffet.escapegame.menu.impl.StartMenu;
+import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
+import dev.gaellerauffet.escapegame.player.impl.AiPlayer;
+import dev.gaellerauffet.escapegame.player.impl.HumanPlayer;
 
 public class Game {
 	int modeDev;
@@ -20,17 +20,17 @@ public class Game {
 	int currentTest = 0;
 	int gameMode;
 	int endOption;
-	AI ai;
-	Human human;
-	Message gameMsg;
-	Menu startMenu;
-	Menu endMenu;
+	AiPlayer aiPlayer;
+	HumanPlayer humanPlayer;
+	DisplayMessage gameMsg;
+	StartMenu startMenu;
+	StartMenu endMenu;
 	
 	public Game() {
-		gameMsg = new Message();
+		gameMsg = new DisplayMessage();
 		loadConfig();
-		ai = new AI();
-		human = new Human();
+		aiPlayer = new AiPlayer();
+		humanPlayer = new HumanPlayer();
 		this.setStartMenu();
 		this.setEndMenu();
 	}
@@ -52,11 +52,11 @@ public class Game {
 			gameMsg.logError("Paramètres du jeu non valides. " + e.getMessage() + ". Sortie du programme.");
 			System.exit(0);
 		} catch (NullPointerException e) {
-			gameMsg.printLineInfo("Le fichier de propriétés ne peut pas être lu. Sortie du programme.");
-			gameMsg.logError("Erreur récupération fichier de propriétés. Sortie du programme.");
+			gameMsg.printLineInfo("Le fichier de propriétés est introuvable. Sortie du programme.");
+			gameMsg.logError("Fichier de propriétés introuvble. Sortie du programme.");
 			System.exit(0);
         } catch (IOException e) {
-        	gameMsg.printLineInfo("Le fichier de propriétés ne peut pas être lu. Sortie du programme.");
+        	gameMsg.printLineInfo("Le fichier de propriétés est illisible. Sortie du programme.");
 			gameMsg.logError("Fichier de propriétés illisible. Sortie du programme.");
 			System.exit(0);
         } 
@@ -67,7 +67,7 @@ public class Game {
 	 * Defines the start menu of the game
 	 * @return
 	 */
-	private Menu setStartMenu() {
+	private StartMenu setStartMenu() {
 		 ArrayList<String> menuOptions = new ArrayList<String>( 
 		            Arrays.asList("Challenger", 
 		                          "Défenseur", 
@@ -77,7 +77,7 @@ public class Game {
 		            ); 
 		 
 		String menuTitle = "Choissisez le mode jeu :";
-		this.startMenu = new Menu(menuTitle, menuOptions);
+		this.startMenu = new StartMenu(menuTitle, menuOptions);
 		return startMenu;
 	}
 	
@@ -85,7 +85,7 @@ public class Game {
 	 * Defines the end menu of the game
 	 * @return
 	 */
-	private Menu setEndMenu() {
+	private StartMenu setEndMenu() {
 		 ArrayList<String> menuOptions = new ArrayList<String>( 
 		            Arrays.asList("Rejouer au même mode", 
 		                          "Rejouer", 
@@ -94,7 +94,7 @@ public class Game {
 		            ); 
 		 
 		String menuTitle = "Choissisez le mode jeu :";
-		this.endMenu = new Menu(menuTitle, menuOptions);
+		this.endMenu = new StartMenu(menuTitle, menuOptions);
 		return endMenu;
 	}
 	
@@ -135,7 +135,7 @@ public class Game {
 	 * @param mode
 	 */
 	private void runMode() {
-		ai.reset();
+		aiPlayer.reset();
 		if(this.gameMode == 1) {
 			runChallengerMode();
 		} else if (this.gameMode == 2) {
@@ -171,7 +171,7 @@ public class Game {
 		//1- set required elements to play "challenger" mode : 1 combination
 		Combination combinationToFind = new Combination(combinationLength);
 		
-		//2- the ai set the value for combination
+		//2- the aiPlayer set the value for combination
 		setValueForCombination(combinationToFind);
 		String strCombination = combinationToFind.valueToString(combinationToFind.getValue());
 		// display value of combination if necessary
@@ -181,7 +181,7 @@ public class Game {
 		// log value of combination
 		gameMsg.logInfo("combinaison définit par l'IA : " + strCombination);
 		
-		//3- human try to guess the combination = until the answer is good or there is no more test
+		//3- humanPlayer try to guess the combination = until the answer is good or there is no more test
 		boolean responseIsGood = false;
 		currentTest = 0;
 		while(currentTest < nbTests && !responseIsGood) {
@@ -228,13 +228,13 @@ public class Game {
 		//1- set required elements to play "défenseur" mode
 		Combination combinationToFind = new Combination(combinationLength);
 		
-		//2- the human set the value for combination (in his head)
+		//2- the humanPlayer set the value for combination (in his head)
 		if(modeDev == 1) {
 			gameMsg.printLineInfo("(combinaison secrète : définie par le joueur)");
 		}
 		gameMsg.logInfo("combinaison définit par le joueur et connue de lui seul");
 		
-		//3- ai try to guess the combination = until the answer is good or there is no more test
+		//3- aiPlayer try to guess the combination = until the answer is good or there is no more test
 		boolean responseIsGood = false;
 		
 		currentTest = 0;
@@ -242,7 +242,7 @@ public class Game {
 			try {
 				askATestToAI(combinationToFind);
 				askResponseToHuman(combinationToFind);
-				ai.checkConsistentResponse(combinationToFind);	
+				aiPlayer.checkConsistentResponse(combinationToFind);	
 				responseIsGood = combinationToFind.checkTest();
 				
 				//messages
@@ -257,7 +257,7 @@ public class Game {
 				gameMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
 				//reset responseValue
 				combinationToFind.resetResponseValue();
-				//given back a try (because exception is raised the next round after human response)
+				//given back a try (because exception is raised the next round after humanPlayer response)
 				//currentTest--;
 			} catch (IllegalItemException e){
 				gameMsg.printLineInfo(e.getMessage());
@@ -288,14 +288,14 @@ public class Game {
 		Combination humanCombination = new Combination(combinationLength);
 		Combination aiCombination = new Combination(combinationLength);
 		
-		//2- the human and ai set the value to find for its own combination 
-		//human in his head
+		//2- the humanPlayer and aiPlayer set the value to find for its own combination 
+		//humanPlayer in his head
 		if(modeDev == 1) {
 			gameMsg.printLineInfo("(combinaison secrète définie par le joueur : connue de lui seul)");
 		}
 		gameMsg.logInfo("combinaison définit par le joueur et connue de lui seul");
 		
-		//the ai set the value for combination
+		//the aiPlayer set the value for combination
 		setValueForCombination(aiCombination);
 		String strCombination = aiCombination.valueToString(aiCombination.getValue());
 		if(modeDev == 1) {
@@ -303,7 +303,7 @@ public class Game {
 		}
 		gameMsg.logInfo("combinaison définit par l'IA : " + strCombination);
 		
-		//3 - ai and human try to guess the combination = until one give the good answer or there is no more test
+		//3 - aiPlayer and humanPlayer try to guess the combination = until one give the good answer or there is no more test
 		boolean responseHumanIsGood = false;
 		boolean responseAIIsGood = false;
 		
@@ -313,7 +313,7 @@ public class Game {
 			boolean validHumanResponse = false;
 			while(!validHumanTest) {
 				try {
-					//3a - human do a test and ai evaluate the test
+					//3a - humanPlayer do a test and aiPlayer evaluate the test
 					
 					askATestToHuman(aiCombination);
 					askResponseToAI(aiCombination);
@@ -332,10 +332,10 @@ public class Game {
 			
 			while(!validHumanResponse) {
 				try {
-					//3b - ai do a test and human evaluate the test
+					//3b - aiPlayer do a test and humanPlayer evaluate the test
 					askATestToAI(humanCombination);
 					askResponseToHuman(humanCombination);
-					ai.checkConsistentResponse(humanCombination);
+					aiPlayer.checkConsistentResponse(humanCombination);
 					
 					//log 3b
 					String strCombinationTestAI = humanCombination.valueToString(humanCombination.getGuessValue());
@@ -391,52 +391,52 @@ public class Game {
 	 * @param combination		game combination
 	 */
 	private void setValueForCombination(Combination combination) {
-		ai.setValueCombination(combination);
+		aiPlayer.setValueCombination(combination);
 		
 	}
 
 
 	/**
-	 * Ask a test to human for a given combination
+	 * Ask a test to humanPlayer for a given combination
 	 * 
 	 * @param combination		combination to guess
 	 */
 	private void askATestToHuman(Combination combination) {
 		//ask a proposition for combination
 		gameMsg.printInfo("Votre propositon (combinaison à " + combination.getLength() + " chiffres) - " + (nbTests - currentTest) + " essai(s) restant(s) : ");
-		human.guessCombination(combination);
+		humanPlayer.guessCombination(combination);
 	}
 	
 	/**
-	 * Ask a test to AI for a given combination
+	 * Ask a test to AiPlayer for a given combination
 	 * 
 	 * @param combination		combination to guess
 	 */
 	private void askATestToAI(Combination combination) {
-		//ai set a proposition for the combination
-		ai.guessCombination(combination);
-		//display the proposition done by ai
+		//aiPlayer set a proposition for the combination
+		aiPlayer.guessCombination(combination);
+		//display the proposition done by aiPlayer
 		gameMsg.printLineInfo("Proposition de l'IA - " + (nbTests - currentTest) + " essai(s) restant(s) : " + combination.valueToString(combination.getGuessValue()));
 	}
 	
 	/**
-	 * Ask a response to human for a given combination
+	 * Ask a response to humanPlayer for a given combination
 	 * 
 	 * @param combination		combination to guess
 	 */
 	private void askResponseToHuman(Combination combination) {
-			//ask for an answer to proposition done by ai
+			//ask for an answer to proposition done by aiPlayer
 			gameMsg.printInfo(" -> votre réponse : ");
-			human.checkCombination(combination);
+			humanPlayer.checkCombination(combination);
 	}
 	
 	/**
-	 * Ask a response to ai for a given combination
+	 * Ask a response to aiPlayer for a given combination
 	 * 
 	 * @param combination		combination to guess
 	 */
 	private void askResponseToAI(Combination combination) {
-		ai.checkCombination(combination);
+		aiPlayer.checkCombination(combination);
 		gameMsg.printLineInfo(" -> réponse de l'IA : " + combination.valueToString(combination.getResponseValue()));
 		
 		
