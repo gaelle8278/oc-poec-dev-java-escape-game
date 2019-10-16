@@ -19,13 +19,21 @@ public class PropertiesLoader {
 	
 	/**
 	 * Loads properties from a .properties file in classpath
+	 * @throws IllegalPropertiesValueException 
 	 * @throws IOException 
 	 */
-	public void loadProperties(String filename) throws IOException {
-		InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
+	public void loadProperties(String filename) throws IllegalPropertiesValueException  {
+		try {
+			InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
+			 //load a properties file from class path, inside static method
+	        prop.load(input);
+		} catch (NullPointerException e) {
+			throw new IllegalPropertiesValueException("Le fichier de propriétés est introuvable. Sortie du programme.", e);
+        } catch (IOException e) {
+        	throw new IllegalPropertiesValueException("Le fichier de propriétés est illisible. Sortie du programme.", e);
+        } 
 
-        //load a properties file from class path, inside static method
-        prop.load(input);
+      
 	}
 	
 	
@@ -40,7 +48,7 @@ public class PropertiesLoader {
 	}
 
 	/**
-	 * Get "modeDevelopper" prrperty value
+	 * Get "modeDevelopper" prorperty value
 	 * @return
 	 * @throws IllegalPropertiesValueException 
 	 */

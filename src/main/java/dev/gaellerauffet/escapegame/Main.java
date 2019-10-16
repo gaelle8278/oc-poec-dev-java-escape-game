@@ -8,9 +8,9 @@ public class Main {
 	public static void main(String[] args) {
 		DisplayMessage gameMsg = new DisplayMessage();
 		Game game = new Game();
-		gameMsg.logInfo("Démarrage du jeu");
-		game.run(true);
-		gameMsg.logInfo("Fin du jeu");
+		//gameMsg.logInfo("Démarrage du jeu");
+		game.run();
+		//gameMsg.logInfo("Fin du jeu");
 	}
 
 }
