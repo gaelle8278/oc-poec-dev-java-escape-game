@@ -1,16 +1,16 @@
 package dev.gaellerauffet.escapegame;
 
 import dev.gaellerauffet.escapegame.game.Game;
-import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
+import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		DisplayMessage gameMsg = new DisplayMessage();
+		LogMessage gameLog = new LogMessage();
 		Game game = new Game();
-		//gameMsg.logInfo("Démarrage du jeu");
+		gameLog.infoLine("Démarrage du jeu");
 		game.run();
-		//gameMsg.logInfo("Fin du jeu");
+		gameLog.infoLine("Fin du jeu");
 	}
 
 }

@@ -45,66 +45,61 @@ public class Game {
 		Mode gameMode = null;
 		ModeFactory modeFactory = new ModeFactory();
 		
+		//TODO proper method intModeFactory() ?
+		try {
+			modeFactory.loadConfig();
+		} catch (IllegalPropertiesValueException e) {
+			displayMsg.errorLine(e.getMessage());
+			logMsg.errorLine(e.getMessage());
+		}
+		
 		startMenu.display();
 		
-		//TODO in proper function ?
+		//TODO in proper method getSelectedMode ?
 		while( "".equals(selectedMode)) {
 			try {
 				selectedMode = startMenu.getSelectedItem();
 			} catch (MenuOptionException e) {
-				displayMsg.printLineInfo("Vous n'avez pas choisi une option de menu valide.");
-				//logMsg.logInfo("Option de menu invalide : " + selectedMode);  
+				displayMsg.errorLine("Vous n'avez pas choisi une option de menu valide.");
+				logMsg.errorLine("Option de menu invalide : " + selectedMode);  
 			}
 		}
 		
+		//TODO where ?
 		if(selectedMode.toUpperCase().equals(Parameter.OPTION_QUIT)) {
-			displayMsg.printLineInfo("Bye bye !");
-			//logMsg.logInfo("Sortie du programme");
+			displayMsg.infoLine("Bye bye !");
+			logMsg.infoLine("Sortie du programme.");
 			System.exit(0);	
 		} else {
-			//logMsg.logInfo("Item sélectionné : " + selectedMode + " = " + startMenu.getLabelSelectedItem(selectedMode));
+			logMsg.infoLine("Item menu de début sélectionné : " + selectedMode + " = " + startMenu.getLabelSelectedItem(selectedMode));
 		}
 		
-		
-		
-		//TODO proper method ?
-		try {
-			modeFactory.loadConfig();
-		} catch (IllegalPropertiesValueException e) {
-			displayMsg.printLineInfo(e.getMessage());
-			displayMsg.logError(e.getMessage());
-		}
-		
-		
+	
 		gameMode = modeFactory.getMode(selectedMode);
 		gameMode.run();
-		/*if( setGame == true) {
-			setGameMode();
-		}
-		runMode();
-		setEndOption();
-		runEndOption();*/
+		
 		
 		endMenu.display();
 		
-		//TODO in proper function ?
+		//TODO in proper function getSelectEndOption ??
 		while( "".equals(selectedEndOption)) {
 			try {
 				selectedEndOption = endMenu.getSelectedItem();
 			} catch (MenuOptionException e) {
-				displayMsg.printLineInfo("Vous n'avez pas choisi une option de menu valide.");
-				//logMsg.logInfo("Option de menu invalide : " + selectedMode);  
+				displayMsg.errorLine("Vous n'avez pas choisi une option de menu valide.");
+				logMsg.errorLine("Option de menu invalide : " + selectedMode);  
 			}
 		} 
 		
 		if(selectedEndOption.toUpperCase().equals(Parameter.OPTION_QUIT)) {
-			displayMsg.printLineInfo("Bye bye !");
-			//logMsg.logInfo("Sortie du programme");
+			displayMsg.infoLine("Bye bye !");
+			logMsg.infoLine("Sortie du programme");
 			System.exit(0);	
 		} else {
-			runEndOption(selectedEndOption);
-			//logMsg.logInfo("Item sélectionné : " + selectedMode + " = " + startMenu.getLabelSelectedItem(selectedMode));
+			logMsg.infoLine("Item menu de fin sélectionné : " + selectedMode + " = " + endMenu.getLabelSelectedItem(selectedEndOption));
 		}
+		
+		runEndOption(selectedEndOption);
 	}
 
 	

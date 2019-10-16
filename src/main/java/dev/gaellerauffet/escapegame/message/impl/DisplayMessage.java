@@ -1,49 +1,29 @@
 package dev.gaellerauffet.escapegame.message.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import dev.gaellerauffet.escapegame.message.Message;
 
-public class DisplayMessage {
-	private static final Logger logger = LogManager.getLogger(DisplayMessage.class);
-
-	/**
-	 * Add a message in log system with level INFO
-	 * @param string
-	 */
-	public void logInfo(String msg) {
-		logger.info(msg);
-		
-	}
-
+public class DisplayMessage implements Message {
 	/**
 	 * Print a message in standard output
 	 * @param string
 	 */
-	public void printLineInfo(String msg) {
+	public void infoLine(String msg) {
 		System.out.println(msg);
-		
 	}
 
-	/**
-	 * Add an error with stack trace in log system info
-	 * @param msg
-	 * @param e
-	 */
-	public void logError(String msg, Exception e) {
-		logger.error(msg, e);
+	
+
+	public void info(String msg) {
+		System.out.print(msg);
 	}
 	
-	/**
-	 * Add an error in log system info
-	 * @param msg
-	 */
-	public void logError(String msg) {
-		logger.error(msg);
-	}
-
-	public void printInfo(String msg) {
+	
+	public void errorLine(String msg) {
 		System.out.print(msg);
-		
+	}
+	
+	public void errorLine(String msg, Exception e) {
+		System.out.print(msg + e.getStackTrace());
 	}
 	
 	

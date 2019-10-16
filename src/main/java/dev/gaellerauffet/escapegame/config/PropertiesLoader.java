@@ -6,8 +6,6 @@ import java.util.Properties;
 
 import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
 
-
-
 public class PropertiesLoader {
 	
 	private Properties prop;
@@ -48,7 +46,7 @@ public class PropertiesLoader {
 	}
 
 	/**
-	 * Get "modeDevelopper" prorperty value
+	 * Get "modeDevelopper" property value
 	 * @return
 	 * @throws IllegalPropertiesValueException 
 	 */
@@ -103,8 +101,5 @@ public class PropertiesLoader {
 		}
 		return combinationLength;
 	}
-
-	
-	
 
 }

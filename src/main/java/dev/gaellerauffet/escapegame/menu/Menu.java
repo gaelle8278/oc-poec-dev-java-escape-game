@@ -3,7 +3,6 @@ package dev.gaellerauffet.escapegame.menu;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-
 import dev.gaellerauffet.escapegame.exceptions.MenuOptionException;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.util.Parameter;
@@ -21,9 +20,9 @@ public abstract class Menu {
 	 * Display the menu
 	 */
 	public void display() {
-		displayMessage.printLineInfo(this.menuTitle);
+		displayMessage.infoLine(this.menuTitle);
 		for (Map.Entry<String, String> option : menuOptions.entrySet()) {
-			displayMessage.printLineInfo( option.getKey() + " - " + option.getValue());
+			displayMessage.infoLine(option.getKey() + " - " + option.getValue());
 		}
 		
 	}
@@ -35,10 +34,7 @@ public abstract class Menu {
 	 * @throws MenuOptionException 
 	 */
 	public String getSelectedItem() throws MenuOptionException {
-		String selectedItem = "";
-        //boolean responseCheck = false;
-       
-        selectedItem = sc.nextLine();
+		String selectedItem = sc.nextLine();
         checkValiditySelectedItem(selectedItem);
        
         return selectedItem;
@@ -50,7 +46,6 @@ public abstract class Menu {
 	 * @param choice
 	 */
 	public void checkifExitProgram(int choice) {
-		//@TODO change to better process : here based on convention ie last option is for exit
 		/*if(choice == menuOptions.size()) {
 			msgManager.printLineInfo("Bye bye !");
 			msgManager.logInfo("Sortie du programme");
@@ -60,10 +55,20 @@ public abstract class Menu {
 		
 	}
 	
+	/**
+	 * Get label associated to a given menu option value
+	 * @param selectedItem
+	 * @return
+	 */
 	public String getLabelSelectedItem(String selectedItem) {
 		return menuOptions.get(selectedItem);
 	}
 	
+	/**
+	 * Check if a given menu option value corresponds to valid option according to business rules
+	 * @param selectedItem
+	 * @throws MenuOptionException
+	 */
 	protected void checkValiditySelectedItem(String selectedItem) throws MenuOptionException {
 		if(! menuOptions.containsKey(selectedItem.toUpperCase()) ) {
 			throw new MenuOptionException();

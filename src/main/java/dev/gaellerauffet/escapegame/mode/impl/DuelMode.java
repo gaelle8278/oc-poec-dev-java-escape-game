@@ -21,7 +21,7 @@ public class DuelMode implements Mode {
 
 	@Override
 	public void run() {
-		displayMsg.printLineInfo("Mode duel");
+		displayMsg.infoLine("Mode duel");
 	}
 
 }

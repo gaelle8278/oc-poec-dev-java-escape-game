@@ -22,7 +22,7 @@ public class DefenderMode implements Mode {
 
 	@Override
 	public void run() {
-		displayMsg.printLineInfo("Mode défenseur");
+		displayMsg.infoLine("Mode défenseur");
 		
 	}
 

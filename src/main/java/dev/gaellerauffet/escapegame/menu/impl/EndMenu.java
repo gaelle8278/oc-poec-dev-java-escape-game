@@ -1,8 +1,5 @@
 package dev.gaellerauffet.escapegame.menu.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import dev.gaellerauffet.escapegame.menu.Menu;
 import dev.gaellerauffet.escapegame.util.Parameter;
 

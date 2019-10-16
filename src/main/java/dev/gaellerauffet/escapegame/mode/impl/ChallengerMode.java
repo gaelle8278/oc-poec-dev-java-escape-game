@@ -21,7 +21,7 @@ public class ChallengerMode implements Mode {
 
 	@Override
 	public void run() {
-		displayMsg.printLineInfo("Mode challenger");
+		displayMsg.infoLine("Mode challenger");
 		
 	}
 
