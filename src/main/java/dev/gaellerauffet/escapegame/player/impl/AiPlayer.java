@@ -6,6 +6,7 @@ import java.util.Random;
 import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
 import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.player.Player;
+import dev.gaellerauffet.escapegame.util.Arithmetic;
 
 
 public class AiPlayer implements Player {
@@ -13,6 +14,20 @@ public class AiPlayer implements Player {
 	
 	public AiPlayer() {
 		storedTests = new ArrayList<int[]>();
+	}
+	
+	/** 
+	 * Define a value for combination
+	 * @param combinationToFind
+	 */
+	@Override
+	public void giveCombinationValue(Combination combination) {
+		int[] combinationValue = new int[combination.getLength()];
+		for(int i = 0; i < combination.getLength(); i++) {
+			combinationValue[i] = Arithmetic.getRandomNumber(0, 10);
+		}
+		
+		combination.setValue(combinationValue);
 	}
 	
 	@Override
@@ -43,11 +58,11 @@ public class AiPlayer implements Player {
 		if( !( !storedTests.isEmpty() && combinationToFind.responseIsNull() ) ) {
 			if (storedTests.isEmpty()) {
 				// if no yet test => set a new guess value from zero
-				guessCombination = setInitCombination(combinationToFind.getLength());
+				guessCombination = giveInitTest(combinationToFind.getLength());
 			} else {
 				// at least one test is stored and a correct response is set
 				// => set a new guess value from response and last test
-				guessCombination = this.setGuessCombinationFromResponse(combinationToFind);
+				guessCombination = giveTestFromRules(combinationToFind);
 			}
 		
 			// guess value is set to combination
@@ -64,6 +79,7 @@ public class AiPlayer implements Player {
 	 * 
 	 * @param combination
 	 */
+	@Override
 	public void checkGivenResponse(Combination combination) {
 		int[] test = combination.getGuessValue();
 		String[] responseValue = combination.getResponseValue();
@@ -92,34 +108,31 @@ public class AiPlayer implements Player {
 						throw new InvalidResponseException(message);
 					}
 				}
-				
-				
 			}
 		}
-		
-		
 	}
 
-	/** 
-	 * Define a value for combination
-	 * @param combinationToFind
+	
+	
+	/**
+	 * Create combination with specified values
+	 * @param length
+	 * @return
 	 */
-	public void giveCombinationValue(Combination combination) {
-		int[] combinationValue = new int[combination.getLength()];
-		for(int i = 0; i < combination.getLength(); i++) {
-			combinationValue[i] = setRandomNumber(0, 10);
+	private int[] giveInitTest(int size) {
+		int[] combination = new int[size];
+		for(int i = 0; i < size; i++) {
+			combination[i] = 5;
 		}
 		
-		combination.setValue(combinationValue);
-		
+		return combination;
 	}
-	
 
 	/**
 	 * Define a value for combination test from indications 
 	 * @param combinationToFind
 	 */
-	private int[] setGuessCombinationFromResponse(Combination combinationToFind) {
+	private int[] giveTestFromRules(Combination combinationToFind) {
 		int[] guessCombination = new int[combinationToFind.getLength()];
 		//get last proposition
 		int[] lastTest = storedTests.get(storedTests.size() - 1);
@@ -129,17 +142,14 @@ public class AiPlayer implements Player {
 			if(responseValue[i].equals("=") ) {
 				guessCombination[i] = lastTest[i];
 			} else if (responseValue[i].equals("-")) {
-				
 				int max = lastTest[i];
 				int min = getMinLimit(i, max);
-				//catch when min and max are equals or inverted => is inconsistent
-				guessCombination[i] = this.setRandomNumber(min, max);
+				guessCombination[i] = Arithmetic.getRandomNumber(min, max);
 				
 			} else if (responseValue[i].equals("+")) {
 				int min = lastTest[i] + 1 ;
 				int max = getMaxLimit(i, lastTest[i]);
-				guessCombination[i] =  this.setRandomNumber(min, max);
-				
+				guessCombination[i] =  Arithmetic.getRandomNumber(min, max);
 			}
 					
 		}
@@ -161,7 +171,7 @@ public class AiPlayer implements Player {
 		if(testValuesForPosition.isEmpty()) {
 			min = 0;
 		} else {
-			min = getMaxNumber(testValuesForPosition) + 1;
+			min = Arithmetic.getMaxNumber(testValuesForPosition) + 1;
 		}
 		
 		return min;
@@ -182,23 +192,8 @@ public class AiPlayer implements Player {
 				testValuesForPosition.add(combination[position]);
 			}
 		}
-		return testValuesForPosition;
 		
-	}
-	
-	/**
-	 * Get the max integer from an array
-	 * 
-	 * @param numbers		array of numbers from which get the lowest
-	 * @return
-	 */
-	private int getMaxNumber(ArrayList<Integer> numbers) {
-		int maximum = 0;
-		for(int i=0; i < numbers.size(); i++) {
-			maximum=Math.max(maximum, numbers.get(i));
-		}
-			
-		return maximum;
+		return testValuesForPosition;
 	}
 	
 	
@@ -217,7 +212,7 @@ public class AiPlayer implements Player {
 		if(testValuesForPosition.isEmpty()) {
 			max = 10;
 		} else {
-			max = getMinNumber(testValuesForPosition);
+			max = Arithmetic.getMinNumber(testValuesForPosition);
 		}
 		
 		return max;
@@ -242,48 +237,14 @@ public class AiPlayer implements Player {
 		return testValuesForPosition;
 	}
 
-	/**
-	 * Get the min integer from an array
-	 * 
-	 * @param numbers		array of numbers from which get the lowest
-	 * @return
-	 */
-	private int getMinNumber(ArrayList<Integer> numbers) {
-		int minimum = 9;
-		for(int i=0; i < numbers.size(); i++) {
-			 minimum=Math.min(minimum, numbers.get(i));
-		}
-			
-		return minimum;
-	}
-	
-	
-	/**
-	 * Create combination with specified values
-	 * @param length
-	 * @return
-	 */
-	private int[] setInitCombination(int size) {
-		int[] combination = new int[size];
-		for(int i = 0; i < size; i++) {
-			combination[i] = 5;
-		}
-		
-		return combination;
-	}
 	
 	
 	
-	/**
-	 * Defines a random number between 0 and 9
-	 * 
-	 * @return
-	 */
-	private int setRandomNumber(int min, int max) {
-		Random random = new Random();
-		int number = random.ints(1,min,max).findFirst().getAsInt();
-		return number;
-	}
+	
+	
+	
+	
+	
 
 
 	
