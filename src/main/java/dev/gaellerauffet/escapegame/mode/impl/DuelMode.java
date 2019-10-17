@@ -9,15 +9,7 @@ import dev.gaellerauffet.escapegame.mode.Mode;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.util.Formater;
 
-public class DuelMode implements Mode {
-	private int modeDev;
-	private int nbTests;
-	private Player humanPlayer;
-	private Player aiPlayer;
-	private Combination combinationAiPlayer;
-	private Combination combinationHumanPlayer;
-	private DisplayMessage displayMsg;
-	private LogMessage logMsg;
+public class DuelMode extends Mode {
 
 	public DuelMode(Player aiPlayer, Player humanPlayer, int nbTests, int combinationLength, int modeDev) {
 		this.nbTests = nbTests;
@@ -31,7 +23,50 @@ public class DuelMode implements Mode {
 	}
 
 	@Override
-	public void run() {
+	protected void displayStartMsg() {
+		displayMsg.infoLine("Démarrage mode Duel");
+		logMsg.infoLine("Mode de jeu : Duel");
+		
+	}
+
+	@Override
+	protected void displayEndMsg(boolean resultGame) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void initMode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void displayMsgBeforeRun() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void runLap(int currentLap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void logLap(int currentLap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected boolean checkLapResult() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	/*public void run() {
 		displayMsg.infoLine("Démarrage mode Duel");
 		logMsg.infoLine("Mode de jeu : Duel");
 
@@ -44,6 +79,7 @@ public class DuelMode implements Mode {
 
 		// the aiPlayer set the value for combination
 		aiPlayer.giveCombinationValue(combinationAiPlayer);
+		
 		String strCombination = Formater.arrayToString(combinationAiPlayer.getValue());
 		if (modeDev == 1) {
 			displayMsg.infoLine("(combinaison secrète définit par l'ia : " + strCombination + ")");
@@ -144,6 +180,6 @@ public class DuelMode implements Mode {
 				+ Formater.arrayToString(combinationAiPlayer.getGuessValue()) + " / Réponse faites par l'IA "
 				+ Formater.arrayToString(combinationAiPlayer.getResponseValue()));
 
-	}
+	}*/
 
 }

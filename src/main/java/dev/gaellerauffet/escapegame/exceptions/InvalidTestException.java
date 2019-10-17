@@ -6,7 +6,7 @@ package dev.gaellerauffet.escapegame.exceptions;
  * @author gaelle
  *
  */
-public class InvalidTestException  extends RuntimeException {
+public class InvalidTestException  extends InvalidItemException {
 
 	public InvalidTestException() {
 		super();

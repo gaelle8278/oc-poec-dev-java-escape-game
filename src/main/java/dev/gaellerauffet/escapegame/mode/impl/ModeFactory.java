@@ -46,7 +46,7 @@ public class ModeFactory {
 				gameMode = new ChallengerMode(playerA, playerB, combinationLength, nbTests, modeDev);
 				break;
 			case Parameter.DEFENDER_MODE:
-				gameMode = new DefenderMode(playerB, playerA, combinationLength, nbTests, modeDev);
+				gameMode = new DefenderMode(playerA, playerB, combinationLength, nbTests, modeDev);
 				break;
 			case Parameter.DUEL_MODE:
 				gameMode = new DuelMode(playerA, playerB, combinationLength, nbTests, modeDev);

@@ -37,7 +37,7 @@ public class Game {
 	 * Load an application
 	 */
 	public void load() {
-		logMsg.infoLine("Initialisation de l'appliaction");
+		logMsg.infoLine("Initialisation de l'application");
 		init();
 		logMsg.infoLine("Démarrage de l'application");
 		run();
@@ -60,6 +60,7 @@ public class Game {
 		exitIfQuitIsSelected(startMenu, selectedStartOption);
 		
 		selectedMode=selectedStartOption;
+		//TODO factoriser dans runSameMode
 		Mode gameMode = modeFactory.getMode(selectedMode);
 		gameMode.run();
 		
@@ -96,7 +97,7 @@ public class Game {
 			logMsg.infoLine("Sortie du programme.");
 			System.exit(0);
 		} else {
-			logMsg.infoLine("Item menu de début sélectionné : " + selectedOption + " = "
+			logMsg.infoLine("Item menu sélectionné : " + selectedOption + " = "
 					+ menu.getLabelSelectedItem(selectedOption));
 		}
 
@@ -113,7 +114,9 @@ public class Game {
 			try {
 				selectedOption = menu.getSelectedItem();
 			} catch (MenuOptionException e) {
+				//TODO mettre le message d'erreur dans l'exception
 				displayMsg.errorLine("Vous n'avez pas choisi une option de menu valide.");
+				//TODO afficher une phrase pour lui proposer de reselectionner une option
 				logMsg.errorLine("Option de menu invalide : " + selectedOption);
 			}
 		}
@@ -144,7 +147,7 @@ public class Game {
 		} catch (IllegalPropertiesValueException e) {
 			displayMsg.errorLine(e.getMessage());
 			displayMsg.infoLine("Sortie du programme");
-			logMsg.errorLine(e.getMessage());
+			logMsg.errorLine(e.getMessage()); //ajouter méthode dans logMsg pour log la stacktrace loe.printStackTrace() 
 			logMsg.infoLine("Sortie du programme");
 			System.exit(0);
 		}

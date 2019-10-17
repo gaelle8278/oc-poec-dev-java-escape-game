@@ -6,11 +6,7 @@ package dev.gaellerauffet.escapegame.exceptions;
  * @author gaelle
  *
  */
-public class InvalidResponseException extends RuntimeException {
-
-	public InvalidResponseException(String message) {
-		super(message);
-	}
+public class InvalidResponseException extends InvalidItemException {
 
 	public InvalidResponseException() {
 		super();
@@ -25,8 +21,14 @@ public class InvalidResponseException extends RuntimeException {
 		super(message, cause);
 	}
 
+	public InvalidResponseException(String message) {
+		super(message);
+	}
+
 	public InvalidResponseException(Throwable cause) {
 		super(cause);
 	}
+
+	
 
 }

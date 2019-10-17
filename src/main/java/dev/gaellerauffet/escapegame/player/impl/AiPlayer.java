@@ -86,12 +86,12 @@ public class AiPlayer implements Player {
 		for (int i = 0; i < test.length; i++) {
 			if (responseValue[i].equals("-")) {
 				if(test[i] == 0 ) {
-					throw new InvalidResponseException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+					throw new InvalidResponseException("Réponse incohérente : le " + (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
 				} else {
 					int max = test[i];
 					int min = getMinLimit(i, max);
 					if(min == max) {
-						String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par IA = " + test[i] + ", réponse donnée par joueur : - "
+						String message = "Réponse incohérente pour le " + (i+1) + "ème chiffre : réponse donnée par IA = " + test[i] + ", réponse donnée par joueur : - "
 								+ " alors que le dernier plus grand chiffre inférieur à " +  test[i] + " était " + (min-1);
 						throw new InvalidResponseException(message);
 					}
@@ -103,7 +103,7 @@ public class AiPlayer implements Player {
 					int min = test[i] + 1 ;
 					int max = getMaxLimit(i, test[i]);
 					if(min==max) {
-						String message = "Réponse incohérente pour le " + (i+1) + " chiffre : réponse donnée par AiPlayer = " + test[i] + ", réponse donnée par joueur : + "
+						String message = "Réponse incohérente pour le " + (i+1) + "ème chiffre : réponse donnée par IA = " + test[i] + ", réponse donnée par joueur : + "
 								+ " alors que le dernier plus petit chiffre supérieur à " +  test[i] + " était " + (max);
 						throw new InvalidResponseException(message);
 					}
