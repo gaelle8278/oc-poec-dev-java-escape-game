@@ -1,6 +1,6 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
-import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
 import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
@@ -16,7 +16,6 @@ public class ChallengerMode implements Mode {
 	private Combination combinationAiPlayer;
 	private DisplayMessage displayMsg = new DisplayMessage();
 	private LogMessage logMsg = new LogMessage();
-	private Formater formater;
 
 	public ChallengerMode(Player aiPlayer, Player humanPlayer, int combinationLength, int nbTests, int modeDev) {
 		this.nbTests = nbTests;
@@ -51,7 +50,7 @@ public class ChallengerMode implements Mode {
 				runSet(currentTest);
 				responseIsGood = combinationAiPlayer.checkTest();
 				currentTest++;
-			} catch (IllegalItemException e) {
+			} catch (InvalidTestException e) {
 				displayMsg.errorLine(e.getMessage());
 				logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
 			}
@@ -76,9 +75,9 @@ public class ChallengerMode implements Mode {
 		aiPlayer.checkCombination(combinationAiPlayer);
 		displayMsg.infoLine(" -> réponse de l'IA : " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
 			
-			//log 
-			/*displayMsg.infoLine("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + Formater.arrayToString(combinationAiPlayer.getGuessValue()) 
-					+ " / Réponse faites par l'IA " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));*/
+		//log 
+		logMsg.infoLine("essai " + (currentTest + 1) + " combinaison donnée par le joueur : " + Formater.arrayToString(combinationAiPlayer.getGuessValue()) 
+					+ " / Réponse faites par l'IA " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
 			
 		
 	}

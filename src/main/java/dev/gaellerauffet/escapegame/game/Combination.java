@@ -1,6 +1,7 @@
 package dev.gaellerauffet.escapegame.game;
 
-import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
 
 public class Combination {
 	private int length;
@@ -30,7 +31,7 @@ public class Combination {
 				}
 			} 
 		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
+			throw new InvalidTestException("La combinaison proposée doit contenir " + length + " chiffres.");
 		}	
 		
 		this.checkContentGuessValue();
@@ -47,7 +48,7 @@ public class Combination {
 				this.responseValue[i] = String.valueOf(strResponse.charAt(i));
 			}
 		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+			throw new InvalidResponseException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		}
 		this.checkContentResponseValue();
 		
@@ -61,7 +62,7 @@ public class Combination {
 	 */
 	private void checkLengthGuessValue(String strCombination) {
 		if(strCombination.length() != length) {
-			throw new IllegalItemException("La combinaison proposée doit contenir " + length + " chiffres.");
+			throw new InvalidTestException("La combinaison proposée doit contenir " + length + " chiffres.");
 		} 
 		 
 	}
@@ -72,7 +73,7 @@ public class Combination {
 	 */
 	private void checkLengthResponseValue(String strResponse) {
 		if(strResponse.length() != length) {
-			throw new IllegalItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+			throw new InvalidResponseException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		} 
 		 
 	}
@@ -87,7 +88,7 @@ public class Combination {
 			// check value between 0 to 9
 			if(guessValue[i] < 0 || guessValue[i] >= 10) {
 				// throw Exception
-				throw new IllegalItemException("La combinaison proposée ne doit contenir que des entiers compris entre 0 et 9.");
+				throw new InvalidTestException("La combinaison proposée ne doit contenir que des entiers compris entre 0 et 9.");
 			} 
 			
 		} 
@@ -103,7 +104,7 @@ public class Combination {
 			// check character among +, - and =
 			if(!responseValue[i].equals("-") && !responseValue[i].equals("+") && !responseValue[i].equals("=")) {
 				// throw Exception
-				throw new IllegalItemException("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
+				throw new InvalidResponseException("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
 			} 
 			
 		} 

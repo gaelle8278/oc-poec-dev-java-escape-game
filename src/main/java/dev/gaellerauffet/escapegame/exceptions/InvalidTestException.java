@@ -1,29 +1,29 @@
 package dev.gaellerauffet.escapegame.exceptions;
 
-public class IllegalItemException  extends RuntimeException {
+public class InvalidTestException  extends RuntimeException {
 
-	public IllegalItemException() {
+	public InvalidTestException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public IllegalItemException(String message, Throwable cause, boolean enableSuppression,
+	public InvalidTestException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IllegalItemException(String message, Throwable cause) {
+	public InvalidTestException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IllegalItemException(String message) {
+	public InvalidTestException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IllegalItemException(Throwable cause) {
+	public InvalidTestException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}

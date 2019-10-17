@@ -1,7 +1,7 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
-import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
-import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
 import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
@@ -65,7 +65,7 @@ public class DuelMode implements Mode {
 					// 3a - humanPlayer do a test and aiPlayer evaluate the test
 					runHumanSet(currentTest);
 					validHumanTest = true;
-				} catch (IllegalItemException e) {
+				} catch (InvalidTestException e) {
 					displayMsg.errorLine(e.getMessage());
 					logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
 				}
@@ -76,16 +76,16 @@ public class DuelMode implements Mode {
 					// 3b - aiPlayer do a test and humanPlayer evaluate the test
 					runAiSet(currentTest);
 					validHumanResponse = true;
-				} catch (InconsistencyException e) {
+				} catch (InvalidResponseException e) {
 					displayMsg.errorLine(e.getMessage());
 					logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
 					// reset responseValue
 					combinationHumanPlayer.resetResponseValue();
-				} catch (IllegalItemException e) {
+				} /*catch (InvalidTestException e) {
 					displayMsg.errorLine(e.getMessage());
 					logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
 					combinationHumanPlayer.resetResponseValue();
-				}
+				}*/
 			}
 
 			// 3c - checks if the tests done are good

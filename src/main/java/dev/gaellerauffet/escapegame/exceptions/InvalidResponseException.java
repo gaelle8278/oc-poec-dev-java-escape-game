@@ -1,28 +1,28 @@
 package dev.gaellerauffet.escapegame.exceptions;
 
-public class InconsistencyException extends RuntimeException {
+public class InvalidResponseException extends RuntimeException {
 
-	public InconsistencyException(String message) {
+	public InvalidResponseException(String message) {
 		super(message);
 	}
 
-	public InconsistencyException() {
+	public InvalidResponseException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public InconsistencyException(String message, Throwable cause, boolean enableSuppression,
+	public InvalidResponseException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public InconsistencyException(String message, Throwable cause) {
+	public InvalidResponseException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public InconsistencyException(Throwable cause) {
+	public InvalidResponseException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}

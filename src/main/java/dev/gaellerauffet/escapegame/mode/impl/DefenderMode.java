@@ -1,7 +1,7 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
-import dev.gaellerauffet.escapegame.exceptions.IllegalItemException;
-import dev.gaellerauffet.escapegame.exceptions.InconsistencyException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
+import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
 import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
@@ -50,16 +50,16 @@ public class DefenderMode implements Mode {
 				runSet(currentTest);
 				responseIsGood = combinationHumanPlayer.checkTest();
 				currentTest++;
-			} catch (InconsistencyException e) {
+			} catch (InvalidResponseException e) {
 				displayMsg.errorLine(e.getMessage());
 				logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
 				combinationHumanPlayer.resetResponseValue();
-			} catch (IllegalItemException e){
+			} /*catch (InvalidTestException e){
 				displayMsg.errorLine(e.getMessage());
 				logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
 				//reset responseValue
 				combinationHumanPlayer.resetResponseValue();
-			}
+			}*/
 		}
 					
 		if(responseIsGood) {
