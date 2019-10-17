@@ -1,7 +1,7 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
+import dev.gaellerauffet.escapegame.combination.impl.Combination;
 import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
-import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.mode.Mode;

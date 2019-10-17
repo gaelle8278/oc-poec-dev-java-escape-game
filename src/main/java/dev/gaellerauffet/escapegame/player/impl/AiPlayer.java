@@ -3,8 +3,8 @@ package dev.gaellerauffet.escapegame.player.impl;
 import java.util.ArrayList;
 import java.util.Random;
 
+import dev.gaellerauffet.escapegame.combination.impl.Combination;
 import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
-import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.util.Arithmetic;
 

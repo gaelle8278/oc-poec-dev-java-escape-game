@@ -34,7 +34,6 @@ public class LogMessage {
 	 */
 	public void info(String msg) {
 		logger.info(msg);
-		
 	}
 	
 	/**
@@ -43,6 +42,5 @@ public class LogMessage {
 	 */
 	public void infoLine(String msg) {
 		logger.info(msg);
-		
 	}
 }

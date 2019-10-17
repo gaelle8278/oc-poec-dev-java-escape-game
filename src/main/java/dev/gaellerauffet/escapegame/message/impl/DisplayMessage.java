@@ -26,8 +26,6 @@ public class DisplayMessage implements Message {
 	
 	public void errorLine(String msg, Exception e) {
 		System.out.println(msg + e.getStackTrace());
-	}
-	
-	
+	}	
 
 }

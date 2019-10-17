@@ -9,5 +9,4 @@ public interface Message {
 	
 	public void errorLine(String Message);
 	
-	
 }

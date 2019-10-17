@@ -1,8 +1,8 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
 import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
+import dev.gaellerauffet.escapegame.combination.impl.Combination;
 import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
-import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.mode.Mode;
@@ -79,13 +79,9 @@ public class DuelMode implements Mode {
 				} catch (InvalidResponseException e) {
 					displayMsg.errorLine(e.getMessage());
 					logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
-					// reset responseValue
+					// reset responseValue 
 					combinationHumanPlayer.resetResponseValue();
-				} /*catch (InvalidTestException e) {
-					displayMsg.errorLine(e.getMessage());
-					logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
-					combinationHumanPlayer.resetResponseValue();
-				}*/
+				} 
 			}
 
 			// 3c - checks if the tests done are good

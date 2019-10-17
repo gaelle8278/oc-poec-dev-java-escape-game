@@ -2,7 +2,7 @@ package dev.gaellerauffet.escapegame.player.impl;
 
 import java.util.Scanner;
 
-import dev.gaellerauffet.escapegame.game.Combination;
+import dev.gaellerauffet.escapegame.combination.impl.Combination;
 import dev.gaellerauffet.escapegame.player.Player;
 
 public class HumanPlayer implements Player{
@@ -17,7 +17,7 @@ public class HumanPlayer implements Player{
 	@Override
 	public void giveTest(Combination combinationToFind) {
 	    String userResponse = sc.nextLine();
-	    combinationToFind.setGuessTestValueFromString(userResponse);	
+	    combinationToFind.setTestValueFromString(userResponse);	
 	}
 
 	@Override

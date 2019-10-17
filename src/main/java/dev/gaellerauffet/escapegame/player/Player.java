@@ -1,6 +1,6 @@
 package dev.gaellerauffet.escapegame.player;
 
-import dev.gaellerauffet.escapegame.game.Combination;
+import dev.gaellerauffet.escapegame.combination.impl.Combination;
 
 /**
  * Contract to define player usable in game
