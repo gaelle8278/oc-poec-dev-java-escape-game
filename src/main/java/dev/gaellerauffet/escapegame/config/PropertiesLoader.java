@@ -56,10 +56,10 @@ public class PropertiesLoader {
 		try {
 			modeDev = Integer.parseInt(this.getPropValue("modeDeveloper"));
 			if(modeDev !=0 && modeDev!=1) {
-				throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
+				throw new IllegalPropertiesValueException("Paramètre de l'application non valide : la valeur du paramètre \"modeDeveloper\" doit être 0 ou 1");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalPropertiesValueException("La valeur du paramètre \"modeDeveloper\" doit être 0 ou 1", e);
+			throw new IllegalPropertiesValueException("Paramètre de l'application non valide : la valeur du paramètre \"modeDeveloper\" doit être 0 ou 1", e);
 		}
 		return modeDev;
 		
@@ -75,10 +75,10 @@ public class PropertiesLoader {
 		try {
 			nbTests= Integer.parseInt(this.getPropValue("numberTests"));
 			if(nbTests < 0 || nbTests > 20) {
-				throw new IllegalPropertiesValueException("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
+				throw new IllegalPropertiesValueException("Paramètre de l'application non valide : la valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalPropertiesValueException("La valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
+			throw new IllegalPropertiesValueException("Paramètre de l'application non valide : la valeur du paramètre \"numberTests\" doit être compris entre 1 et 20");
 		}
 		return nbTests;
 	}
@@ -94,10 +94,10 @@ public class PropertiesLoader {
 		try { 
 			combinationLength = Integer.parseInt(getPropValue("combinationLength"));
 			if(combinationLength < 0 || combinationLength > 10) {
-				throw new IllegalPropertiesValueException("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
+				throw new IllegalPropertiesValueException("Paramètre de l'application non valide : la valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
 			}
 		} catch (NumberFormatException e) {
-			throw new IllegalPropertiesValueException("La valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
+			throw new IllegalPropertiesValueException("Paramètre de l'application non valide : la valeur du paramètre \"combinationLength\" doit être compris entre 1 et 10");
 		}
 		return combinationLength;
 	}
