@@ -26,4 +26,11 @@ public interface Player {
 	 * @param combination
 	 */
 	void setValueCombination(Combination combination);
+
+	/**
+	 * Check that a given response is consistent with all previous test and response
+	 * 
+	 * @param combination
+	 */
+	public void checkConsistentResponse(Combination combination);
 }

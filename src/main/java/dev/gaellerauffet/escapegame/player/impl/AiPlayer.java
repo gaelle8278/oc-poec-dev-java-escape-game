@@ -68,7 +68,7 @@ public class AiPlayer implements Player {
 	}
 	
 	/**
-	 * Method that check consistency between a combination value and the given response
+	 * check consistency between a combination test value and the given response
 	 * 
 	 * @param combination
 	 */
@@ -112,9 +112,13 @@ public class AiPlayer implements Player {
 	 * Define a value for combination
 	 * @param combinationToFind
 	 */
-	public void setValueCombination(Combination combinationToFind) {
-		int[] combination = setRandomCombination(combinationToFind.getLength());
-		combinationToFind.setValue(combination);
+	public void setValueCombination(Combination combination) {
+		int[] combinationValue = new int[combination.getLength()];
+		for(int i = 0; i < combination.getLength(); i++) {
+			combinationValue[i] = setRandomNumber(0, 10);
+		}
+		
+		combination.setValue(combinationValue);
 		
 	}
 	
@@ -276,19 +280,7 @@ public class AiPlayer implements Player {
 		return combination;
 	}
 	
-	/**
-	 * Set combination value of a given size
-	 * @param size
-	 * @return
-	 */
-	private int[] setRandomCombination(int size) {
-		int[] combination = new int[size];
-		for(int i = 0; i < size; i++) {
-			combination[i] = setRandomNumber(0, 10);
-		}
-		
-		return combination;
-	}
+	
 	
 	/**
 	 * Defines a random number between 0 and 9
@@ -302,7 +294,7 @@ public class AiPlayer implements Player {
 	}
 
 	/**
-	 * Reset AiPlayer properties
+	 * Reset AiPlayer properties // a enlever
 	 */
 	public void reset() {
 		storedTests = new ArrayList<int[]>();
