@@ -124,64 +124,6 @@ public class Game {
 		
 	}
 
-	/**
-	 * Manage the "Défenseur" mode
-	 */
-	/*private void runDefenseMode() {
-		displayMsg.printLineInfo("Démarrage mode Défenseur");
-		displayMsg.logInfo("Mode de jeu : Défenseur");
-		
-		//1- set required elements to play "défenseur" mode
-		Combination combinationToFind = new Combination(combinationLength);
-		
-		//2- the humanPlayer set the value for combination (in his head)
-		if(modeDev == 1) {
-			displayMsg.printLineInfo("(combinaison secrète : définie par le joueur)");
-		}
-		displayMsg.logInfo("combinaison définit par le joueur et connue de lui seul");
-		
-		//3- aiPlayer try to guess the combination = until the answer is good or there is no more test
-		boolean responseIsGood = false;
-		
-		currentTest = 0;
-		while(currentTest < nbTests && !responseIsGood) {
-			try {
-				askATestToAI(combinationToFind);
-				askResponseToHuman(combinationToFind);
-				aiPlayer.checkConsistentResponse(combinationToFind);	
-				responseIsGood = combinationToFind.checkTest();
-				
-				//messages
-				String strCombinationTest = combinationToFind.valueToString(combinationToFind.getGuessValue());
-				String strResponseCombination = combinationToFind.valueToString(combinationToFind.getResponseValue());
-				displayMsg.logInfo("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " + strCombinationTest + " / Réponse faites par le joueur " + strResponseCombination);
-								
-				//new test 
-				currentTest++;
-			} catch (InconsistencyException e) {
-				displayMsg.printLineInfo(e.getMessage());
-				displayMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
-				//reset responseValue
-				combinationToFind.resetResponseValue();
-				//given back a try (because exception is raised the next round after humanPlayer response)
-				//currentTest--;
-			} catch (IllegalItemException e){
-				displayMsg.printLineInfo(e.getMessage());
-				displayMsg.logError("essai " + (currentTest + 1) + " " + e.getMessage());
-				//reset responseValue
-				combinationToFind.resetResponseValue();
-			}
-		}
-					
-		if(responseIsGood) {
-			displayMsg.printLineInfo("Le joueur a perdu. L'IA a trouvé la combinaison.");
-			displayMsg.logInfo("Fin de partie mode Défenseur : le joueur a perdu, l'IA a trouvé la combinaison.");
-		} else {
-			displayMsg.printLineInfo("Le joueur a gagné. L'IA n'a pas trouvé la combinaison.");
-			displayMsg.logInfo("Fin de partie mode Défenseur : le joueur a gagné, l'IA n'a pas trouvé la combinaison.");
-		}
-		
-	}*/
 
 	/**
 	 * Manage the "Duel" mode
