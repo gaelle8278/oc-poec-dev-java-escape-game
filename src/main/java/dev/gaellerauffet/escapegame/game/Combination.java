@@ -127,31 +127,6 @@ public class Combination {
 	
 	
 	/**
-	 * Concatenate value from integer array to string
-	 * @return
-	 */
-	public String valueToString(int[] intArray) {
-		String value = "";
-		for(int i=0; i < intArray.length; i++ ) {
-			value += String.valueOf(intArray[i]);
-		}
-		return value;
-		
-	}
-	
-	/**
-	 * Concatenate value from string array to string
-	 * @return
-	 */
-	public String valueToString(String[] stringArray) {
-		String value = "";
-		for(int i=0; i < stringArray.length; i++ ) {
-			value += stringArray[i];
-		}
-		return value;
-	}
-	
-	/**
 	 * Check if a response is set
 	 * @return
 	 */
