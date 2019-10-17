@@ -10,13 +10,22 @@ import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.player.impl.PlayerFactory;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
+/**
+ * Create game mode object
+ * @author gaelle
+ *
+ */
 public class ModeFactory {
-	int modeDev;
-	int nbTests;
-	int combinationLength;
-	PlayerFactory playerFactory = new PlayerFactory();
+	private int modeDev;
+	private int nbTests;
+	private int combinationLength;
+	private PlayerFactory playerFactory = new PlayerFactory();
 
-	
+	/**
+	 * Loads properties required for game mode
+	 * 
+	 * @throws IllegalPropertiesValueException
+	 */
 	public void loadConfig() throws IllegalPropertiesValueException {
 		PropertiesLoader gameProps = new PropertiesLoader();
 		gameProps.loadProperties("game.properties");
@@ -26,7 +35,7 @@ public class ModeFactory {
 	}
 	
 	/**
-	 * Give concrete object according modeType parameter
+	 * Give concrete object according a mode type
 	 * 
 	 * @param modeType
 	 * @return

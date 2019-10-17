@@ -3,6 +3,11 @@ package dev.gaellerauffet.escapegame.player.impl;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
+/**
+ * Create player object
+ * @author gaelle
+ *
+ */
 public class PlayerFactory {
 	
 	public Player getPlayer(int playerType) {

@@ -2,6 +2,11 @@ package dev.gaellerauffet.escapegame.player;
 
 import dev.gaellerauffet.escapegame.game.Combination;
 
+/**
+ * Contract to define player usable in game
+ * @author gaelle
+ *
+ */
 public interface Player {
 	
 	/**

@@ -7,9 +7,7 @@ import java.util.Properties;
 import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
 
 public class PropertiesLoader {
-	
 	private Properties prop;
-	
 	
 	public PropertiesLoader() {
 		this.prop = new Properties();
@@ -17,6 +15,7 @@ public class PropertiesLoader {
 	
 	/**
 	 * Loads properties from a .properties file in classpath
+	 * 
 	 * @throws IllegalPropertiesValueException 
 	 * @throws IOException 
 	 */
@@ -30,10 +29,8 @@ public class PropertiesLoader {
         } catch (IOException e) {
         	throw new IllegalPropertiesValueException("Le fichier de propriétés est illisible. Sortie du programme.", e);
         } 
-
       
 	}
-	
 	
 	/**
 	 * Returns value for the given properties key
@@ -47,6 +44,7 @@ public class PropertiesLoader {
 
 	/**
 	 * Get "modeDevelopper" property value
+	 * 
 	 * @return
 	 * @throws IllegalPropertiesValueException 
 	 */
@@ -67,6 +65,7 @@ public class PropertiesLoader {
 
 	/**
 	 * Get "numberTests" property value
+	 * 
 	 * @return
 	 * @throws IllegalPropertiesValueException 
 	 */
@@ -86,6 +85,7 @@ public class PropertiesLoader {
 
 	/**
 	 * Get "combinationLength" property value
+	 * 
 	 * @return
 	 * @throws IllegalPropertiesValueException 
 	 */

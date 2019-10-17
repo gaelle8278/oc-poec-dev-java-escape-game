@@ -11,14 +11,19 @@ import dev.gaellerauffet.escapegame.mode.Mode;
 import dev.gaellerauffet.escapegame.mode.impl.ModeFactory;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
+/**
+ * Manage the course of a game
+ * @author gaelle
+ *
+ */
 public class Game {
 
-	String selectedMode;
-	DisplayMessage displayMsg;
-	LogMessage logMsg;
-	StartMenu startMenu;
-	EndMenu endMenu;
-	ModeFactory modeFactory;
+	private String selectedMode;
+	private DisplayMessage displayMsg;
+	private LogMessage logMsg;
+	private StartMenu startMenu;
+	private EndMenu endMenu;
+	private ModeFactory modeFactory;
 
 	public Game() {
 		displayMsg = new DisplayMessage();
@@ -36,7 +41,6 @@ public class Game {
 		init();
 		logMsg.infoLine("Démarrage de l'application");
 		run();
-
 	}
 
 	/**
@@ -51,7 +55,6 @@ public class Game {
 	 * Executes all steps of a game
 	 */
 	private void run() {
-
 		startMenu.display();
 		String selectedStartOption = getSelectedOption(startMenu);
 		exitIfQuitIsSelected(startMenu, selectedStartOption);
@@ -79,7 +82,6 @@ public class Game {
 		exitIfQuitIsSelected(endMenu, selectedEndOption);
 
 		runEndOption(selectedEndOption);
-
 	}
 
 

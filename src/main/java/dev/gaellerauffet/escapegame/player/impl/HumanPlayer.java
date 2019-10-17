@@ -12,14 +12,12 @@ public class HumanPlayer implements Player{
 	public void checkCombination(Combination combinationToFind) {
 		String userResponse = sc.nextLine();
 		combinationToFind.setResponseValueFromString(userResponse);
-		
 	}
 
 	@Override
 	public void guessCombination(Combination combinationToFind) {
 	    String userResponse = sc.nextLine();
-	    combinationToFind.setGuessTestValueFromString(userResponse);
-		
+	    combinationToFind.setGuessTestValueFromString(userResponse);	
 	}
 
 	@Override
@@ -29,7 +27,6 @@ public class HumanPlayer implements Player{
 		//human player set value of combination in his head
 		for (int i=0; i < combination.getLength(); i++) {
 			combinationValue[i] = -1;
-			
 		}
 		
 		combination.setValue(combinationValue);

@@ -7,13 +7,8 @@ import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
 import dev.gaellerauffet.escapegame.game.Combination;
 import dev.gaellerauffet.escapegame.player.Player;
 
-/**
- * 
- * @author gaelle
- *
- */
+
 public class AiPlayer implements Player {
-	//int[][] storedTests;
 	private ArrayList<int[]> storedTests; 
 	
 	public AiPlayer() {

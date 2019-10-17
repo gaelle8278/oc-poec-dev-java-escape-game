@@ -12,7 +12,6 @@ public abstract class Menu {
 	protected DisplayMessage displayMessage = new DisplayMessage();
 	// a menu read input to get the selected option
 	protected Scanner sc = new Scanner(System.in);
-	
 	protected String menuTitle;
 	protected Map<String, String> menuOptions = new LinkedHashMap<String, String>();
 	
@@ -24,7 +23,6 @@ public abstract class Menu {
 		for (Map.Entry<String, String> option : menuOptions.entrySet()) {
 			displayMessage.infoLine(option.getKey() + " - " + option.getValue());
 		}
-		
 	}
 	
 	/**
@@ -40,20 +38,6 @@ public abstract class Menu {
         return selectedItem;
 	}
 	
-	/**
-	 * Exit program if it's the item selected in list options
-	 * @param menuOptions
-	 * @param choice
-	 */
-	public void checkifExitProgram(int choice) {
-		/*if(choice == menuOptions.size()) {
-			msgManager.printLineInfo("Bye bye !");
-			msgManager.logInfo("Sortie du programme");
-			System.exit(0);
-		}*/
-		
-		
-	}
 	
 	/**
 	 * Get label associated to a given menu option value

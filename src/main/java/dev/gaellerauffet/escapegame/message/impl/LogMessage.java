@@ -3,6 +3,11 @@ package dev.gaellerauffet.escapegame.message.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Store message in logging system
+ * @author gaelle
+ *
+ */
 public class LogMessage {
 	private static final Logger logger = LogManager.getLogger(DisplayMessage.class);
 

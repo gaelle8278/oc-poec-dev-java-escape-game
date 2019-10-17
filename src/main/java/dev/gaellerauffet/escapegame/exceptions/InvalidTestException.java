@@ -1,35 +1,32 @@
 package dev.gaellerauffet.escapegame.exceptions;
 
+/**
+ * Exception used to throw problems in combination test
+ * 
+ * @author gaelle
+ *
+ */
 public class InvalidTestException  extends RuntimeException {
 
 	public InvalidTestException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public InvalidTestException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 	public InvalidTestException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	public InvalidTestException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public InvalidTestException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
-
-	
-	
-	
 
 }

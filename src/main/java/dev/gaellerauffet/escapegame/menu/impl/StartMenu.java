@@ -3,6 +3,11 @@ package dev.gaellerauffet.escapegame.menu.impl;
 import dev.gaellerauffet.escapegame.menu.Menu;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
+/**
+ * Start menu of application
+ * @author gaelle
+ *
+ */
 public class StartMenu extends Menu {
 
 	public StartMenu() {
