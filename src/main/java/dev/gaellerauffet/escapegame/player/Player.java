@@ -16,26 +16,26 @@ public interface Player {
 	 * 
 	 * @return
 	 */
-	public void checkCombination(Combination combinationToFind);
+	public void giveResponse(Combination combinationToFind);
 	
 	/**
 	 * Defines a test value of combination
 	 * 
 	 * @return
 	 */
-	public void guessCombination(Combination combinationToFind);
+	public void giveTest(Combination combinationToFind);
 
 	/**
 	 * Defines the combination value
 	 * 
 	 * @param combination
 	 */
-	void setValueCombination(Combination combination);
+	public void giveCombinationValue(Combination combination);
 
 	/**
 	 * Check that a given response is consistent with all previous test and response
 	 * 
 	 * @param combination
 	 */
-	public void checkConsistentResponse(Combination combination);
+	public void checkGivenResponse(Combination combination);
 }

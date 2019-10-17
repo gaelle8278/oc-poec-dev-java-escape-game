@@ -43,7 +43,7 @@ public class DuelMode implements Mode {
 		logMsg.infoLine("combinaison définit par le joueur et connue de lui seul");
 
 		// the aiPlayer set the value for combination
-		aiPlayer.setValueCombination(combinationAiPlayer);
+		aiPlayer.giveCombinationValue(combinationAiPlayer);
 		String strCombination = Formater.arrayToString(combinationAiPlayer.getValue());
 		if (modeDev == 1) {
 			displayMsg.infoLine("(combinaison secrète définit par l'ia : " + strCombination + ")");
@@ -119,14 +119,14 @@ public class DuelMode implements Mode {
 	}
 
 	private void runAiSet(int currentTest) {
-		aiPlayer.guessCombination(combinationHumanPlayer);
+		aiPlayer.giveTest(combinationHumanPlayer);
 		displayMsg.infoLine("Proposition de l'IA - " + (nbTests - currentTest) + " essai(s) restant(s) : "
 				+ Formater.arrayToString(combinationHumanPlayer.getGuessValue()));
 
 		displayMsg.info(" -> votre réponse : ");
-		humanPlayer.checkCombination(combinationHumanPlayer);
+		humanPlayer.giveResponse(combinationHumanPlayer);
 
-		aiPlayer.checkConsistentResponse(combinationHumanPlayer);
+		aiPlayer.checkGivenResponse(combinationHumanPlayer);
 
 		// messages
 		logMsg.infoLine("essai " + (currentTest + 1) + " combinaison donnée par l'IA : "
@@ -138,9 +138,9 @@ public class DuelMode implements Mode {
 	private void runHumanSet(int currentTest) {
 		displayMsg.info("Votre propositon (combinaison à " + combinationAiPlayer.getLength() + " chiffres) - "
 				+ (nbTests - currentTest) + " essai(s) restant(s) : ");
-		humanPlayer.guessCombination(combinationAiPlayer);
+		humanPlayer.giveTest(combinationAiPlayer);
 
-		aiPlayer.checkCombination(combinationAiPlayer);
+		aiPlayer.giveResponse(combinationAiPlayer);
 		displayMsg.infoLine(" -> réponse de l'IA : " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
 
 		// log

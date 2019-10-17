@@ -9,19 +9,19 @@ public class HumanPlayer implements Player{
 	private Scanner sc = new Scanner(System.in); 
 	
 	@Override
-	public void checkCombination(Combination combinationToFind) {
+	public void giveResponse(Combination combinationToFind) {
 		String userResponse = sc.nextLine();
 		combinationToFind.setResponseValueFromString(userResponse);
 	}
 
 	@Override
-	public void guessCombination(Combination combinationToFind) {
+	public void giveTest(Combination combinationToFind) {
 	    String userResponse = sc.nextLine();
 	    combinationToFind.setGuessTestValueFromString(userResponse);	
 	}
 
 	@Override
-	public void setValueCombination(Combination combination) {
+	public void giveCombinationValue(Combination combination) {
 		//human set value in his head, so value is set with invalid number (ie -1)
 		int[] combinationValue = new int[combination.getLength()];
 		//human player set value of combination in his head
@@ -33,7 +33,7 @@ public class HumanPlayer implements Player{
 	}
 
 	@Override
-	public void checkConsistentResponse(Combination combination) {
+	public void checkGivenResponse(Combination combination) {
 		//human not check consistency of ai response he has confidence :-)
 		
 	}

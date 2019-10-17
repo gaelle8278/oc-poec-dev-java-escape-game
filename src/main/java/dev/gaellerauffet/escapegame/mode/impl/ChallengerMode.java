@@ -31,7 +31,7 @@ public class ChallengerMode implements Mode {
 		logMsg.infoLine("Mode de jeu : Challengeur");
 		
 		//1- the playerA set the value for combination
-		aiPlayer.setValueCombination(combinationAiPlayer);
+		aiPlayer.giveCombinationValue(combinationAiPlayer);
 		
 		
 		String strCombination = Formater.arrayToString(combinationAiPlayer.getValue());
@@ -70,9 +70,9 @@ public class ChallengerMode implements Mode {
 	
 	private void runSet(int currentTest) {
 		displayMsg.info("Votre propositon (combinaison à " + combinationAiPlayer.getLength() + " chiffres) - " + (nbTests - currentTest) + " essai(s) restant(s) : ");
-		humanPlayer.guessCombination(combinationAiPlayer);
+		humanPlayer.giveTest(combinationAiPlayer);
 			
-		aiPlayer.checkCombination(combinationAiPlayer);
+		aiPlayer.giveResponse(combinationAiPlayer);
 		displayMsg.infoLine(" -> réponse de l'IA : " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
 			
 		//log 

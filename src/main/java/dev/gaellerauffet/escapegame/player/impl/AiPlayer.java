@@ -16,7 +16,7 @@ public class AiPlayer implements Player {
 	}
 	
 	@Override
-	public void checkCombination(Combination combinationToFind) {
+	public void giveResponse(Combination combinationToFind) {
 		String[] responseGuessTest = new String[combinationToFind.getLength()];
 		int[] valueGuessTest = combinationToFind.getGuessValue();
 		int[] valueCombination = combinationToFind.getValue();
@@ -34,7 +34,7 @@ public class AiPlayer implements Player {
 	}
 	
 	@Override
-	public void guessCombination(Combination combinationToFind) {
+	public void giveTest(Combination combinationToFind) {
 		int[] guessCombination = new int[combinationToFind.getLength()];
 		
 		// if at least one guess value is set and response value is null (= last given response is mal-formatted or inconsistency)
@@ -64,7 +64,7 @@ public class AiPlayer implements Player {
 	 * 
 	 * @param combination
 	 */
-	public void checkConsistentResponse(Combination combination) {
+	public void checkGivenResponse(Combination combination) {
 		int[] test = combination.getGuessValue();
 		String[] responseValue = combination.getResponseValue();
 		for (int i = 0; i < test.length; i++) {
@@ -104,7 +104,7 @@ public class AiPlayer implements Player {
 	 * Define a value for combination
 	 * @param combinationToFind
 	 */
-	public void setValueCombination(Combination combination) {
+	public void giveCombinationValue(Combination combination) {
 		int[] combinationValue = new int[combination.getLength()];
 		for(int i = 0; i < combination.getLength(); i++) {
 			combinationValue[i] = setRandomNumber(0, 10);

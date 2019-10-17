@@ -73,13 +73,13 @@ public class DefenderMode implements Mode {
 	}
 
 	private void runSet(int currentTest) {
-		aiPlayer.guessCombination(combinationHumanPlayer);
+		aiPlayer.giveTest(combinationHumanPlayer);
 		displayMsg.infoLine("Proposition de l'IA - " + (nbTests - currentTest) + " essai(s) restant(s) : " + Formater.arrayToString(combinationHumanPlayer.getGuessValue()));
 		
 		displayMsg.info(" -> votre réponse : ");
-		humanPlayer.checkCombination(combinationHumanPlayer);
+		humanPlayer.giveResponse(combinationHumanPlayer);
 		
-		aiPlayer.checkConsistentResponse(combinationHumanPlayer);
+		aiPlayer.checkGivenResponse(combinationHumanPlayer);
 		
 		//messages
 		logMsg.infoLine("essai " + (currentTest + 1) + " combinaison donnée par l'IA : " +  Formater.arrayToString(combinationHumanPlayer.getGuessValue()) 
