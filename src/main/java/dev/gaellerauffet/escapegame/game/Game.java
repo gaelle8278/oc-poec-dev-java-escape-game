@@ -139,7 +139,7 @@ public class Game {
 	 */
 	private void initModeFactory() {
 		try {
-			modeFactory.init();
+			modeFactory.loadConfig();
 		} catch (IllegalPropertiesValueException e) {
 			displayMsg.errorLine(e.getMessage());
 			displayMsg.infoLine("Sortie du programme");

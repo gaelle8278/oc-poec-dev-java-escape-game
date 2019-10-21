@@ -24,13 +24,16 @@ public class ModeFactory {
 	private Combination combinationPlayerB;
 	
 	/**
-	 * Init factory with data required to build Mode object
+	 * Loads properties required to build Mode object
 	 * 
-	 * @throws IllegalPropertiesValueException 
+	 * @throws IllegalPropertiesValueException
 	 */
-	public void init() throws IllegalPropertiesValueException {
-		loadConfig();
-		loadObjects();	
+	public void loadConfig() throws IllegalPropertiesValueException {
+		PropertiesLoader gameProps = new PropertiesLoader();
+		gameProps.loadProperties("game.properties");
+		modeDev=gameProps.getModeDev();
+		nbTests=gameProps.getNumberTests();
+		combinationLength=gameProps.getCombinationLength();
 	}
 
 	/**
@@ -41,6 +44,8 @@ public class ModeFactory {
 	 */
 	public Mode getMode(String modeType) {
 		Mode gameMode = null;
+		//objects required to build a game mode must be reset each time
+		loadObjects();
 		switch(modeType) {
 			case  Parameter.CHALLENGER_MODE :
 				gameMode = new ChallengerMode(playerA, playerB, combinationPlayerA, nbTests, modeDev);
@@ -56,20 +61,6 @@ public class ModeFactory {
 				
 		}
 		return gameMode;
-	}
-	
-	
-	/**
-	 * Loads properties required to build Mode object
-	 * 
-	 * @throws IllegalPropertiesValueException
-	 */
-	private void loadConfig() throws IllegalPropertiesValueException {
-		PropertiesLoader gameProps = new PropertiesLoader();
-		gameProps.loadProperties("game.properties");
-		modeDev=gameProps.getModeDev();
-		nbTests=gameProps.getNumberTests();
-		combinationLength=gameProps.getCombinationLength();
 	}
 	
 	/**
