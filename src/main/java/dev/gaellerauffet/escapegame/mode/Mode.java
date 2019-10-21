@@ -1,10 +1,11 @@
 package dev.gaellerauffet.escapegame.mode;
 
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
+import dev.gaellerauffet.escapegame.exceptions.InvalidItemException;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.player.Player;
-import dev.gaellerauffet.escapegame.util.Formater;
+import dev.gaellerauffet.escapegame.util.Parameter;
 
 public abstract class Mode {
 	protected int modeDev;
@@ -17,80 +18,108 @@ public abstract class Mode {
 	protected LogMessage logMsg = new LogMessage();
 	
 	
-
+	/**
+	 * Executes steps required to run a complete game mode
+	 */
 	public void run() {
 		displayStartMsg();
 		
 		initMode();
 		displayMsgBeforeRun();
 		
-		boolean resultGame = runMode();
+		int resultGame = runMode();
 		
 		displayEndMsg(resultGame);
-
 	}
 	
+	/**
+	 * Display message when a game mode is loaded
+	 */
 	protected abstract void displayStartMsg();
-	protected abstract void displayEndMsg(boolean resultGame);
+	
+	/**
+	 * Executes actions required before a game mode can be run
+	 */
 	protected abstract void initMode();
+	
+	/**
+	 * Display message before a game mode starts
+	 */
 	protected abstract void displayMsgBeforeRun();
+	
+	/**
+	 * Display message when a game mode is terminated
+	 * @param resultGame
+	 */
+	protected abstract void displayEndMsg(int resultGame);
 
-	protected boolean runMode() {
-		boolean isValidLap = false;
+	/**
+	 * Run game mode : a game mode is a succession of laps
+	 * @return
+	 */
+	protected int runMode() {
+		int resultLap = Parameter.NO_WINNER;
 		int currentLap = 0;
-		while(currentLap < nbTests && !isValidLap) {
+		while(currentLap < nbTests && resultLap == Parameter.NO_WINNER) {
 			runLap(currentLap);
 			logLap(currentLap);
-			/*boolean validTest = false;
-			while(!validTest) {
-				try {
-					runLap(currentTest);
-					logLap();
-					validTest = true;
-				} catch (InvalidItemException e) {
-					displayMsg.errorLine(e.getMessage());
-					logMsg.errorLine("essai " + (currentTest + 1) + " " + e.getMessage());
-				}
-			}*/
 			
-			isValidLap = checkLapResult();
+			resultLap = getLapResult();
 			currentLap++;
 		}
 		
-		return isValidLap;
+		return resultLap;
 	}
 	
-	protected abstract void runLap(int currentLap);
-
+	/**
+	 * Log message about a lap execution
+	 * @param currentLap
+	 */
 	protected abstract void logLap(int currentLap);
-
-	protected abstract boolean checkLapResult();
 	
-	protected void askATestToHuman(int currentLap) {
-		displayMsg.info("Votre propositon (combinaison à " + combinationAiPlayer.getLength() + " chiffres) - " + (nbTests - currentLap) + " essai(s) restant(s) : ");
-		humanPlayer.giveTest(combinationAiPlayer);
+	/**
+	 * Get result of a lap execution
+	 * @return
+	 */
+	protected abstract int getLapResult();
+	
+	/**
+	 * Run a lap of game mode 
+	 * 
+	 * A lap is launched by runMode()
+	 * 
+	 * @param currentLap
+	 */
+	public void runLap(int currentLap) {
+		boolean isValidLap = false;
+		while(!isValidLap) {
+			try {
+				askTest(currentLap);
+				askResponse();
+				isValidLap = true;
+			} catch (InvalidItemException e) {
+				displayMsg.errorLine(e.getMessage());
+				logMsg.errorLine("essai " + (currentLap + 1) + " " + e.getMessage());
+				executeActionsIfError();
+			}
+		}
 	}
-
 	
-	protected void askAResponseToAi() {		
-		aiPlayer.giveResponse(combinationAiPlayer);
-		displayMsg.infoLine(" -> réponse de l'IA : " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
-	}
+	/**
+	 * Ask a test ie ask a proposition about combination value
+	 * @param currentLap
+	 */
+	protected abstract void askTest(int currentLap);
 	
-	protected void askATestToAi(int currentLap) {
-		aiPlayer.giveTest(combinationHumanPlayer);
-		displayMsg.infoLine("Proposition de l'IA - " + (nbTests - currentLap) + " essai(s) restant(s) : " + Formater.arrayToString(combinationHumanPlayer.getGuessValue()));
-	}
+	/**
+	 * Ask a response ie ask a response about a proposition sets to guess combination value
+	 * @param currentLap
+	 */
+	protected abstract void askResponse();
 	
-	protected void askAResponseToHuman() {
-		displayMsg.info(" -> votre réponse : ");
-		humanPlayer.giveResponse(combinationHumanPlayer);
-	}
-	
-	protected void askACheckResponseToAi() {
-		aiPlayer.checkGivenResponse(combinationHumanPlayer);
-	}
-
-	
+	/**
+	 * Executes necessary process if a lap execution raised errors
+	 */
+	protected abstract void executeActionsIfError();
 	
 }

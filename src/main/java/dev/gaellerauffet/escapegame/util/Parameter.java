@@ -12,4 +12,10 @@ public final class Parameter {
 	public final static int AI_PLAYER = 1;
 	public final static int HUMAN_PLAYER = 2;
 	
+	public final static int NO_WINNER = -1;
+	public final static int WINNER_IS_HUMAN = 1;
+	public final static int WINNER_IS_AI = 2;
+	public final static int BOTH_ARE_WINNERS = 3;
+	
+	
 }
