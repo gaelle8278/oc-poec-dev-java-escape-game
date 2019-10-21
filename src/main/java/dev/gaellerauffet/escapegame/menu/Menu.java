@@ -17,6 +17,8 @@ public abstract class Menu {
 	
 	/**
 	 * Display the menu
+	 * 
+	 * Display title then option associated to menu
 	 */
 	public void display() {
 		displayMessage.infoLine(this.menuTitle);
@@ -49,14 +51,20 @@ public abstract class Menu {
 	}
 	
 	/**
-	 * Check if a given menu option value corresponds to valid option according to business rules
+	 * Check if a given menu option corresponds to valid option according to business rules
 	 * @param selectedItem
 	 * @throws MenuOptionException
 	 */
 	protected void checkValiditySelectedItem(String selectedItem) throws MenuOptionException {
 		if(! menuOptions.containsKey(selectedItem.toUpperCase()) ) {
-			throw new MenuOptionException();
+			throw new MenuOptionException("Vous n'avez pas choisi une option de menu valide.");
 		}
+	}
+
+	public String getMenuTitle() {
+		return menuTitle;
 	};
+	
+	
 
 }

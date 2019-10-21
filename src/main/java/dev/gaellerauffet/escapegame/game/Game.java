@@ -52,7 +52,9 @@ public class Game {
 	}
 
 	/**
-	 * Executes all steps of a game
+	 * Executes all steps of a game.
+	 * 
+	 * Display start menu and execute steps of a game mode
 	 */
 	private void run() {
 		startMenu.display();
@@ -60,21 +62,15 @@ public class Game {
 		exitIfQuitIsSelected(startMenu, selectedStartOption);
 		
 		selectedMode=selectedStartOption;
-		//TODO factoriser dans runSameMode
-		Mode gameMode = modeFactory.getMode(selectedMode);
-		gameMode.run();
-		
-		endMenu.display();
-		String selectedEndOption = getSelectedOption(endMenu);
-		exitIfQuitIsSelected(endMenu, selectedEndOption);
-
-		runEndOption(selectedEndOption);
+		runMode();
 	}
 	
 	/**
-	 * Execute a game without reselect a game game mode
+	 * Execute a game Mode
+	 * 
+	 * Get and execute an already selected game mode then display end menu and execute end option
 	 */
-	private void runSameMode() {
+	private void runMode() {
 		Mode gameMode = modeFactory.getMode(selectedMode);
 		gameMode.run();
 
@@ -87,6 +83,7 @@ public class Game {
 
 
 	/**
+	 * Exit application if "quit" option is selected in the given menu
 	 * 
 	 * @param menu
 	 * @param selectedOption
@@ -114,9 +111,8 @@ public class Game {
 			try {
 				selectedOption = menu.getSelectedItem();
 			} catch (MenuOptionException e) {
-				//TODO mettre le message d'erreur dans l'exception
-				displayMsg.errorLine("Vous n'avez pas choisi une option de menu valide.");
-				//TODO afficher une phrase pour lui proposer de reselectionner une option
+				displayMsg.errorLine(e.getMessage());
+				displayMsg.info(menu.getMenuTitle() + " ");
 				logMsg.errorLine("Option de menu invalide : " + selectedOption);
 			}
 		}
@@ -125,7 +121,7 @@ public class Game {
 	}
 
 	/**
-	 * Run an end option game
+	 * Run the given end option game
 	 * 
 	 * @param endOption
 	 */
@@ -133,7 +129,7 @@ public class Game {
 		if (option.equals(Parameter.REPLAY_OPTION)) {
 			run();
 		} else if (option.equals(Parameter.REPLAY_SAME_MODE_OPTION)) {
-			runSameMode();
+			runMode();
 		}
 
 	}
@@ -143,7 +139,7 @@ public class Game {
 	 */
 	private void initModeFactory() {
 		try {
-			modeFactory.loadConfig();
+			modeFactory.init();
 		} catch (IllegalPropertiesValueException e) {
 			displayMsg.errorLine(e.getMessage());
 			displayMsg.infoLine("Sortie du programme");
