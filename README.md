@@ -43,7 +43,7 @@ git clone https://github.com/gaelle8278/oc-poec-dev-java-escape-game.git
 mv oc-poec-dev-java-escape-game escape-game
 ```
 
-###via l'archive zip
+### via l'archive zip
 
 Télécharger l'archive depuis la page du projet : https://github.com/gaelle8278/oc-poec-dev-java-escape-game. Cliquer sur le bouton vert "Clone or download" puis Download ZIP.
 
