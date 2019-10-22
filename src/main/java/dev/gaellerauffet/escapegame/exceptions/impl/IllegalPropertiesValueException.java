@@ -1,4 +1,4 @@
-package dev.gaellerauffet.escapegame.exceptions;
+package dev.gaellerauffet.escapegame.exceptions.impl;
 
 /**
  * Exception used to throw problems in external properties/settings

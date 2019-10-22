@@ -1,4 +1,6 @@
-package dev.gaellerauffet.escapegame.exceptions;
+package dev.gaellerauffet.escapegame.exceptions.impl;
+
+import dev.gaellerauffet.escapegame.exception.InvalidItemException;
 
 /**
  * Exception used to throw problems in response to a combination test 

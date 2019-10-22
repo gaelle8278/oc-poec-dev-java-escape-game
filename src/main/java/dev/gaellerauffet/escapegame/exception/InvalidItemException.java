@@ -1,6 +1,6 @@
-package dev.gaellerauffet.escapegame.exceptions;
+package dev.gaellerauffet.escapegame.exception;
 
-public class InvalidItemException extends RuntimeException {
+public abstract class InvalidItemException extends RuntimeException {
 
 	public InvalidItemException() {
 		super();

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
+import dev.gaellerauffet.escapegame.exceptions.impl.IllegalPropertiesValueException;
 
 public class PropertiesLoader {
 	private Properties prop;

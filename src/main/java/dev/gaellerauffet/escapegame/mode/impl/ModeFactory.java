@@ -2,7 +2,7 @@ package dev.gaellerauffet.escapegame.mode.impl;
 
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
 import dev.gaellerauffet.escapegame.config.PropertiesLoader;
-import dev.gaellerauffet.escapegame.exceptions.IllegalPropertiesValueException;
+import dev.gaellerauffet.escapegame.exceptions.impl.IllegalPropertiesValueException;
 import dev.gaellerauffet.escapegame.mode.Mode;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.player.impl.PlayerFactory;

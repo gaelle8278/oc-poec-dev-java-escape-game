@@ -1,8 +1,8 @@
 package dev.gaellerauffet.escapegame.combination.impl;
 
 import dev.gaellerauffet.escapegame.combination.CombinationCheck;
-import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
-import dev.gaellerauffet.escapegame.exceptions.InvalidTestException;
+import dev.gaellerauffet.escapegame.exceptions.impl.InvalidResponseException;
+import dev.gaellerauffet.escapegame.exceptions.impl.InvalidTestException;
 
 public class IntegerCombinationCheck implements CombinationCheck {
 

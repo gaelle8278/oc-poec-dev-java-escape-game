@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
-import dev.gaellerauffet.escapegame.exceptions.InvalidResponseException;
+import dev.gaellerauffet.escapegame.exceptions.impl.InvalidResponseException;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.util.Arithmetic;
 

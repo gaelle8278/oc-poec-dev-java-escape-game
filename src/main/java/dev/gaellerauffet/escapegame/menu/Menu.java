@@ -3,7 +3,8 @@ package dev.gaellerauffet.escapegame.menu;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-import dev.gaellerauffet.escapegame.exceptions.MenuOptionException;
+
+import dev.gaellerauffet.escapegame.exceptions.impl.MenuOptionException;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
