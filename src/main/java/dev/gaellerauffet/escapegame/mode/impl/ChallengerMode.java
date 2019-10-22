@@ -46,9 +46,9 @@ public class ChallengerMode extends Mode {
 	protected void displayMsgBeforeRun() {
 		String combinationValue = Formater.arrayToString(combinationAiPlayer.getValue());
 		if(modeDev == 1) {
-			displayMsg.infoLine("(combinaison secrète : " + combinationValue);
+			displayMsg.infoLine("(combinaison secrète : " + combinationValue + ")");
 		}
-		logMsg.infoLine("combinaison définie par l'IA = " + combinationValue);
+		logMsg.infoLine("combinaison définie par l'IA = " + combinationValue + ")");
 		
 	}
 	
