@@ -41,8 +41,6 @@ public class GameModeFactory {
 	 */
 	public GameMode getMode(String modeType) {
 		GameMode gameMode = null;
-		//objects required to build a game mode must be reset each time
-		//loadObjects();
 		switch(modeType) {
 			case  Parameter.CHALLENGER_MODE :
 				gameMode = getChallengerMode();
