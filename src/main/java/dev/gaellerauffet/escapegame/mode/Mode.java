@@ -1,7 +1,7 @@
 package dev.gaellerauffet.escapegame.mode;
 
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
-import dev.gaellerauffet.escapegame.exception.InvalidItemException;
+import dev.gaellerauffet.escapegame.exception.InvalidGameLapItemException;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.player.Player;
@@ -98,7 +98,7 @@ public abstract class Mode implements GameMode {
 				askTest(currentLap);
 				askResponse();
 				isValidLap = true;
-			} catch (InvalidItemException e) {
+			} catch (InvalidGameLapItemException e) {
 				displayMsg.errorLine(e.getMessage());
 				logMsg.errorLine("essai " + (currentLap + 1) + " " + e.getMessage());
 				executeActionsIfError();

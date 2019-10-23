@@ -1,10 +1,8 @@
 package dev.gaellerauffet.escapegame.player.impl;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
-import dev.gaellerauffet.escapegame.exceptions.impl.InvalidResponseException;
+import dev.gaellerauffet.escapegame.exception.InvalidGameLapItemException;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.util.Arithmetic;
 
@@ -86,26 +84,26 @@ public class AiPlayer implements Player {
 		for (int i = 0; i < test.length; i++) {
 			if (responseValue[i].equals("-")) {
 				if(test[i] == 0 ) {
-					throw new InvalidResponseException("Réponse incohérente : le " + (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+					throw new InvalidGameLapItemException("Réponse incohérente : le " + (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
 				} else {
 					int max = test[i];
 					int min = getMinLimit(i, max);
 					if(min == max) {
 						String message = "Réponse incohérente pour le " + (i+1) + "ème chiffre : réponse donnée par IA = " + test[i] + ", réponse donnée par joueur : - "
 								+ " alors que le dernier plus grand chiffre inférieur à " +  test[i] + " était " + (min-1);
-						throw new InvalidResponseException(message);
+						throw new InvalidGameLapItemException(message);
 					}
 				}
 			} else if (responseValue[i].equals("+")) {
 				if(test[i] == 9 ) {
-					throw new InvalidResponseException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
+					throw new InvalidGameLapItemException("Réponse incohérente : le "+ (i+1) + "ème chiffre proposé est 0, la réponse ne peut pas être \"-\".");
 				} else {
 					int min = test[i] + 1 ;
 					int max = getMaxLimit(i, test[i]);
 					if(min==max) {
 						String message = "Réponse incohérente pour le " + (i+1) + "ème chiffre : réponse donnée par IA = " + test[i] + ", réponse donnée par joueur : + "
 								+ " alors que le dernier plus petit chiffre supérieur à " +  test[i] + " était " + (max);
-						throw new InvalidResponseException(message);
+						throw new InvalidGameLapItemException(message);
 					}
 				}
 			}

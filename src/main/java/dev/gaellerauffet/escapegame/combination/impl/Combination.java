@@ -1,9 +1,6 @@
 package dev.gaellerauffet.escapegame.combination.impl;
 
 import dev.gaellerauffet.escapegame.combination.CombinationCheck;
-import dev.gaellerauffet.escapegame.exceptions.impl.InvalidResponseException;
-import dev.gaellerauffet.escapegame.exceptions.impl.InvalidTestException;
-import dev.gaellerauffet.escapegame.util.Formater;
 
 public class Combination {
 	private int length;

@@ -1,9 +1,6 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
-import dev.gaellerauffet.escapegame.exceptions.impl.InvalidTestException;
-import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
-import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.mode.Mode;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.util.Formater;
@@ -16,7 +13,7 @@ public class ChallengerMode extends Mode {
 		this.modeDev = modeDev;
 		this.humanPlayer = humanPlayer;
 		this.aiPlayer = aiPlayer;
-		this.combination = AiCombination; 
+		this.combination = AiCombination;
 	}
 	
 

@@ -1,7 +1,7 @@
 package dev.gaellerauffet.escapegame.game;
 
-import dev.gaellerauffet.escapegame.exceptions.impl.IllegalPropertiesValueException;
-import dev.gaellerauffet.escapegame.exceptions.impl.MenuOptionException;
+import dev.gaellerauffet.escapegame.exception.IllegalPropertiesValueException;
+import dev.gaellerauffet.escapegame.exception.MenuOptionException;
 import dev.gaellerauffet.escapegame.menu.Menu;
 import dev.gaellerauffet.escapegame.menu.impl.EndMenu;
 import dev.gaellerauffet.escapegame.menu.impl.StartMenu;

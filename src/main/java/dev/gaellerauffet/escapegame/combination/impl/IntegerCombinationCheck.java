@@ -1,8 +1,7 @@
 package dev.gaellerauffet.escapegame.combination.impl;
 
 import dev.gaellerauffet.escapegame.combination.CombinationCheck;
-import dev.gaellerauffet.escapegame.exceptions.impl.InvalidResponseException;
-import dev.gaellerauffet.escapegame.exceptions.impl.InvalidTestException;
+import dev.gaellerauffet.escapegame.exception.InvalidGameLapItemException;
 
 public class IntegerCombinationCheck implements CombinationCheck {
 
@@ -12,7 +11,7 @@ public class IntegerCombinationCheck implements CombinationCheck {
 	@Override
 	public void checkLengthTestValue(int length, String testValue) {
 		if(testValue.length() != length) {
-			throw new InvalidTestException("La combinaison proposée doit contenir " + length + " chiffres.");
+			throw new InvalidGameLapItemException("La combinaison proposée doit contenir " + length + " chiffres.");
 		} 
 		
 	}
@@ -27,7 +26,7 @@ public class IntegerCombinationCheck implements CombinationCheck {
 		for(int i=0; i < testValue.length; i++) {
 			// check value between 0 to 9
 			if(testValue[i] < 0 || testValue[i] >= 10) {
-				throw new InvalidTestException("La combinaison proposée ne doit contenir que des entiers compris entre 0 et 9.");
+				throw new InvalidGameLapItemException("La combinaison proposée ne doit contenir que des entiers compris entre 0 et 9.");
 			} 
 		} 
 	}
@@ -39,7 +38,7 @@ public class IntegerCombinationCheck implements CombinationCheck {
 	@Override
 	public void checkLengthResponseValue(int length, String responseValue) {
 		if(responseValue.length() != length) {
-			throw new InvalidResponseException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
+			throw new InvalidGameLapItemException("La réponse proposée doit contenir " + length + " caractères (parmi +, - et =).");
 		} 
 		 
 	}
@@ -55,7 +54,7 @@ public class IntegerCombinationCheck implements CombinationCheck {
 			// check character among +, - and =
 			if(!responseValue[i].equals("-") && !responseValue[i].equals("+") && !responseValue[i].equals("=")) {
 				// throw Exception
-				throw new InvalidResponseException("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
+				throw new InvalidGameLapItemException("La réponse proposée ne doit contenir que des caractères parmi +, - et =.");
 			} 
 			
 		} 
