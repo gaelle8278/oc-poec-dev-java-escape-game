@@ -16,13 +16,16 @@ public class ChallengerMode extends Mode {
 		this.modeDev = modeDev;
 		this.humanPlayer = humanPlayer;
 		this.aiPlayer = aiPlayer;
-		this.combinationAiPlayer = AiCombination; 
+		this.combination = AiCombination; 
 	}
 	
+
 	@Override
 	protected void displayStartMsg() {
 		displayMsg.infoLine("Démarrage mode : mode Challenger" );
 		logMsg.infoLine("Démarrage mode de jeu : Challenger");
+		
+		
 	}
 	
 	@Override
@@ -31,39 +34,38 @@ public class ChallengerMode extends Mode {
 			displayMsg.infoLine("Combinaison trouvée ! Le joueur a gagné.");
 			logMsg.infoLine("Fin de partie mode Challenger : le joueur a gagné. Il a trouvé la combinaison.");
 		} else  {
-			displayMsg.infoLine("Le joueur n'a pas trouvée la combinaison. La combinaison était : " +  Formater.arrayToString(combinationAiPlayer.getValue()));
+			displayMsg.infoLine("Le joueur n'a pas trouvée la combinaison. La combinaison était : " +  Formater.arrayToString(combination.getValue()));
 			logMsg.infoLine("Fin de partie mode Challenger : le joueur a perdu. Il n'a pas trouvé la combinaison.");
 		}
 	}
 	
 	@Override
-	protected void initMode() {
-		aiPlayer.giveCombinationValue(combinationAiPlayer);
+	public void initMode() {
+		aiPlayer.giveCombinationValue(combination);
 		
 	}
 	
 	@Override
-	protected void displayMsgBeforeRun() {
-		String combinationValue = Formater.arrayToString(combinationAiPlayer.getValue());
+	public void displayMsgBeforeRun() {
 		if(modeDev == 1) {
-			displayMsg.infoLine("(combinaison secrète : " + combinationValue + ")");
+			displayMsg.infoLine("(combinaison secrète : " + getModeCombinationValue() + ")");
 		}
-		logMsg.infoLine("combinaison définie par l'IA = " + combinationValue + ")");
+		logMsg.infoLine("combinaison définie par l'IA = " + getModeCombinationValue() + ")");
 		
 	}
 	
 	
 	@Override
-	protected void logLap(int currentLap) {
-		logMsg.infoLine("essai " + (currentLap + 1) + " combinaison donnée par le joueur : " + Formater.arrayToString(combinationAiPlayer.getGuessValue()) 
-		+ " / Réponse faites par l'IA " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
+	public void logLap(int currentLap) {
+		logMsg.infoLine("essai " + (currentLap + 1) + " combinaison donnée par le joueur : " + Formater.arrayToString(combination.getGuessValue()) 
+		+ " / Réponse faites par l'IA " + Formater.arrayToString(combination.getResponseValue()));
 		
 	}
 
 	@Override
-	protected int getLapResult() {
+	public int getLapResult() {
 		int result = Parameter.NO_WINNER;
-		boolean hasHumanFoundCombination = combinationAiPlayer.checkTest();
+		boolean hasHumanFoundCombination = combination.checkTest();
 		if(hasHumanFoundCombination) {
 			result = Parameter.WINNER_IS_HUMAN;
 		} 
@@ -73,14 +75,14 @@ public class ChallengerMode extends Mode {
 
 	@Override
 	protected void askTest(int currentLap) {
-		displayMsg.info("Votre propositon (combinaison à " + combinationAiPlayer.getLength() + " chiffres) - " + (nbTests - currentLap) + " essai(s) restant(s) : ");
-		humanPlayer.giveTest(combinationAiPlayer);
+		displayMsg.info("Votre propositon (combinaison à " + combination.getLength() + " chiffres) - " + (nbTests - currentLap) + " essai(s) restant(s) : ");
+		humanPlayer.giveTest(combination);
 	}
 
 	@Override
 	protected void askResponse() {		
-		aiPlayer.giveResponse(combinationAiPlayer);
-		displayMsg.infoLine(" -> réponse de l'IA : " + Formater.arrayToString(combinationAiPlayer.getResponseValue()));
+		aiPlayer.giveResponse(combination);
+		displayMsg.infoLine(" -> réponse de l'IA : " + Formater.arrayToString(combination.getResponseValue()));
 	}
 
 	@Override
@@ -88,5 +90,7 @@ public class ChallengerMode extends Mode {
 		//no reset actions necessary if errors during lap in challenger mode
 		//if error in human test => mode ask a new test to human until valid test value
 	}
+	
+	
 
 }

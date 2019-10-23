@@ -1,31 +1,23 @@
 package dev.gaellerauffet.escapegame.mode.impl;
 
-import dev.gaellerauffet.escapegame.combination.impl.Combination;
-import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
-import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.mode.Mode;
-import dev.gaellerauffet.escapegame.player.Player;
-import dev.gaellerauffet.escapegame.util.Formater;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
 public class DuelMode extends Mode {
 
-	public DuelMode(Player aiPlayer, Player humanPlayer, Combination Aicombination,  Combination Humancombination, int nbTests,  int modeDev) {
+	private ChallengerMode modeChallenger;
+	private DefenderMode modeDefender;
+
+	public DuelMode(ChallengerMode gameModeChallenger, DefenderMode gameModeDefender, int nbTests) {
 		this.nbTests = nbTests;
-		this.modeDev = modeDev;
-		this.humanPlayer = humanPlayer;
-		this.aiPlayer = aiPlayer;
-		this.combinationHumanPlayer = Humancombination;
-		this.combinationAiPlayer = Aicombination;
-		this.displayMsg = new DisplayMessage();
-		this.logMsg = new LogMessage();
+		this.modeChallenger = gameModeChallenger;
+		this.modeDefender = gameModeDefender;
 	}
 
 	@Override
 	protected void displayStartMsg() {
 		displayMsg.infoLine("Démarrage mode Duel");
 		logMsg.infoLine("Mode de jeu : Duel");
-		
 	}
 
 	@Override
@@ -38,62 +30,51 @@ public class DuelMode extends Mode {
 			logMsg.infoLine(
 					"Fin de partie mode Duel : le joueur a gagné, il a trouvé la combinaison définit par l'IA.");
 		} else if (resultGame == Parameter.WINNER_IS_AI) {
-			displayMsg.infoLine(
-					"L'IA a gagné. L'IA a trouvé la combinaison définit par le joueur. La combinaison définit par l'IA était : "
-							+ Formater.arrayToString(combinationAiPlayer.getValue()));
+			displayMsg.infoLine("L'IA a gagné. L'IA a trouvé la combinaison définit par le joueur. \n"
+					+ "La combinaison définit par l'IA était : " +  modeChallenger.getModeCombinationValue());
 			logMsg.infoLine("Fin de partie mode Duel : l'IA a gagné, elle a trouvé la combinaison définit par le joueur.");
 		} else {
 			displayMsg.infoLine(
 					"Aucun gagnant. Personne n'a trouvé la cominaison secrète. La combinaison définit par l'IA était : "
-							+ Formater.arrayToString(combinationAiPlayer.getValue()));
+							+ modeChallenger.getModeCombinationValue());
 			logMsg.infoLine("Fin de partie mode Duel : personne n'a trouvé la combinaison.");
 		}
 		
 	}
 
 	@Override
-	protected void initMode() {
+	public void initMode() {
 		// humanPlayer and aiPlayer set the value to find for its own combination
-		//// humanPlayer in his head
-		//// the aiPlayer set the value for combination
-		aiPlayer.giveCombinationValue(combinationAiPlayer);
+		modeChallenger.initMode();
+		modeDefender.initMode();
 	}
 
 	@Override
-	protected void displayMsgBeforeRun() {
-		String strCombination = Formater.arrayToString(combinationAiPlayer.getValue());
-		if (modeDev == 1) {
-			displayMsg.infoLine("(combinaison secrète définie par le joueur : connue de lui seul)");
-			displayMsg.infoLine("(combinaison secrète définit par l'ia : " + strCombination + ")");
-		}
-		logMsg.infoLine("combinaison définit par le joueur et connue de lui seul");
-		logMsg.infoLine("combinaison définit par l'IA : " + strCombination);
+	public void displayMsgBeforeRun() {
+		modeChallenger.displayMsgBeforeRun();
+		modeDefender.displayMsgBeforeRun();
 	}
 
 
 	@Override
-	protected void logLap(int currentLap) {
-		logMsg.infoLine("essai " + (currentLap + 1) + " combinaison donnée par le joueur : "
-				+ Formater.arrayToString(combinationAiPlayer.getGuessValue()) + " / Réponse faites par l'IA "
-				+ Formater.arrayToString(combinationAiPlayer.getResponseValue()));
-		
-		logMsg.infoLine("essai " + (currentLap + 1) + " combinaison donnée par l'IA : "
-				+ Formater.arrayToString(combinationHumanPlayer.getGuessValue()) + " / Réponse faites par le joueur "
-				+ Formater.arrayToString(combinationHumanPlayer.getResponseValue()));
+	public void logLap(int currentLap) {
+		modeChallenger.logLap(currentLap);
+		modeDefender.logLap(currentLap);
 		
 	}
 
 	@Override
-	protected int getLapResult() {
+	public int getLapResult() {
 		int result = Parameter.NO_WINNER;
-		boolean hasAIFoundCombination = combinationHumanPlayer.checkTest();
-		boolean hasHumanFoundCombination = combinationAiPlayer.checkTest();
 		
-		if(hasAIFoundCombination && hasHumanFoundCombination) {
+		int resultDefenderMode = modeDefender.getLapResult();
+		int resultChallengerMode = modeChallenger.getLapResult();
+		
+		if(resultDefenderMode == Parameter.WINNER_IS_AI && resultChallengerMode == Parameter.WINNER_IS_HUMAN) {
 			result = Parameter.BOTH_ARE_WINNERS;
-		} else if (hasAIFoundCombination) {
+		} else if (resultDefenderMode == Parameter.WINNER_IS_AI) {
 			result = Parameter.WINNER_IS_AI;
-		} else if (hasHumanFoundCombination) {
+		} else if (resultChallengerMode == Parameter.WINNER_IS_HUMAN) {
 			result = Parameter.WINNER_IS_HUMAN;
 		}
 		
@@ -112,17 +93,21 @@ public class DuelMode extends Mode {
 
 	@Override
 	public void runLap(int currentLap) {
-		Mode challenger = new ChallengerMode(aiPlayer, humanPlayer, combinationAiPlayer, nbTests, modeDev);
-		challenger.runLap(currentLap);
-		
-		Mode defender = new DefenderMode(aiPlayer, humanPlayer, combinationHumanPlayer, nbTests, modeDev);
-		defender.runLap(currentLap);
-		
+		//run a lap of challenger mode
+		modeChallenger.runLap(currentLap);
+		//then run a lap of defender mode
+		modeDefender.runLap(currentLap);
 	}
 
 	@Override
 	protected void executeActionsIfError() {
 		//not do this directly delegates to challenger and defender mode instead
+	}
+	
+	@Override
+	public String getModeCombinationValue() {
+		//not do this directly uses method in challenger and defender mode if necessary
+		return "";
 	}
 	
 }

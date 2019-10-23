@@ -3,6 +3,7 @@ package dev.gaellerauffet.escapegame.mode.impl;
 import dev.gaellerauffet.escapegame.combination.impl.Combination;
 import dev.gaellerauffet.escapegame.config.PropertiesLoader;
 import dev.gaellerauffet.escapegame.exceptions.impl.IllegalPropertiesValueException;
+import dev.gaellerauffet.escapegame.mode.GameMode;
 import dev.gaellerauffet.escapegame.mode.Mode;
 import dev.gaellerauffet.escapegame.player.Player;
 import dev.gaellerauffet.escapegame.player.impl.PlayerFactory;
@@ -13,15 +14,11 @@ import dev.gaellerauffet.escapegame.util.Parameter;
  * @author gaelle
  *
  */
-public class ModeFactory {
+public class GameModeFactory {
 	private PlayerFactory playerFactory = new PlayerFactory();
 	private int modeDev;
 	private int nbTests;
 	private int combinationLength;
-	private Player playerA;
-	private Player playerB;
-	private Combination combinationPlayerA;
-	private Combination combinationPlayerB;
 	
 	/**
 	 * Loads properties required to build Mode object
@@ -42,19 +39,21 @@ public class ModeFactory {
 	 * @param modeType
 	 * @return
 	 */
-	public Mode getMode(String modeType) {
-		Mode gameMode = null;
+	public GameMode getMode(String modeType) {
+		GameMode gameMode = null;
 		//objects required to build a game mode must be reset each time
-		loadObjects();
+		//loadObjects();
 		switch(modeType) {
 			case  Parameter.CHALLENGER_MODE :
-				gameMode = new ChallengerMode(playerA, playerB, combinationPlayerA, nbTests, modeDev);
+				gameMode = getChallengerMode();
 				break;
 			case Parameter.DEFENDER_MODE:
-				gameMode = new DefenderMode(playerA, playerB, combinationPlayerB, nbTests, modeDev);
+				gameMode = getDefenderMode();
 				break;
 			case Parameter.DUEL_MODE:
-				gameMode = new DuelMode(playerA, playerB, combinationPlayerA, combinationPlayerB, nbTests, modeDev);
+				ChallengerMode gameModeChallenger = getChallengerMode();
+				DefenderMode gameModeDefender = getDefenderMode();
+				gameMode = new DuelMode(gameModeChallenger, gameModeDefender, nbTests);
 				break;
 			default:
 				throw new IllegalArgumentException("Mode de jeu inconnu");
@@ -64,14 +63,27 @@ public class ModeFactory {
 	}
 	
 	/**
-	 * Creates objects required to build Mode object
+	 * Creates challenger Mode
 	 */
-	private void loadObjects() {
-		playerA = playerFactory.getPlayer(Parameter.AI_PLAYER);
-		playerB = playerFactory.getPlayer(Parameter.HUMAN_PLAYER);
+	private ChallengerMode getChallengerMode() {
+		Player playerA = playerFactory.getPlayer(Parameter.AI_PLAYER);
+		Player playerB = playerFactory.getPlayer(Parameter.HUMAN_PLAYER);
+		Combination combinationGame = new Combination(combinationLength);
 		
-		combinationPlayerA = new Combination(combinationLength);
-		combinationPlayerB = new Combination(combinationLength);
+		ChallengerMode gameMode = new ChallengerMode(playerA, playerB, combinationGame, nbTests, modeDev);
+		
+		return gameMode;
+		
+	}
+	
+	private DefenderMode getDefenderMode() {
+		Player playerA = playerFactory.getPlayer(Parameter.AI_PLAYER);
+		Player playerB = playerFactory.getPlayer(Parameter.HUMAN_PLAYER);
+		Combination combinationGame = new Combination(combinationLength);
+		
+		DefenderMode gameMode = new DefenderMode(playerA, playerB, combinationGame, nbTests, modeDev);
+		
+		return gameMode;
 		
 	}
 

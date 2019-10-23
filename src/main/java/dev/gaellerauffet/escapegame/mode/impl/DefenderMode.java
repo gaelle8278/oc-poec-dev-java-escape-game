@@ -16,11 +16,12 @@ public class DefenderMode extends Mode {
 		this.modeDev = modeDev;
 		this.humanPlayer = humanPlayer;
 		this.aiPlayer = aiPlayer;
-		this.combinationHumanPlayer = HumanCombination; 
+		this.combination = HumanCombination; 
 		this.displayMsg = new DisplayMessage();
 		this.logMsg = new LogMessage();
 		
 	}
+
 
 	@Override
 	protected void displayStartMsg() {
@@ -41,13 +42,13 @@ public class DefenderMode extends Mode {
 	}
 
 	@Override
-	protected void initMode() {
+	public void initMode() {
 		//human set value of combination in his head
 		
 	}
 
 	@Override
-	protected void displayMsgBeforeRun() {
+	public void displayMsgBeforeRun() {
 		if(modeDev == 1) {
 			displayMsg.infoLine("(combinaison secrète : définie par le joueur)");
 		}
@@ -56,16 +57,16 @@ public class DefenderMode extends Mode {
 	}
 
 	@Override
-	protected void logLap(int currentLap) {
-		logMsg.infoLine("essai " + (currentLap + 1) + " combinaison donnée par l'IA : " +  Formater.arrayToString(combinationHumanPlayer.getGuessValue()) 
-		+ " / Réponse faites par le joueur " +  Formater.arrayToString(combinationHumanPlayer.getResponseValue()));
+	public void logLap(int currentLap) {
+		logMsg.infoLine("essai " + (currentLap + 1) + " combinaison donnée par l'IA : " +  Formater.arrayToString(combination.getGuessValue()) 
+		+ " / Réponse faites par le joueur " +  Formater.arrayToString(combination.getResponseValue()));
 		
 	}
 
 	@Override
-	protected int getLapResult() {
+	public int getLapResult() {
 		int result = Parameter.NO_WINNER;
-		boolean hasAIFoundCombination = combinationHumanPlayer.checkTest();
+		boolean hasAIFoundCombination = combination.checkTest();
 		if(hasAIFoundCombination) {
 			result = Parameter.WINNER_IS_AI;
 		}
@@ -74,16 +75,16 @@ public class DefenderMode extends Mode {
 
 	@Override
 	protected void askTest(int currentLap) {
-		aiPlayer.giveTest(combinationHumanPlayer);
-		displayMsg.infoLine("Proposition de l'IA - " + (nbTests - currentLap) + " essai(s) restant(s) : " + Formater.arrayToString(combinationHumanPlayer.getGuessValue()));
+		aiPlayer.giveTest(combination);
+		displayMsg.infoLine("Proposition de l'IA - " + (nbTests - currentLap) + " essai(s) restant(s) : " + Formater.arrayToString(combination.getGuessValue()));
 		
 	}
 
 	@Override
 	protected void askResponse() {
 		displayMsg.info(" -> votre réponse : ");
-		humanPlayer.giveResponse(combinationHumanPlayer);
-		aiPlayer.checkGivenResponse(combinationHumanPlayer);
+		humanPlayer.giveResponse(combination);
+		aiPlayer.checkGivenResponse(combination);
 		
 	}
 
@@ -91,7 +92,8 @@ public class DefenderMode extends Mode {
 	protected void executeActionsIfError() {
 		//in the defender mode, if human set an invalid response the combination response must be reset 
 		//so that AI does not a new test based on a wrong answer
-		combinationHumanPlayer.resetResponseValue();
+		combination.resetResponseValue();
 	}
+
 
 }

@@ -8,7 +8,8 @@ import dev.gaellerauffet.escapegame.menu.impl.StartMenu;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.mode.Mode;
-import dev.gaellerauffet.escapegame.mode.impl.ModeFactory;
+import dev.gaellerauffet.escapegame.mode.GameMode;
+import dev.gaellerauffet.escapegame.mode.impl.GameModeFactory;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
 /**
@@ -23,14 +24,14 @@ public class Game {
 	private LogMessage logMsg;
 	private StartMenu startMenu;
 	private EndMenu endMenu;
-	private ModeFactory modeFactory;
+	private GameModeFactory gameModeFactory;
 
 	public Game() {
 		displayMsg = new DisplayMessage();
 		logMsg = new LogMessage();
 		startMenu = new StartMenu();
 		endMenu = new EndMenu();
-		modeFactory = new ModeFactory();
+		gameModeFactory = new GameModeFactory();
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class Game {
 	 * Get and execute an already selected game mode then display end menu and execute end option
 	 */
 	private void runMode() {
-		Mode gameMode = modeFactory.getMode(selectedMode);
+		GameMode gameMode = gameModeFactory.getMode(selectedMode);
 		gameMode.run();
 
 		endMenu.display();
@@ -139,7 +140,7 @@ public class Game {
 	 */
 	private void initModeFactory() {
 		try {
-			modeFactory.loadConfig();
+			gameModeFactory.loadConfig();
 		} catch (IllegalPropertiesValueException e) {
 			displayMsg.errorLine(e.getMessage());
 			displayMsg.infoLine("Sortie du programme");

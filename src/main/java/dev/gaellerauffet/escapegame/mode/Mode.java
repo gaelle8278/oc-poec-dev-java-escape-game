@@ -5,15 +5,15 @@ import dev.gaellerauffet.escapegame.exception.InvalidItemException;
 import dev.gaellerauffet.escapegame.message.impl.DisplayMessage;
 import dev.gaellerauffet.escapegame.message.impl.LogMessage;
 import dev.gaellerauffet.escapegame.player.Player;
+import dev.gaellerauffet.escapegame.util.Formater;
 import dev.gaellerauffet.escapegame.util.Parameter;
 
-public abstract class Mode {
+public abstract class Mode implements GameMode {
 	protected int modeDev;
 	protected int nbTests;
 	protected Player humanPlayer;
 	protected Player aiPlayer;
-	protected Combination combinationHumanPlayer;
-	protected Combination combinationAiPlayer;
+	protected Combination combination;
 	protected DisplayMessage displayMsg = new DisplayMessage();
 	protected LogMessage logMsg = new LogMessage();
 	
@@ -21,12 +21,13 @@ public abstract class Mode {
 	/**
 	 * Executes steps required to run a complete game mode
 	 */
+	@Override
 	public void run() {
+		initMode();
+		
 		displayStartMsg();
 		
-		initMode();
 		displayMsgBeforeRun();
-		
 		int resultGame = runMode();
 		
 		displayEndMsg(resultGame);
@@ -40,12 +41,12 @@ public abstract class Mode {
 	/**
 	 * Executes actions required before a game mode can be run
 	 */
-	protected abstract void initMode();
+	public abstract void initMode();
 	
 	/**
 	 * Display message before a game mode starts
 	 */
-	protected abstract void displayMsgBeforeRun();
+	public abstract void displayMsgBeforeRun();
 	
 	/**
 	 * Display message when a game mode is terminated
@@ -54,7 +55,7 @@ public abstract class Mode {
 	protected abstract void displayEndMsg(int resultGame);
 
 	/**
-	 * Run game mode : a game mode is a succession of laps
+	 * Run game mode : a run is a succession of laps
 	 * @return
 	 */
 	protected int runMode() {
@@ -75,16 +76,16 @@ public abstract class Mode {
 	 * Log message about a lap execution
 	 * @param currentLap
 	 */
-	protected abstract void logLap(int currentLap);
+	public abstract void logLap(int currentLap);
 	
 	/**
 	 * Get result of a lap execution
 	 * @return
 	 */
-	protected abstract int getLapResult();
+	public abstract int getLapResult();
 	
 	/**
-	 * Run a lap of game mode 
+	 * Execute a lap of game mode run
 	 * 
 	 * A lap is launched by runMode()
 	 * 
@@ -121,5 +122,13 @@ public abstract class Mode {
 	 * Executes necessary process if a lap execution raised errors
 	 */
 	protected abstract void executeActionsIfError();
+	
+	/**
+	 * Returns the value of the combination used in the game mode as a character string
+	 * @return
+	 */
+	public String getModeCombinationValue() {
+		return Formater.arrayToString(combination.getValue());
+	}
 	
 }
